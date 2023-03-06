@@ -1,0 +1,16 @@
+export const PATH = {
+    REGISTRATION: '/registration',
+    LOGIN: '/login',
+    ERROR: '/404',
+    EDIT_PROFILE:'/edit',
+    PROFILE: '/',
+    MAIN: '/main',
+    EDIT_PACK: '/main/pack-list/edit-pack',
+    TEST: '/test',
+    CHANGE_PASSWORD: '/change-pass/:token',
+    PASSWORD_RECOVERY: '/pass-recovery',
+    CARDS: '/main/packs/:id',
+    PACKS: '/main/packs',
+    WAITING: '/',
+    PACK_LIST_LEARN: '/main/packs-learn/:id',
+}
