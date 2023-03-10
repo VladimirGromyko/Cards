@@ -1,9 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react'
-// import l from "../../common/c7-Loading/loader07.module.css";
 import s from './PassRecovery.module.css'
-// import {resetNewPasswordTC, SendForgotPassStatusType} from "../../../m2-bll/authReducer1";
-// import {useDispatch, useSelector} from "react-redux";
-// import {AppStoreType} from "../../../m2-bll/store";
 import {useNavigate, useParams} from "react-router-dom";
 import Waiting from "../errorPage/Waiting";
 import SuperInputText from "../../common/input/SuperInputText";
@@ -12,19 +8,9 @@ import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import {PATH} from "../../../navigation/Paths";
 import {createNewPasswordTC, setErrorPassRecover} from "../../../bll/registerReducer";
 
-// import {PATH} from "../../routes/Paths";
-// import {LoadingStatusType} from "../../../m2-bll/loadingReducer";
-// import {ResponseErrorStateType} from "../../../m2-bll/errorReducer";
-// import {errorResponse} from "../../../../n2-features/f0-test/errorResponse";
-
-
 const ChangePasswordPage = () => {
-    debugger
-    // const newPassStatus = useAppSelector<AppStoreType, SendForgotPassStatusType>(state => state.auth1.isNewPassSet)
     const newPassStatus = useAppSelector(state => state.register.passwordStatus)
     let errorRes = useAppSelector(state => state.register.errorPassRecMessage)
-    // const isLoading = useSelector<AppStoreType, LoadingStatusType>(state => state.loading.isLoading)
-    // const errorRes = useSelector<AppStoreType, ResponseErrorStateType>(state => state.error)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     if (errorRes.indexOf("bad token") > -1) {
@@ -41,7 +27,7 @@ const ChangePasswordPage = () => {
                 }, 2500)
             }
         }
-    }, [newPassStatus, navigate, errorRes])
+    }, [dispatch, newPassStatus, navigate, errorRes])
 
     const param = useParams<'token'>()
     const resetPasswordToken = param.token
@@ -61,9 +47,6 @@ const ChangePasswordPage = () => {
 
     return (<div className={s.superWrapper}>
             <div className={s.wrapper} onClick={onOutClick}>
-                {/*<div style={{width: '100%'}}>*/}
-                {/*    {isLoading === "loading" && <div className={l.loader07}></div>}*/}
-                {/*</div>*/}
                 <Waiting />
                 <div className={s.container}>
                     <h3>Create new password</h3>
@@ -83,8 +66,6 @@ const ChangePasswordPage = () => {
                     </div>
                 </div>
             </div>
-    </div>
-
-    )
+    </div>)
 }
 export default ChangePasswordPage

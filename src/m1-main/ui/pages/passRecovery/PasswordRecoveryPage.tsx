@@ -20,20 +20,6 @@ const PasswordRecoveryPage = () => {
 
     const onKeyPressHandler = useCallback(() => {
         checkEmail(email)
-        // const condition = () => {
-        //     let indexA: number | undefined = email?.indexOf('@')
-        //     let indexPoint: number | undefined  = email?.indexOf('.')
-        //     let value = false
-        //     if (indexA > 0 &&
-        //         indexPoint > 2 &&
-        //         email.length > 5 &&
-        //         indexPoint < (email.length - 2)
-        //     ) {
-        //         value = true
-        //     }
-        //     return value
-        // }
-        // condition()
             ? dispatch(forgotTC(email))
             : dispatch(setErrorPassRecover('Inter correct email !'))
     }, [dispatch, email])
@@ -73,7 +59,7 @@ const PasswordRecoveryPage = () => {
                             </div>
                             <div className={s.helpText}>Did you remember your password ?</div>
                             <div className={s.helpTextBold}
-                                 onClick={() => dispatch(changeMeStatusResponse('logout'))}
+                                 onClick={() => dispatch(changeMeStatusResponse('error'))}
                             >
                                 Try logging in
                             </div>

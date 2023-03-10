@@ -1,20 +1,21 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import s from './navigation.module.css'
 import {useAppDispatch, useAppSelector} from "../bll/hooks";
 import {PATH} from "./Paths";
-import {logoutUserTC} from "../bll/authReducer";
+import {changeMeStatusResponse, logoutUserTC} from "../bll/authReducer";
 import Waiting from "../ui/pages/errorPage/Waiting";
+import SuperButton from "../ui/common/button/SuperButton";
+import {ProfilePage} from "../ui/pages/profile/ProfilePage";
 
 function Navigation() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector((state) => state.auth.meStatusResponse);
-    const passwordStatus = useAppSelector((state) => state.register.passwordStatus);
+    const [menuProfile, setMenuProfile] = useState<boolean>(false)
 
     useEffect(()=>{
         debugger
-        // if (passwordStatus !== 'succeeded') {
             switch (isLoggedIn) {
                 case 'done':
                     navigate(PATH.PACKS)
@@ -23,41 +24,38 @@ function Navigation() {
                 case 'logout':
                     navigate(PATH.LOGIN)
                     break
-                case 'none':
-                    // navigate(PATH.WAITING)
-                    break
                 case 'progress':
                     navigate(PATH.REGISTRATION)
                     break
                 case 'forgot':
                     navigate(PATH.PASSWORD_RECOVERY)
                     break
+                case 'none':
+                case 'work':
+                    break
             }
-        // }
 
     },[navigate, isLoggedIn])
     const logOutHandler = () => {
         debugger
-        if (isLoggedIn === 'done') {
+        if (isLoggedIn === "done" || isLoggedIn === "work") {
             dispatch(logoutUserTC())
         }
     }
+    const linkProfile = () => {
+        debugger
+        if (isLoggedIn === 'done') {
+            dispatch(changeMeStatusResponse('work'))
+            navigate(PATH.PROFILE)
+        }
+    }
+    const showMenu = `${s.profileMenuWrapper} ${menuProfile ? s.profileMenuShow : s.profileMenuHidden}`
 
-    // const onPackListHandler = () => {
-    //     if (!isLoggedIn) {
-    //         return PATH.LOGIN
-    //     } else return PATH.PACKS
-    // }
-    // const onProfileHandler = () => {
-    //     if (!isLoggedIn) {
-    //         return PATH.LOGIN
-    //     } else return PATH.PROFILE
-    // }
     return (
         <div>
             <nav>
                 <Waiting />
-                <ul className={s.menu}>
+                <div className={s.menu}>
                     {/*<li className={``}>*/}
                     {/*    <NavLink to={PATH.PROFILE} className={''}>ProfilePage</NavLink>*/}
                     {/*</li>*/}
@@ -84,13 +82,43 @@ function Navigation() {
                     {/*<li className={``}>*/}
                     {/*    <NavLink to={PATH.REGISTRATION} className={''}>Registration</NavLink>*/}
                     {/*</li>*/}
-                    <li className={``} style={{cursor: 'pointer'}} onClick={logOutHandler}>LogOut
+                    {(isLoggedIn === "done" || isLoggedIn === "work")
+                        ? <>
+                            <div className={s.profile}
+                                 // onPointerEnter={() => setMenuProfile(true)}
+                                 onMouseOver={() => setMenuProfile(true)}
+                                 onClick={() => setMenuProfile(!menuProfile)}
+                                 onMouseLeave={() => setMenuProfile(false)}
+                            >Menu profile
+                                <div className={showMenu}>
+                                    <div className={s.arrow}></div>
+                                    <div className={s.profileMenu} onMouseLeave={() => setMenuProfile(false)}>
+                                        <div className={s.profile_item} onClick={linkProfile}>Profile</div>
+                                        <div className={s.profile_item} onClick={logOutHandler}>LogOut</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+
+                        :
+                        <SuperButton style={{
+                            color: "white",
+                            width: "100px",
+                            fontWeight: "200",
+                            border: "none",
+                            height: "36px"
+                        }}>Sign in</SuperButton>
+                    }
+
+
+
                         {/*<NavLink to={PATH.LOGIN} className={''} onClick={logOutHandler}>LogOut</NavLink>*/}
-                    </li>
+
+
                     {/*<li className={``}>*/}
                     {/*    <NavLink to={PATH.PACKS} className={''}>Packs</NavLink>*/}
                     {/*</li>*/}
-                </ul>
+                </div>
             </nav>
         </div>
     )

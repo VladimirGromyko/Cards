@@ -1,0 +1,128 @@
+.superWrapper{
+    min-height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #bdbdbd;
+    border-radius: 8px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgb(0, 0, 0.2);
+    background: rgb(245 246 250);
+    max-height: 600px;
+    width: 290px;
+}
+
+.container{
+    /*margin: 36px 13px 37px 13px;*/
+    width: 250px;
+    min-height: 400px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+.container >span{
+    padding: 20px;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+}
+.containerForName{
+    /*font-weight: normal;*/
+    display: flex;
+    flex-direction: column;
+    /*width: 100px;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*text-align: center;*/
+    font-size: 18px;
+    margin-top: 38px;
+}
+/*.containerForPassword{*/
+/*    !*margin-top: 24px;*!*/
+/*}*/
+.textBlock {
+    /*font-size: 18px;*/
+    display: flex;
+    padding-top: 30px;
+    cursor: pointer;
+    /*width: 70%;*/
+}
+
+.textField {
+    /*text-align: left;*/
+    font-weight: 600;
+    font-size: 14px;
+    color: #737171;
+    /*position: relative;*/
+    /*left: 85px;*/
+    /*padding-right: 10px;*/
+}
+.textFieldValue{
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    /*cursor: pointer;*/
+    font-size: 18px;
+}
+.showValue{
+    /*padding-left: 50px;*/
+    /*position: relative;*/
+    /*left: 20px;*/
+    /*width: 62%;*/
+    /*text-align: end;*/
+    /*justify-items: end;*/
+    position: relative;
+    left: 85px;
+    font-size: 18px;
+}
+.edit{
+    position: relative;
+    left: 85px;
+}
+
+.photo {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 20px 0;
+    /*border-radius: 50%;*/
+    /*margin-top: 14px;*/
+    /*height: 96px;*/
+    /*width: 96px;*/
+
+}
+.photoImg {
+    border-radius: 50%;
+    /*margin-bottom: 40px;*/
+    width: 96px;
+    height: 96px;
+}
+
+.button {
+    margin-top: 70px;
+    margin-bottom: 60px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.inputTitle {
+    font-size: 19px;
+    text-align: start;
+}
+.returnBack {
+    display: flex;
+    width: fit-content;
+    /*height: auto;*/
+    margin: 10px 0 20px 50px;
+    cursor: pointer;
+}
+.returnBack:hover{
+    fill: var(--input-border-focus);
+    color: var(--input-border-focus);
+}

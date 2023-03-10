@@ -128,12 +128,12 @@
     padding-top:24px;
     padding-top:24px;
 }
-img {
-    border-radius: 50%;
-    margin-bottom: 40px;
-    width: 96px;
-    height: 96px;
-}
+/*.img {*/
+/*    border-radius: 50%;*/
+/*    margin-bottom: 40px;*/
+/*    width: 96px;*/
+/*    height: 96px;*/
+/*}*/
 
 .inputPlusButton {
     display: flex;

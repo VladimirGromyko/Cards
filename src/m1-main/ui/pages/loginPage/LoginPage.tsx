@@ -1,13 +1,5 @@
 import React, {useState} from 'react'
-// import SuperButton from "../../common/c1-SuperButton/SuperButton";
-// import SuperInputText from "../../common/c2-SuperInput/SuperInputText";
 import s from './LoginPage.module.css'
-// import {useDispatch, useSelector} from "react-redux";
-// import {AppStoreType} from "../../../m2-bll/store";
-import {PATH} from "../../../navigation/Paths";
-// import {getAuthUserDataTC} from "../../../m2-bll/loginReducer";
-// import l from "../../common/loading/loader07.module.css";
-import {NavLink} from 'react-router-dom';
 import eye_open from '../utils/eye_open.png'
 import eye_close from '../utils/eye_close.png'
 import SuperInputText from "../../common/input/SuperInputText";
@@ -17,11 +9,10 @@ import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import {changeMeStatusResponse, setAuthUserDataTC} from "../../../bll/authReducer";
 import Waiting from "../errorPage/Waiting";
 import checkEmail from "../utils/checkEmail";
-import {registrationTC, setErrorRegistration} from "../../../bll/registerReducer";
+import {setErrorRegistration} from "../../../bll/registerReducer";
 
 const LoginPage = () => {
-    // const isLoading = useAppSelector((state) => state.loading.isLoading);
-    // const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.login.isLoggedIn)
+
     const errorRegMessage = useAppSelector((state) => state.register.errorRegMessage);
     const dispatch = useAppDispatch()
     const [email, setEmail] = useState<string>('')
@@ -40,13 +31,6 @@ const LoginPage = () => {
     const [message, setMessage] = useState<MessageType>( initialMessage)
 
     const logInHandler = () => {
-        // if (email && password) {
-        //     dispatch(setAuthUserDataTC({email, password, rememberMe}))
-        // } else {
-        //     console.log("Заполните поля: Логин и Пароль")
-        // }
-
-        debugger
         let isRegDataCorrect = true
         const onRegClickMessages = {...initialMessage}
         if (!password) {
@@ -129,34 +113,19 @@ const LoginPage = () => {
                     >
                         Forgot password ?
                     </div>
-                    {/*<div className={s.helpTextForgotPasswordContainer}>*/}
-                    {/*    <NavLink to={PATH.PASSWORD_RECOVERY}*/}
-                    {/*             className={s.helpTextForgotPassword}*/}
-                    {/*    >Forgot Password*/}
-                    {/*    </NavLink>*/}
-                    {/*</div>*/}
-                    <div>
-                        <div className={s.wrapper_submit_button}>
                             <SuperButton
                                 onClick={logInHandler}
-                                // disabled={isLoggedIn}
+                                className={s.wrapper_submit_button}
                             >
                                 Sign in
                             </SuperButton>
-                        </div>
-                    </div>
                     <div className={s.helpText}>Don't have an account?</div>
                     <div className={s.helpTextBold} onClick={() => dispatch(changeMeStatusResponse('progress'))}>
                         Sign Up
                     </div>
-                        {/*<NavLink to={PATH.REGISTRATION}>*/}
-                        {/*    Sign Up*/}
-                        {/*</NavLink>*/}
-
                 </div>
             </div>
         </div>
-    );
-}
-
+    )
+};
 export default LoginPage;

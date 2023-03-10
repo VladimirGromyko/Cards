@@ -15,6 +15,7 @@ import Waiting from "../ui/pages/errorPage/Waiting";
 import Registration from "../ui/pages/registration/Registration";
 import PasswordRecoveryPage from "../ui/pages/passRecovery/PasswordRecoveryPage";
 import ChangePasswordPage from "../ui/pages/passRecovery/ChangePasswordPage";
+import {ProfilePage} from "../ui/pages/profile/ProfilePage";
 // import {ProfilePacksPage} from "../pages/MainPage/PackList/ProfilePacksPage";
 // import { LearnPage } from '../pages/learn/LearnPage';
 
@@ -28,7 +29,7 @@ const MainRoutes = () => {
                 <Route path={PATH.REGISTRATION} element={<Registration/>}/>
 
                 <Route path={PATH.LOGIN} element={<LoginPage/>}/>
-                {/*<Route path={PATH.PROFILE} element={<h2 style={{textAlign: "center"}}><EditProfilePage/></h2>}/>*/}
+                <Route path={PATH.PROFILE} element={<ProfilePage/>}/>
                 {/*<Route path={PATH.EDIT_PROFILE} element={<h2 style={{textAlign: "center"}}><EditProfilePage/></h2>}/>*/}
                 {/*<Route path={PATH.MAIN} element={<h2 style={{textAlign: "center"}}><MainPage/></h2>}/>*/}
                 {/*<Route path={PATH.TEST} element={<h2 style={{textAlign: "center"}}><ProfilePacksPage/></h2>}/>*/}

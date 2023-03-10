@@ -25,6 +25,9 @@ export const authAPI = {
     me() {
         return instance.post<{}, AxiosResponse<UserDataType>>(`/auth/me`, {})
     },
+    updateUser(payload: UserProfileType) {
+        return instance.put<UserProfileType, AxiosResponse<UserDataType>>('auth/me', payload);
+    },
     // updateUser(name: string) {
     //     return instance.put<{ name: string }, AxiosResponse<ResponseType>>('auth/me', {name});
     // },
@@ -63,6 +66,10 @@ export type RecoveryModelType = {
     from: string,
     message: string
 }
+export type UserProfileType = {
+    name: string | undefined,
+    avatar: string
+}
 export type UserDataType = {
     _id: string;
     email: string;
@@ -75,5 +82,8 @@ export type UserDataType = {
     verified: boolean; // подтвердил ли почту
     rememberMe: boolean;
     error?: string;
+    token?: string,
+    tokenDeathTime?: number,
+    __v?: number,
 }
 

@@ -2,7 +2,7 @@
     min-height: 100vh;
     margin: 0 auto;
     display: flex;
-    padding: 10px;
+    /*padding: 10px;*/
 }
 .wrapper {
     display: flex;
@@ -10,25 +10,29 @@
     border: 1px solid #bdbdbd;
     border-radius: 15px;
     margin: 0 auto;
-    padding: 0 70px 0 50px;
+    /*padding: 0 70px 0 50px;*/
     box-shadow: 0 0 10px rgb(0, 0, 0.2);
     background: rgb(245 246 250);
     max-height: 600px;
-    max-width: 400px;
+    width: 380px;
 }
 .container{
     margin: 78px 13px 37px 13px;
+    text-align: center;
 }
 .title, .helpText{
 
 }
 .containerForEmail{
-    margin: 38px 0 16px 0;
+    margin: 38px 30px 16px 30px;
     text-align: left;
+    display: flex;
+    flex-direction: column;
 }
 .containerForPassword{
     display: flex;
     flex-direction: column;
+    margin: 20px 30px 16px 30px;
     /*margin: 0 0 10px 0;*/
     height: 66px;
     text-align: start
@@ -42,7 +46,7 @@
     font-size: 14px;
     color: #737171;
     cursor: pointer;
-    margin: 10% 3% 2% 3%;
+    margin: 25px 0 0 0;
     font-weight: 400;
     text-decoration: none;
 }
@@ -92,11 +96,18 @@
 .wrapper_submit_checkbox {
     display: flex;
     justify-content: center;
+    padding: 10px 0 0 0;
 }
 .wrapper_submit_button {
-    padding: 40px 0 10px 0;
-    width: 100%;
+    /*padding: 35px 0 10px 0;*/
+    /*width: 100%;*/
+    margin-top: 25px;
     text-align: center;
+    color: white;
+    width: 300px;
+    font-weight: 200;
+    border: none;
+    height: 36px
 }
 .passView{
     width: 20px;

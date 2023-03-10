@@ -65,7 +65,7 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = (
                 onKeyDown={onKeyPressCallback}
                 className={finalInputClassName}
                 value={value}
-
+                autoFocus
                 {...restProps}
             />
             {error && <div className={finalSpanClassName}>{error}</div>}

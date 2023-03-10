@@ -3,9 +3,7 @@ import s from '../loginPage/LoginPage.module.css'
 import eye_open from '../utils/eye_open.png'
 import eye_close from '../utils/eye_close.png'
 import {
-    forgotTC,
     registrationTC,
-    setErrorPassRecover,
     setErrorRegistration,
     setRegistration
 } from "../../../bll/registerReducer";
@@ -129,28 +127,23 @@ const Registration = () => {
                                 }
                             </div>
                         </div>
-
                         {/*<div className={s.passwordField}>*/}
-                        {/*    <SuperInputText className={s.input} type={type} placeholder="Confirm password"*/}
-
                             <SuperInputText className={s.input}
                                             type={type} placeholder="Confirm password"
                                             onChange={onConfirmPassChange}
                                             error={message.confirmPassMessage}
-                                            // onClick={() => setMessage({ ...message, confirmPassMessage: ''})}
                             />
-
                         {/*</div>*/}
-                        {/*{message.confirmPassMessage && (<div className={s.message}>{message.confirmPassMessage}</div>)}*/}
                     </div>
-                    <div className={s.wrapper_submit_button}>
-                        <SuperButton onClick={onRegisterClick} className={s.button}>Sign Up</SuperButton>
-                    </div>
+                    {/*<div className={s.wrapper_submit_button}>*/}
+                        <SuperButton onClick={onRegisterClick} className={s.wrapper_submit_button}>Sign Up</SuperButton>
+                    {/*</div>*/}
                     {errorRegMessage && (<div className={s.message}>{errorRegMessage}</div>)}
                     {isRegistered && (<div className={s.messageSuccess}>Регистрация прошла успешно!</div>)}
                     <div className={s.helpText}>Already have an account ?</div>
                     <div className={s.helpTextBold}
-                         onClick={() => dispatch(changeMeStatusResponse('logout'))}
+                         // onClick={() => dispatch(changeMeStatusResponse('none'))}
+                         onClick={() => dispatch(changeMeStatusResponse('error'))}
                     >Sign In
                     </div>
                 </div>

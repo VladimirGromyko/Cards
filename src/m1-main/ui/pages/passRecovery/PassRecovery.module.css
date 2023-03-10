@@ -1,28 +1,31 @@
 .superWrapper{
     min-height: 100vh;
     margin: 0 auto;
-    displey: flex;
-    padding: 10px;
+    display: flex;
+    /*padding: 10px;*/
 }
 .wrapper{
     display: flex;
     flex-direction: column;
-    align-items: center;
     border: 1px solid #bdbdbd;
-    border-radius: 20px;
-    width: 300px;
+    border-radius: 15px;
+    width: 380px;
     margin: 0 auto;
-    padding: 20px;
+    /*padding: 20px;*/
+    /*padding: 0 70px 0 50px;*/
     box-shadow: 0 0 10px rgb(0, 0, 0.2);
     background: rgb(245 246 250);
     height: 540px;
-    width: 413px;
+
 }
 .container{
     margin: 78px 13px 37px 13px;
+    text-align: center;
 }
 .containerForEmail{
-    margin-top: 50px;
+    /*margin-top: 50px;*/
+    /*margin: 38px 0 16px 0;*/
+    /*text-align: left;*/
 }
 
 .inputField {
@@ -43,7 +46,7 @@
     color: grey;
     margin: 10% 3% 2% 3%;
     font-weight: 400;
-    text-align: start;
+    /*text-align: start;*/
 }
 .helpEmailText1 {
     font-size: 16px;
@@ -67,8 +70,12 @@
 .forgotButton {
     margin: 60px 0 10px 0;
     font-size: 18px;
-    border-radius: 5px;
     padding: 5px;
+    color: white;
+    width: 300px;
+    font-weight: 200;
+    border: none;
+    height: 36px
 }
 
 .helpTextBold{

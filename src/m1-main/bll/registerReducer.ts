@@ -32,9 +32,6 @@ const registerReducer = createSlice({
         setErrorPassRecover(state, action: PayloadAction<string>) {
             state.errorPassRecMessage = action.payload
         },
-        // createNewPassStatus(state, action: PayloadAction<PasswordStatusType>) {
-        //     state.passwordStatus = action.payload
-        // }
     }
 })
 export const {
@@ -76,24 +73,17 @@ export const forgotTC = (email: string) => (dispatch: Dispatch<PayloadAction<App
         })
 }
 
-// export const createNewPasswordTC = (password: string, resetPasswordToken: string | undefined) =>
 export const createNewPasswordTC = (payload: RecoverPassRequestType) =>
     (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
         dispatch(loadingAC('loading'))
         authAPI.setNewPass(payload)
             .then((res) => {
                 dispatch(setPasswordStatus('succeeded'))
-                // setTimeout(()=>{
-                //     dispatch(resetNewPassStatusAC('failed'))
-                // },3000)
             })
             .catch((err) => {
                 debugger
                 dispatch(setPasswordStatus('failed'))
                 dispatch(setErrorPassRecover(err.response?.data?.error))
-                // setTimeout(()=>{
-                //     dispatch(responseErrorAC(false, 'changePas', ''))
-                // },3000)
             })
             .finally(() => {
                 dispatch(loadingAC('succeeded'))
