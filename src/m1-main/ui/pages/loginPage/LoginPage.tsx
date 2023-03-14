@@ -46,7 +46,6 @@ const LoginPage = () => {
             : setMessage(onRegClickMessages)
     }
     const changeEmail = (e: string) => {
-        debugger
         setEmail(e)
     }
     const togglePassInput = () => {
@@ -58,7 +57,6 @@ const LoginPage = () => {
         } else setType('password')
     }
     const onOutClick = () => {
-        debugger
         if (message.passMessage || message.emailMessage) {
             setMessage(initialMessage)
         }

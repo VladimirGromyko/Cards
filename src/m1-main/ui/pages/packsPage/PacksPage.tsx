@@ -8,6 +8,9 @@ import cps from "./PacksPage.module.css"
 // import Sidebar from "./Sidebar";
 // import {HeaderPacks} from "./HeaderPacks";
 import l from "../../../common/c7-Loading/loader07.module.css";
+import Waiting from "../errorPage/Waiting";
+import SuperButton from "../../common/button/SuperButton";
+import SuperInputText from "../../common/input/SuperInputText";
 // import {
 //     addPacksTC, deletePackTC,
 //     editPackTC, getSearchPackByNameTC,
@@ -38,7 +41,7 @@ export const PacksPage = () => {
     // // const cardPacks = useSelector<AppStoreType, CardPacksType[]>(state => state.packs.packsData.cardPacks)
     // const user = useSelector<AppStoreType>(state => state.login.user)
     // // const updatedCardsPack = useSelector<AppStoreType, {}>(state => state.packs.updatedCardsPack)
-    // const [selectedAll, setSelectedAll] = useState<boolean>(false)
+    const [selectedAll, setSelectedAll] = useState<boolean>(false)
     //
     // const isShownAddPack = useSelector<AppStoreType, boolean>((state: AppStoreType) =>
     //     state.packs.isShownAddPack)
@@ -83,11 +86,11 @@ export const PacksPage = () => {
 
     // },[])
 
-    // const onSetAllPressHandler = useCallback(() => {
+    const onSetAllPressHandler = useCallback(() => {
     //     if (!isLoggedIn) {
     //         navigate(PATH.LOGIN)
     //     }
-    //     setSelectedAll(true)
+        setSelectedAll(true)
     //     dispatch(setPacksDataTC({
     //         // briefly hardcoded 1 Cards request
     //         params: {
@@ -95,13 +98,13 @@ export const PacksPage = () => {
     //             pageCount: 20,
     //         }
     //     }))
-    // }, [dispatch])
+    }, [dispatch])
 
-    // const onSetMyPressHandler = useCallback(() => {
+    const onSetMyPressHandler = useCallback(() => {
     //     if (!isLoggedIn) {
     //         navigate(PATH.LOGIN)
     //     }
-    //     setSelectedAll(false)
+        setSelectedAll(false)
     //     dispatch(setPacksDataTC({
     //         // briefly hardcoded 1 Cards request
     //         params: {
@@ -113,7 +116,7 @@ export const PacksPage = () => {
     //         }
     //     }))
     //
-    // }, [dispatch,])
+    }, [dispatch,])
 
 // Block for Add pack
 //     const addPack = useCallback((pack: string) => {
@@ -191,8 +194,7 @@ export const PacksPage = () => {
 
 
             <div className={cps.TableWrapper}>
-
-                {/*    {isLoading === "loading" && <div className={l.loader07}></div>}*/}
+                <Waiting />
 
                 {/*ПРАВАЯ СТОРОНА*/}
 
@@ -215,25 +217,25 @@ export const PacksPage = () => {
                             <span className={cps.searchCardsHeader}>Show Packs cards</span>
                             <span className={cps.searchCardsHeader}>Number of cards</span>
                             <span></span>
-                            {/*<SuperInputText*/}
-                            {/*                placeholder='Enter cardPacks name for searching'*/}
-                            {/*                onChange={onSearchHandler}*/}
+                            <SuperInputText
+                                            placeholder='Enter cardPacks name for searching'
+                                            onChange={onSearchHandler}
 
-                            {/*/>*/}
+                            />
                             <div style={{textAlign: 'start'}}
                                  className={cps.contentAllMy}>
                                 <div className={cps.allMyWrapper}>
-                                    {/*<SuperButton*/}
-                                    {/*    className={ !selectedAll ? allMyClickStyle(cps.myClick) : allMyStyle(cps.myClick)}*/}
-                                    {/*    onClick={onSetMyPressHandler}*/}
-                                    {/*>*/}
+                                    <SuperButton
+                                        className={ !selectedAll ? allMyClickStyle(cps.myClick) : allMyStyle(cps.myClick)}
+                                        onClick={onSetMyPressHandler}
+                                    >
                                         My
-                                    {/*</SuperButton>*/}
-                                    {/*<SuperButton className={ selectedAll ? allMyClickStyle(cps.allClick) : allMyStyle(cps.allClick)}*/}
-                                    {/*             onClick={onSetAllPressHandler}*/}
-                                    {/*>*/}
+                                    </SuperButton>
+                                    <SuperButton className={ selectedAll ? allMyClickStyle(cps.allClick) : allMyStyle(cps.allClick)}
+                                                 onClick={onSetAllPressHandler}
+                                    >
                                         All
-                                    {/*</SuperButton>*/}
+                                    </SuperButton>
 
                                 </div>
                                 <div style={{color: 'red'}}>

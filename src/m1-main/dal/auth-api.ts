@@ -26,7 +26,7 @@ export const authAPI = {
         return instance.post<{}, AxiosResponse<UserDataType>>(`/auth/me`, {})
     },
     updateUser(payload: UserProfileType) {
-        return instance.put<UserProfileType, AxiosResponse<UserDataType>>('auth/me', payload);
+        return instance.put<UserProfileType, AxiosResponse<UserProfileResponseType>>('auth/me', payload);
     },
     // updateUser(name: string) {
     //     return instance.put<{ name: string }, AxiosResponse<ResponseType>>('auth/me', {name});
@@ -85,5 +85,10 @@ export type UserDataType = {
     token?: string,
     tokenDeathTime?: number,
     __v?: number,
+}
+export type UserProfileResponseType = {
+    token: string,
+    tokenDeathTime: number,
+    updatedUser: UserDataType
 }
 
