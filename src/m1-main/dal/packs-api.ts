@@ -31,8 +31,8 @@ type PacksGetRequestDataType = {
     min?: number, // не обязательно
     max?: number,  // не обязательно
     sortPacks?: string, // не обязательно
-    page?: number, // не обязательно
-    pageCount?: number, // не обязательно
+    page?: number, // не обязательно  -  выбранная страница
+    pageCount?: number, // не обязательно  -  количество элементов на странице
     user_id?: string,  // не обязательно
     block?: boolean,    // не обязательно. Если вас кто то забанил. То с помощью
                         // данного параметра можно увидеть свои колоды

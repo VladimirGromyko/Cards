@@ -33,7 +33,6 @@ const initialState : statePacksType = {
     max: 100,
     min: 0,
     packName: '',
-    
 }
 // } as statePacksType
 
@@ -55,10 +54,15 @@ const packsReducer = createSlice({
             // }
             console.log(state.packsData)
         },
+        sortPacksAC(state, action: PayloadAction<PacksGetRequestType>) {
+            debugger
+            state.sort = action.payload.params.sortPacks
+        }
     }
 });
 export const {
     setPacksData,
+    sortPacksAC,
 } = packsReducer.actions
 export default packsReducer.reducer
 
@@ -146,15 +150,17 @@ export const setPacksDataTC = (packsRequest: PacksGetRequestType) =>
     (dispatch: Dispatch<PayloadAction<AppActionType>>, getState: ()=> RootState) => {
         dispatch(loadingAC('loading'))
         debugger
+        const packs = packsRequest.params
+        const statePacks = getState().packs
         packsAPI.setPacks({
             params:{
-                pageCount:packsRequest.params.pageCount,
-                packName: getState().packs.packName,
-                page:getState().packs.currentPage,
-                sortPacks: packsRequest.params.sortPacks,
-                max: getState().packs.max,
-                min: getState().packs.min,
-                user_id: packsRequest.params.user_id,
+                pageCount: packs.pageCount ?? statePacks.packsData.pageCount,
+                packName: packs.packName ?? statePacks.packName,
+                page: getState().packs.currentPage,
+                sortPacks: packs.sortPacks ?? getState().packs.sort,
+                max: packs.max ?? getState().packs.max,
+                min: packs.min ?? getState().packs.min,
+                user_id: packs.user_id,
             }
         })
             .then((res) => {
@@ -162,6 +168,7 @@ export const setPacksDataTC = (packsRequest: PacksGetRequestType) =>
                 // dispatch(sortPacksAC(packsRequest.params.sortPacks))
                 // console.log(res.data)
                 dispatch(setPacksData(res.data))
+                packs.sortPacks && dispatch(sortPacksAC({params: {sortPacks: packs.sortPacks}}))
 
             })
             .catch((err) => {

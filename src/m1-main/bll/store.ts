@@ -1,6 +1,6 @@
 import {configureStore} from "@reduxjs/toolkit";
 import authReducer, {meStatusResponseType, MeStatusType} from "../bll/authReducer"
-import { PacksGetResponseDataType } from "../dal/packs-api";
+import {PacksGetRequestType, PacksGetResponseDataType} from "../dal/packs-api";
 import loadingReducer, {LoadingStatusType} from "./loadingReducer";
 import packsReducer, { statePacksType } from "./packsReducer";
 import registerReducer, {PasswordStatusType} from "./registerReducer";
@@ -26,6 +26,7 @@ export type AppActionType = MeStatusType
     | string
     | statePacksType
     | PacksGetResponseDataType
+    | PacksGetRequestType
 
     // CardsActionType
     // | RegisterActionType

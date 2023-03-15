@@ -5,6 +5,14 @@
     margin-left: 5px;
     cursor: pointer;
 }
+.buttonGrey{
+	border: none;
+	background: none;
+	padding: 0;
+	margin-left: 5px;
+	cursor: pointer;
+	opacity: 40%;
+}
 .triangle_down {
 	width: 0;
 	height: 0;

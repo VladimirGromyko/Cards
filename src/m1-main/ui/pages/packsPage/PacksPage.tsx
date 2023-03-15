@@ -1,13 +1,13 @@
 // import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import React, {ChangeEvent, useEffect,useCallback, useState} from "react";
+// import {useNavigate} from "react-router-dom";
+import React, {useEffect,useCallback, useState} from "react";
 import cps from "./PacksPage.module.css"
 // import SuperInputText from "../../../common/c2-SuperInput/SuperInputText";
 // import {PacksTable} from "./PacksTable";
 // import {AppStoreType} from "../../../../m2-bll/store";
 // import Sidebar from "./Sidebar";
 // import {HeaderPacks} from "./HeaderPacks";
-import l from "../../../common/c7-Loading/loader07.module.css";
+// import l from "../../../common/c7-Loading/loader07.module.css";
 import Waiting from "../errorPage/Waiting";
 import SuperButton from "../../common/button/SuperButton";
 import SuperInputText from "../../common/input/SuperInputText";
@@ -64,10 +64,10 @@ export const PacksPage = () => {
 
 
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const isLoggedIn = useAppSelector((state) => state.auth.meStatusResponse);
-    const [search, setSearch] = useState('')
-    const [isSearching, setIsSearching] = useState(false);
+    // const [search, setSearch] = useState('')
+    // const [isSearching, setIsSearching] = useState(false);
     let step = true
     // const debouncedValue = useDebounce(search, 1500);
     //
@@ -83,14 +83,17 @@ export const PacksPage = () => {
     useEffect(() => {
         if (isLoggedIn === 'done' && step) {
             step = false
-            dispatch(setPacksDataTC({params: {packName: '', pageCount: 40}}))
+            dispatch(setPacksDataTC({params: {
+                    pageCount: 20,
+                }}))
         }
     }, [dispatch, isLoggedIn] )
 
 
 
-    const onSearchHandler = (e:ChangeEvent<HTMLInputElement>) => {
-        setSearch(e.currentTarget.value)
+    const onSearchHandler = () => {
+    // const onSearchHandler = (e:ChangeEvent<HTMLInputElement>) => {
+        // setSearch(e.currentTarget.value)
     }
     // useEffect(()=>{
     //     dispatch(initializeMainTC())
@@ -111,7 +114,7 @@ export const PacksPage = () => {
     //             pageCount: 20,
     //         }
     //     }))
-    }, [dispatch])
+    }, [])
 
     const onSetMyPressHandler = useCallback(() => {
     //     if (!isLoggedIn) {
@@ -129,7 +132,7 @@ export const PacksPage = () => {
     //         }
     //     }))
     //
-    }, [dispatch,])
+    }, [])
 
 // Block for Add pack
 //     const addPack = useCallback((pack: string) => {
@@ -171,10 +174,10 @@ export const PacksPage = () => {
 //     }, [dispatch])
 //-------------
 
-    const learnPack = useCallback((packId: string) => {
-        // navigate('/packs/' + packId)
-        navigate('/main/packs-learn/'+ packId)
-    }, [navigate])
+    // const learnPack = useCallback((packId: string) => {
+    //     // navigate('/packs/' + packId)
+    //     navigate('/main/packs-learn/'+ packId)
+    // }, [navigate])
 
     // const onPageChanged = (page: number) => {
     //     // dispatch(setPacksDataAC({page: {currentPage: }}))
