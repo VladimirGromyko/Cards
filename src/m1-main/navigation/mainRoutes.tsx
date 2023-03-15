@@ -21,7 +21,7 @@ import {ProfilePage} from "../ui/pages/profile/ProfilePage";
 
 
 const MainRoutes = () => {
-    debugger
+
     return (
         <div>
             <Routes>

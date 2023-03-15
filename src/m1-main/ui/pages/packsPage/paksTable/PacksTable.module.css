@@ -1,0 +1,37 @@
+.items {
+    display: grid;
+    grid-template-areas: "1 2 3 4 5";
+    grid-template-columns: 30% 10% 20% 24%;
+    gap: 1%;
+    color: black;
+    background-color: #ffffff;
+    margin: 0 auto;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 30px;
+    justify-items: left;
+    align-items: center;
+    border: 1px solid #e8e8e8;
+}
+.items:hover {
+    background-color: #f7f7f7;
+}
+.item{
+    padding: 6px 0 6px 20px
+
+}
+.itemAction{
+    display: flex;
+    width: 100px;
+    justify-content: space-between;
+}
+.itemsLongName{
+    cursor:pointer;
+    max-width: 250px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+

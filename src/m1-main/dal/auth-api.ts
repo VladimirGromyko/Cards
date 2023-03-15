@@ -13,9 +13,6 @@ const model: RecoveryModelType = {
                        </div >`
 }
 export const authAPI = {
-    // getAuth() {
-    //     return instance.post(`auth/me`)
-    // },
     login(payload: LoginType) {
         return instance.post('auth/login', payload)
     },
@@ -28,9 +25,6 @@ export const authAPI = {
     updateUser(payload: UserProfileType) {
         return instance.put<UserProfileType, AxiosResponse<UserProfileResponseType>>('auth/me', payload);
     },
-    // updateUser(name: string) {
-    //     return instance.put<{ name: string }, AxiosResponse<ResponseType>>('auth/me', {name});
-    // },
     recoverPass(email: string) {
         return instance.post <RecoveryModelType, AxiosResponse<RecoverPassResponseType>>
         (`/auth/forgot`, {...model, email: email})

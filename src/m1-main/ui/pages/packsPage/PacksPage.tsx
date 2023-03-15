@@ -1,4 +1,4 @@
-import {useDispatch, useSelector} from "react-redux";
+// import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import React, {ChangeEvent, useEffect,useCallback, useState} from "react";
 import cps from "./PacksPage.module.css"
@@ -11,6 +11,10 @@ import l from "../../../common/c7-Loading/loader07.module.css";
 import Waiting from "../errorPage/Waiting";
 import SuperButton from "../../common/button/SuperButton";
 import SuperInputText from "../../common/input/SuperInputText";
+import { setPacksDataTC } from "../../../bll/packsReducer";
+import { useAppDispatch, useAppSelector } from "../../../bll/hooks";
+import { PacksTable } from "./paksTable/PacksTable";
+import { HeaderPacks } from "./HeaderPacks/HeaderPacks";
 // import {
 //     addPacksTC, deletePackTC,
 //     editPackTC, getSearchPackByNameTC,
@@ -35,7 +39,7 @@ export const PacksPage = () => {
     // const isLoading = useSelector((state: AppStoreType) => state.loading.isLoading);
     // const errorRes = useSelector<AppStoreType, ResponseErrorStateType>(state => state.error)
     // const isLoggedIn = useSelector((state: AppStoreType) => state.login.isLoggedIn);
-    // const packs = useSelector<AppStoreType, PacksGetResponseDataType>(state => state.packs.packsData)
+    const packs = useAppSelector(state => state.packs.packsData)
     // const searchRX = useSelector<AppStoreType, string | undefined>(state => state.packs.packName)
     // const currentPage = useSelector<AppStoreType, number>(state => state.packs.currentPage)
     // // const cardPacks = useSelector<AppStoreType, CardPacksType[]>(state => state.packs.packsData.cardPacks)
@@ -59,12 +63,12 @@ export const PacksPage = () => {
     // ((state: AppStoreType) => state.packs.pickedDeletePack)
 
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
-
+    const isLoggedIn = useAppSelector((state) => state.auth.meStatusResponse);
     const [search, setSearch] = useState('')
     const [isSearching, setIsSearching] = useState(false);
-
+    let step = true
     // const debouncedValue = useDebounce(search, 1500);
     //
     // useEffect(() => {
@@ -75,6 +79,15 @@ export const PacksPage = () => {
     //     },
     //     [debouncedValue]
     // );
+    debugger
+    useEffect(() => {
+        if (isLoggedIn === 'done' && step) {
+            step = false
+            dispatch(setPacksDataTC({params: {packName: '', pageCount: 40}}))
+        }
+    }, [dispatch, isLoggedIn] )
+
+
 
     const onSearchHandler = (e:ChangeEvent<HTMLInputElement>) => {
         setSearch(e.currentTarget.value)
@@ -260,27 +273,27 @@ export const PacksPage = () => {
 
                     </div>
                     <div className={cps.tableBlock}>
-                        {/*<HeaderPacks/>*/}
-                        {/*{packs && <PacksTable*/}
-                        {/*    deletePack={deletePack}*/}
-                        {/*    deletePackList={deletePackList}*/}
-                        {/*    showDeletePack={showDeletePack}*/}
-                        {/*    deletePackId={pickedDeletePack.packId}*/}
-                        {/*    deletePackName={pickedDeletePack.packName}*/}
-                        {/*    editPack={editPack}*/}
-                        {/*    editPackList={editPackList}*/}
-                        {/*    showEditPack={showEditPack}*/}
-                        {/*    editPackId={pickedEditPack.packId}*/}
-                        {/*    editPackName={pickedEditPack.packName}*/}
-                        {/*    learnPack={learnPack}*/}
-                        {/*    packs={packs}*/}
-                        {/*    isLoading={isLoading}*/}
-                        {/*    isShownEditPack={isShownEditPack}*/}
-                        {/*    isShownDeletePack={isShownDeletePack}*/}
-                        {/*    currentPage={currentPage}*/}
-                        {/*    onPageChanged={onPageChanged}*/}
-                        {/*    changePackListSize={changePackListSize}*/}
-                        {/*/>}*/}
+                        <HeaderPacks />
+                        {packs && <PacksTable
+                            // deletePack={deletePack}
+                            // deletePackList={deletePackList}
+                            // showDeletePack={showDeletePack}
+                            // deletePackId={pickedDeletePack.packId}
+                            // deletePackName={pickedDeletePack.packName}
+                            // editPack={editPack}
+                            // editPackList={editPackList}
+                            // showEditPack={showEditPack}
+                            // editPackId={pickedEditPack.packId}
+                            // editPackName={pickedEditPack.packName}
+                            // learnPack={learnPack}
+                            packs={packs}
+                            // isLoading={isLoading}
+                            // isShownEditPack={isShownEditPack}
+                            // isShownDeletePack={isShownDeletePack}
+                            // currentPage={currentPage}
+                            // onPageChanged={onPageChanged}
+                            // changePackListSize={changePackListSize}
+                        />}
                     </div>
 
                 </span>

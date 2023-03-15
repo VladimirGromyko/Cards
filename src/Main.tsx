@@ -2,11 +2,10 @@ import {useEffect} from "react";
 import Navigation from "./m1-main/navigation/Navigation";
 import {getAuthUserTC} from "./m1-main/bll/authReducer";
 import {useAppDispatch, useAppSelector} from "./m1-main/bll/hooks";
-import MainRoutes from "./m1-main/navigation/mainRoutes";
 import {useLocation} from "react-router-dom";
+import MainRoutes from "./m1-main/navigation/mainRoutes";
 
 const Main = () => {
-    debugger
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector((state) => state.auth.meStatusResponse);
     const passwordStatus = useAppSelector((state) => state.register.passwordStatus);
@@ -16,7 +15,8 @@ const Main = () => {
     if (isLoggedIn === 'none' && isChangePass === -1 && passwordStatus === 'none') {
         dispatch(getAuthUserTC())
     }
-    },[dispatch, isLoggedIn, isChangePass, passwordStatus])
+    },[])
+    // },[dispatch, isLoggedIn, isChangePass, passwordStatus])
 
   return <>
       <Navigation />

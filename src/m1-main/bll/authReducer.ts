@@ -3,9 +3,8 @@ import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {AppActionType} from "./store";
 import {loadingAC} from "./loadingReducer";
 import {setErrorRegistration} from "./registerReducer";
-import {Simulate} from "react-dom/test-utils";
-import loadedData = Simulate.loadedData;
-
+// import {Simulate} from "react-dom/test-utils";
+// import loadedData = Simulate.loadedData;
 
 export type authStateType = {
     meStatus: MeStatusType,
@@ -36,7 +35,6 @@ const authReducer = createSlice({
             state.meStatusResponse = action.payload
         },
         // updateUserData(state, action: PayloadAction<UserDataType>) {
-        //     debugger
         //     state.meStatus = action.payload
         // },
         // updateUserProfile (state, action: PayloadAction<UserDataType>) {
@@ -51,11 +49,9 @@ const authReducer = createSlice({
     }
 });
 export const {
-    // getMeStatus,
     setAuthUserData,
     logOutUser,
     changeMeStatusResponse,
-    // updateUserData
 } = authReducer.actions
 export default authReducer.reducer
 
@@ -64,7 +60,6 @@ export const getAuthUserTC = () => (dispatch: Dispatch<PayloadAction<AppActionTy
     authAPI.me()
         .then((res) => {
             dispatch(setAuthUserData(res.data))
-            // dispatch(getMeStatus(res.data))
             dispatch(changeMeStatusResponse('done'))
         })
         .catch((err) => {
@@ -108,10 +103,8 @@ export const logoutUserTC = () => (dispatch:  Dispatch<PayloadAction<AppActionTy
 export const updateUserProfileTC = (payload: UserProfileType) => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
     dispatch(loadingAC('loading'))
     authAPI.updateUser(payload)
-        // .then(response => dispatch(updateUserData(response.data.updatedUser))
         .then(response => dispatch(setAuthUserData(response.data.updatedUser))
         ).catch((e) => {
-            debugger
         const error = e.response ? e.response.data.error : (e.message + ", more details in the console")
         console.log(error)
         dispatch(setErrorRegistration(error))
