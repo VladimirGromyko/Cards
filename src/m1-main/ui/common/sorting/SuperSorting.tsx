@@ -1,17 +1,13 @@
 import React from 'react'
 import s from './SuperSortingStyles.module.css'
-
+import {triangleViewType} from "../../pages/packsPage/HeaderPacks/HeaderPacks";
 
 type SuperSortingPropsType = {
     sorting: string
     sort: string | undefined
-    show?: boolean
+    show?: triangleViewType
 }
-
 const SuperSorting: React.FC<SuperSortingPropsType> = ({sort, sorting, show}) => {
-debugger
-    console.log(show)
-
     return (
         <>
             {sort === `1${sorting}`
@@ -22,13 +18,15 @@ debugger
                 && <button className={s.button}>
                         <div className={s.triangle_down}></div>
                     </button>}
-            {show
+            {show !== 'none'
                 && <button className={s.buttonGrey}>
-                    <div className={s.triangle_down}></div>
-                </button>}
-
+                    {show === 'down'
+                        ? <div className={s.triangle_down}></div>
+                        : <div className={s.triangle_up}></div>
+                    }
+                </button>
+            }
         </>
     )
 }
-
 export default SuperSorting

@@ -6,15 +6,15 @@ import {PATH} from "./Paths";
 import {changeMeStatusResponse, logoutUserTC} from "../bll/authReducer";
 import Waiting from "../ui/pages/errorPage/Waiting";
 import SuperButton from "../ui/common/button/SuperButton";
-import {ProfilePage} from "../ui/pages/profile/ProfilePage";
-import { setPacksDataTC } from '../bll/packsReducer';
+// import {ProfilePage} from "../ui/pages/profile/ProfilePage";
+// import { setPacksDataTC } from '../bll/packsReducer';
 
 function Navigation() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector((state) => state.auth.meStatusResponse);
     const [menuProfile, setMenuProfile] = useState<boolean>(false)
-    const packsData = useAppSelector((state) => state.packs.packsData);
+    // const packsData = useAppSelector((state) => state.packs.packsData);
 
     useEffect(()=>{
             switch (isLoggedIn) {
