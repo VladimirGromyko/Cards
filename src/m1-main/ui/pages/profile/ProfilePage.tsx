@@ -6,6 +6,7 @@ import {PATH} from "../../../navigation/Paths";
 import {changeMeStatusResponse, logoutUserTC, updateUserProfileTC} from "../../../bll/authReducer";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import SuperButton from "../../common/button/SuperButton";
+import {initialPacksState, setPacksDataTC} from "../../../bll/packsReducer";
 
 export const ProfilePage = () => {
 
@@ -70,6 +71,11 @@ export const ProfilePage = () => {
         if (userName !== trimNameFromInput) {
             dispatch(updateUserProfileTC({name: trimNameFromInput, avatar:"https://www.meme-arsenal.com/memes/8d5e37167343dd477fde3ba2e59f9dee.jpg"}))
         }
+    }
+    const onLogoutHandle = () =>{
+        dispatch(setPacksDataTC({params: initialPacksState})).then(() => {
+            dispatch(logoutUserTC())
+        })
     }
 
     useEffect(() => {
@@ -149,7 +155,7 @@ export const ProfilePage = () => {
                     </>
                     <div className={s.containerForEmail}>{userEmail}</div>
                     <div className={s.button}
-                         onClick={() => dispatch(logoutUserTC())}
+                         onClick={onLogoutHandle}
                     >
                         <SuperButton icon="logout"
                                      iconWithText={true}

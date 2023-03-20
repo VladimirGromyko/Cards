@@ -6,20 +6,17 @@ import {PATH} from "./Paths";
 import {changeMeStatusResponse, logoutUserTC} from "../bll/authReducer";
 import Waiting from "../ui/pages/errorPage/Waiting";
 import SuperButton from "../ui/common/button/SuperButton";
-// import {ProfilePage} from "../ui/pages/profile/ProfilePage";
-// import { setPacksDataTC } from '../bll/packsReducer';
+import {initialPacksState, setPacksData, setPacksDataTC} from "../bll/packsReducer";
 
 function Navigation() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector((state) => state.auth.meStatusResponse);
     const [menuProfile, setMenuProfile] = useState<boolean>(false)
-    // const packsData = useAppSelector((state) => state.packs.packsData);
 
     useEffect(()=>{
             switch (isLoggedIn) {
                 case 'done':
-                    debugger
                     navigate(PATH.PACKS)
                     // dispatch(setPacksDataTC({params: {packName: '', pageCount: 40}}))
                     break
@@ -42,7 +39,9 @@ function Navigation() {
     // },[navigate, isLoggedIn])
     const logOutHandler = () => {
         if (isLoggedIn === "done" || isLoggedIn === "work") {
-            dispatch(logoutUserTC())
+            dispatch(setPacksDataTC({params: initialPacksState})).then(() => {
+                dispatch(logoutUserTC())
+            })
         }
     }
     const linkProfile = () => {

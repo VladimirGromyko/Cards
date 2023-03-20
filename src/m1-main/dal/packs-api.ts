@@ -26,7 +26,7 @@ export const packsAPI = {
 export type PacksGetRequestType = {
     params: PacksGetRequestDataType
 }
-type PacksGetRequestDataType = {
+export type PacksGetRequestDataType = {
     packName?: string, // не обязательно
     min?: number, // не обязательно
     max?: number,  // не обязательно

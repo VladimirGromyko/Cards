@@ -3,7 +3,7 @@ import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {AppActionType} from "./store";
 import {loadingAC} from "./loadingReducer";
 import {setErrorRegistration} from "./registerReducer";
-import {setPacksData, sortPacksAC} from "./packsReducer";
+import {setPacksData, filterPacks, setPacksDataTC} from "./packsReducer";
 import {PacksGetResponseDataType} from "../dal/packs-api";
 // import {Simulate} from "react-dom/test-utils";
 // import loadedData = Simulate.loadedData;
@@ -94,8 +94,8 @@ export const logoutUserTC = () => (dispatch:  Dispatch<PayloadAction<AppActionTy
                 dispatch(logOutUser(null))
                 // dispatch(changeMeStatusResponse('none'))
                 dispatch(changeMeStatusResponse('logout'))
-                dispatch(setPacksData({} as PacksGetResponseDataType))
-                dispatch(sortPacksAC({params: {}} ))
+                // dispatch(setPacksData({} as PacksGetResponseDataType))
+                // dispatch(filterPacks({params: {}} ))
             }
         ).catch((e) => {
         const error = e.response ? e.response.data.error : (e.message + ", more details in the console")

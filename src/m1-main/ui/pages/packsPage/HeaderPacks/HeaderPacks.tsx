@@ -8,7 +8,7 @@ import SuperSorting from "../../../common/sorting/SuperSorting";
 export type triangleViewType = 'none' | 'up' | 'down'
 export const HeaderPacks = () => {
     const dispatch = useAppDispatch()
-    const sort = useAppSelector(state => state.packs.sort)
+    const sort = useAppSelector(state => state.packs.sortPacks)
     const [isSorting, setIsSorting] = useState(false)
     const [showSortDated, setShowSortDated] = useState<triangleViewType>("none")
     const [showSortName, setShowSortName] = useState<triangleViewType>("none")

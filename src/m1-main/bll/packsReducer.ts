@@ -1,4 +1,4 @@
-import {packsAPI, PacksGetRequestType, PacksGetResponseDataType } from "../dal/packs-api"
+import {packsAPI, PacksGetRequestDataType, PacksGetRequestType, PacksGetResponseDataType} from "../dal/packs-api"
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import { AppActionType, RootState } from "./store";
 import { loadingAC } from "./loadingReducer";
@@ -13,15 +13,17 @@ export type statePacksType = {
     pickedEditPack: { packName: string, packId: string }
     pickedDeletePack: { packName: string, packId: string }
     currentPage: number
-    sort?: string,
+    sortPacks?: string,
     max?: number,
     min?: number,
     packName?: string,
 
 }
 
-const initialState : statePacksType = {
-    packsData: {} as PacksGetResponseDataType,
+export const initialPacksState : statePacksType = {
+    packsData: {
+        pageCount: 20,
+    } as PacksGetResponseDataType,
     // updatedCardsPack: null,
     // isShownMainPage: true,
     // isShownEditPack: false,
@@ -33,12 +35,13 @@ const initialState : statePacksType = {
     max: 100,
     min: 0,
     packName: '',
+    sortPacks: '',
 }
 // } as statePacksType
 
 const packsReducer = createSlice({
     name: 'packs',
-    initialState,
+    initialState: initialPacksState,
     reducers: {
         setPacksData(state, action: PayloadAction<PacksGetResponseDataType>) {
             debugger
@@ -54,15 +57,34 @@ const packsReducer = createSlice({
             // }
             console.log(state.packsData)
         },
-        sortPacksAC(state, action: PayloadAction<PacksGetRequestType>) {
-            debugger
-            state.sort = action.payload.params.sortPacks
+        searchPacksData(state, action: PayloadAction<PacksGetRequestType>) {
+            state.packName = action.payload.params.packName
+        },
+        filterPacks(state, action: PayloadAction<PacksGetRequestType>) {
+            const isEmpty = (obj: Object) => {
+                for(let key in obj)
+                {
+                    return false;
+                }
+                return true;
+            }
+            if (!isEmpty(action.payload.params)) {
+                const includes = (name: string) => Object.keys(action.payload.params).includes(name)
+                if (includes("sortPacks")) {
+                    state.sortPacks = action.payload.params.sortPacks
+                } else if (includes("packName")) {
+                    state.packName = action.payload.params.packName
+                }
+            } else {
+                state = initialPacksState
+            }
         }
     }
 });
 export const {
     setPacksData,
-    sortPacksAC,
+    filterPacks,
+    searchPacksData
 } = packsReducer.actions
 export default packsReducer.reducer
 
@@ -149,30 +171,28 @@ export default packsReducer.reducer
 export const setPacksDataTC = (packsRequest: PacksGetRequestType) =>
     (dispatch: Dispatch<PayloadAction<AppActionType>>, getState: ()=> RootState) => {
         dispatch(loadingAC('loading'))
-        debugger
         const packs = packsRequest.params
         const statePacks = getState().packs
-        packsAPI.setPacks({
+        const includes = (name: string) => Object.keys(packs).includes(name)
+
+        return packsAPI.setPacks({
             params:{
                 pageCount: packs.pageCount ?? statePacks.packsData.pageCount,
-                packName: packs.packName ?? statePacks.packName,
-                page: getState().packs.currentPage,
-                sortPacks: packs.sortPacks ?? getState().packs.sort,
-                max: packs.max ?? getState().packs.max,
-                min: packs.min ?? getState().packs.min,
+                packName: includes('packName') ? packs.packName : statePacks.packName,
+                page: statePacks.currentPage,
+                sortPacks: includes('sortPacks') ? packs.sortPacks : statePacks.sortPacks,
+                max: packs.max ?? statePacks.max,
+                min: packs.min ?? statePacks.min,
                 user_id: packs.user_id,
             }
         })
             .then((res) => {
-                debugger
-                // dispatch(sortPacksAC(packsRequest.params.sortPacks))
-                // console.log(res.data)
                 dispatch(setPacksData(res.data))
-                packs.sortPacks && dispatch(sortPacksAC({params: {sortPacks: packs.sortPacks}}))
+                includes('sortPacks') && dispatch(filterPacks({params: {sortPacks: packs.sortPacks}}))
+                includes('packName') && dispatch(filterPacks({params: {packName: packs.packName}}))
 
             })
             .catch((err) => {
-                debugger
                 console.log(err.response.data.error)
                 // dispatch(responseErrorAC(true, 'setPacks', err.response?.data.error))
                 // setTimeout(() => {
