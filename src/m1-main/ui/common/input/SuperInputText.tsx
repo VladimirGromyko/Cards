@@ -51,10 +51,9 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = (
         onKeyPress && onKeyPress(e);
         onEnter && e.key === 'Enter' && onEnter()
     }
-    // debugger
     // const errorClassName = `${s.error} ${spanClassName ? spanClassName : ''}`
     const finalSpanClassName = `${s.error} ${spanClassName ? spanClassName : ''}`
-    const finalInputClassName = `${s.superInput} ${error ? s.errorInput : s.superInput}`
+    const finalInputClassName = `${s.superInput} ${error ? s.errorInput : ''}`
     //const finalInputClassName = `${s.input} ${error ? s.errorInput : s.superInput} ${className}`
 
     return (
@@ -69,7 +68,6 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = (
                 {...restProps}
             />
             {error && <div className={finalSpanClassName}>{error}</div>}
-            {/*<br/>*/}
         </>
     )
 }

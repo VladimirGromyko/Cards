@@ -5,10 +5,12 @@ import SuperButton from "../../../common/button/SuperButton";
 import {useAppDispatch, useAppSelector} from "../../../../bll/hooks";
 import useDebounce from "../../../features/hooks/useDebounce";
 import {setPacksDataTC} from "../../../../bll/packsReducer";
+import Slider from "../../../common/slider/Slider";
 const SearchBlock = () => {
     const dispatch = useAppDispatch()
     const searchInMemory = useAppSelector(state => state.packs.packName)
     const user_id = useAppSelector(state => state.auth.meStatus?._id)
+    const authorId = useAppSelector(state => state.packs.packsData.authorId)
     const [search, setSearch] = useState<string>('')
     const [isSearching, setIsSearching] = useState(false);
     const debouncedValue = useDebounce(search, 1500);
@@ -17,13 +19,16 @@ const SearchBlock = () => {
     const onSearchHandler = (e:ChangeEvent<HTMLInputElement>) => {
         setSearch(e.currentTarget.value)
     }
-
     useEffect(() => {
         if (debouncedValue !== searchInMemory) {
             setIsSearching(true);
             dispatch(setPacksDataTC({params:{packName:search}}))
         }
     }, [debouncedValue]);
+    //
+    useEffect(() => {
+        setSelectedAll(!authorId);
+    }, [authorId]);
 
     const onSetMyPressHandler = useCallback(() => {
         dispatch(setPacksDataTC({params: {user_id: user_id}}))
@@ -74,9 +79,9 @@ const SearchBlock = () => {
                     </div>
                 </div>
 
-                {/*<Sidebar/>*/}
+                <Slider/>
 
-                <div>Filter</div>
+                {/*<div>Filter</div>*/}
 
             </div>
 

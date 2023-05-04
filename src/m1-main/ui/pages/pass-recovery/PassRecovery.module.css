@@ -23,6 +23,7 @@
     text-align: center;
 }
 .containerForEmail{
+    min-height: 55px;
     /*margin-top: 50px;*/
     /*margin: 38px 0 16px 0;*/
     /*text-align: left;*/

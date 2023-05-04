@@ -37,8 +37,8 @@ export const PacksTable = ({
                                // deletePack, deletePackList, showDeletePack,
                                // deletePackId,
                                // deletePackName, editPack, editPackList, showEditPack,
-                               // editPackId, editPackName, learnPack, 
-                               packs, 
+                               // editPackId, editPackName, learnPack,
+                               packs,
                                // isLoading,
                                // isShownEditPack, isShownDeletePack,
                                // currentPage, onPageChanged, changePackListSize
@@ -66,7 +66,7 @@ export const PacksTable = ({
             // onMouseUp={(e) => onScroll(e)}
             // onMouseDown={(e) => onScroll(e)}
         >
-            
+
             {/*{isLoading === "loading" && <div className={l.loader07}></div>}*/}
 
             {/*<ModalEditContainer*/}
@@ -77,7 +77,7 @@ export const PacksTable = ({
             {/*    isLoading={isLoading}*/}
             {/*    isShownPack={isShownEditPack}*/}
             {/*/>*/}
-            
+
             {/*<ModalDeleteContainer*/}
             {/*    deletePack={deletePack}*/}
             {/*    deletePackId={deletePackId}*/}
@@ -89,7 +89,8 @@ export const PacksTable = ({
 
             <>
 
-                {packs?.cardPacks && packs.cardPacks.map((pack) => {
+                {packs?.cardPacks.length
+                    ? packs.cardPacks.map((pack) => {
                         return (
 
                             <PackItem key={pack._id}
@@ -99,8 +100,9 @@ export const PacksTable = ({
                                       pack={pack}
                             />
                         )
-                    }
-                )}
+                    })
+                    : (<div style={{height: "20px", backgroundColor: "#ffffff"}}></div>)
+                }
                 {/*<div className={styles.paginationWrapper}>*/}
                 {/*    <Paginator cardPacksTotalCount={packs.cardPacksTotalCount}*/}
                 {/*               pageCount={packs.pageCount}*/}

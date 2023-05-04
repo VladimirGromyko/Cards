@@ -1,10 +1,10 @@
 import React, {useCallback, useState} from 'react'
 import s from './PassRecovery.module.css';
 import SuperInputText from "../../common/input/SuperInputText";
-import Waiting from "../errorPage/Waiting";
+import Waiting from "../error-page/Waiting";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import SuperButton from "../../common/button/SuperButton";
-import {changeMeStatusResponse} from "../../../bll/authReducer";
+import {authActions} from "../../../bll/authReducer";
 import {forgotTC, setErrorPassRecover, setPasswordStatus} from "../../../bll/registerReducer";
 import openMail from "../utils/open-mail.png"
 import checkEmail from "../utils/checkEmail";
@@ -27,7 +27,7 @@ const PasswordRecoveryPage = () => {
         errorRes && dispatch(setErrorPassRecover(''))
     }
     const backToLogin = () => {
-        dispatch(changeMeStatusResponse('logout'))
+        dispatch(authActions.changeMeStatusResponse('logout'))
         dispatch(setPasswordStatus('failed'))
     }
 
@@ -59,7 +59,7 @@ const PasswordRecoveryPage = () => {
                             </div>
                             <div className={s.helpText}>Did you remember your password ?</div>
                             <div className={s.helpTextBold}
-                                 onClick={() => dispatch(changeMeStatusResponse('error'))}
+                                 onClick={() => dispatch(authActions.changeMeStatusResponse('error'))}
                             >
                                 Try logging in
                             </div>

@@ -12,6 +12,7 @@ const store = configureStore({
         register: registerReducer,
         packs: packsReducer,
     },
+    // middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: { extraArgument } })
 })
 export default store
 

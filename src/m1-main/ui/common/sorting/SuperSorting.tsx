@@ -1,6 +1,6 @@
 import React from 'react'
 import s from './SuperSortingStyles.module.css'
-import {triangleViewType} from "../../pages/packsPage/HeaderPacks/HeaderPacks";
+import {triangleViewType} from "../../pages/packsPage/header-packs/HeaderPacks";
 
 type SuperSortingPropsType = {
     sorting: string

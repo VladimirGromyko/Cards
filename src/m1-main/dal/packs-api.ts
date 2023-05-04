@@ -61,6 +61,7 @@ export type PacksGetResponseDataType = {
     pageCount: number     // количество элементов на странице
     token?: string,
     tokenDeathTime?: number,
+    authorId: string | undefined,
 }
 export type CardPacksType = {
     _id: string

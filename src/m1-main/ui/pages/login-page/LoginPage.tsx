@@ -6,8 +6,8 @@ import SuperInputText from "../../common/input/SuperInputText";
 import SuperCheckbox from "../../common/сheckbox/SuperCheckbox";
 import SuperButton from "../../common/button/SuperButton";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
-import {changeMeStatusResponse, setAuthUserDataTC} from "../../../bll/authReducer";
-import Waiting from "../errorPage/Waiting";
+import {authActions, setAuthUserDataTC} from "../../../bll/authReducer";
+import Waiting from "../error-page/Waiting";
 import checkEmail from "../utils/checkEmail";
 import {setErrorRegistration} from "../../../bll/registerReducer";
 
@@ -107,7 +107,7 @@ const LoginPage = () => {
                         </SuperCheckbox>
                     </div>
                     <div className={s.forgotPass}
-                         onClick={() => dispatch(changeMeStatusResponse('forgot'))}
+                         onClick={() => dispatch(authActions.changeMeStatusResponse('forgot'))}
                     >
                         Forgot password ?
                     </div>
@@ -118,7 +118,7 @@ const LoginPage = () => {
                                 Sign in
                             </SuperButton>
                     <div className={s.helpText}>Don't have an account?</div>
-                    <div className={s.helpTextBold} onClick={() => dispatch(changeMeStatusResponse('progress'))}>
+                    <div className={s.helpTextBold} onClick={() => dispatch(authActions.changeMeStatusResponse('progress'))}>
                         Sign Up
                     </div>
                 </div>

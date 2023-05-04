@@ -3,7 +3,7 @@ import s from './Profile.module.css';
 import {ReactComponent as Svg} from "./../utils/direction-arrow-left.svg";
 import {useNavigate} from "react-router-dom";
 import {PATH} from "../../../navigation/Paths";
-import {changeMeStatusResponse, logoutUserTC, updateUserProfileTC} from "../../../bll/authReducer";
+import {authActions, logoutUserTC, updateUserProfileTC} from "../../../bll/authReducer";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import SuperButton from "../../common/button/SuperButton";
 import {initialPacksState, setPacksDataTC} from "../../../bll/packsReducer";
@@ -46,7 +46,7 @@ export const ProfilePage = () => {
         }
     }
     const returnBack = () => {
-        dispatch(changeMeStatusResponse('done'))
+        dispatch(authActions.changeMeStatusResponse('done'))
         navigate(PATH.PACKS)
     }
     const onOutClick = (e: React.SyntheticEvent<EventTarget>) => {

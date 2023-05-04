@@ -1,0 +1,28 @@
+.packListSizeWrapper{
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+}
+.packListSizeContent{}
+
+.select{
+    margin: 0px 5px;
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.select:focus {
+    border-color: rgba(103, 142, 254, 0.9);
+    /*outline: 0;*/
+    /*box-shadow: 0 0 0 0.15rem rgba(103, 142, 254, 0.9);*/
+}
+.select:active {
+    border-color: rgba(103, 142, 254, 0.9);
+    /*outline: 0;*/
+    /*box-shadow: 0 0 0 0.15rem rgba(103, 142, 254, 0.9);*/
+}
+
+.selectedValue {
+    cursor: pointer;
+}

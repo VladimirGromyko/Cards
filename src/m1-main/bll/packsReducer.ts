@@ -1,7 +1,8 @@
 import {packsAPI, PacksGetRequestDataType, PacksGetRequestType, PacksGetResponseDataType} from "../dal/packs-api"
-import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
-import { AppActionType, RootState } from "./store";
+import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
+import {AppActionType, RootState} from "./store";
 import { loadingAC } from "./loadingReducer";
+import {createAppAsyncThunk} from "./utils/create-app-asynk-thunk";
 
 export type statePacksType = {
     packsData: PacksGetResponseDataType //| null
@@ -17,12 +18,12 @@ export type statePacksType = {
     max?: number,
     min?: number,
     packName?: string,
-
 }
 
 export const initialPacksState : statePacksType = {
     packsData: {
         pageCount: 20,
+        authorId: '',
     } as PacksGetResponseDataType,
     // updatedCardsPack: null,
     // isShownMainPage: true,
@@ -43,8 +44,7 @@ const packsReducer = createSlice({
     name: 'packs',
     initialState: initialPacksState,
     reducers: {
-        setPacksData(state, action: PayloadAction<PacksGetResponseDataType>) {
-            debugger
+        setPacksData:(state, action: PayloadAction<PacksGetResponseDataType>) => {
             state.packsData = action.payload
             // if (state.packsData === null) {
             //     state.packsData.cardPacks = action.payload.cardPacks
@@ -57,10 +57,17 @@ const packsReducer = createSlice({
             // }
             console.log(state.packsData)
         },
-        searchPacksData(state, action: PayloadAction<PacksGetRequestType>) {
+        searchPacksData: (state, action: PayloadAction<PacksGetRequestType>) => {
             state.packName = action.payload.params.packName
         },
-        filterPacks(state, action: PayloadAction<PacksGetRequestType>) {
+        setCurrentPage: (state, action: PayloadAction<PacksGetRequestType>) => {
+            state.currentPage = action.payload.params.page ?? state.currentPage
+        },
+        getMinMaxPacks: (state, action: PayloadAction<PacksGetRequestType>) => {
+            state.min = action.payload.params.min
+            state.max = action.payload.params.max
+        },
+        filterPacks: (state, action: PayloadAction<PacksGetRequestType>) => {
             const isEmpty = (obj: Object) => {
                 for(let key in obj)
                 {
@@ -81,11 +88,12 @@ const packsReducer = createSlice({
         }
     }
 });
-export const {
-    setPacksData,
-    filterPacks,
-    searchPacksData
-} = packsReducer.actions
+// export const {
+//     setPacksData,
+//     filterPacks,
+//     searchPacksData
+// } = packsReducer.actions
+export const packsActions = packsReducer.actions
 export default packsReducer.reducer
 
 // export const packsReducer = (state: statePacksType = initState,
@@ -183,13 +191,13 @@ export const setPacksDataTC = (packsRequest: PacksGetRequestType) =>
                 sortPacks: includes('sortPacks') ? packs.sortPacks : statePacks.sortPacks,
                 max: packs.max ?? statePacks.max,
                 min: packs.min ?? statePacks.min,
-                user_id: packs.user_id,
+                user_id: includes('user_id') ? packs.user_id : statePacks.packsData.authorId,
             }
         })
             .then((res) => {
-                dispatch(setPacksData(res.data))
-                includes('sortPacks') && dispatch(filterPacks({params: {sortPacks: packs.sortPacks}}))
-                includes('packName') && dispatch(filterPacks({params: {packName: packs.packName}}))
+                dispatch(packsActions.setPacksData({...res.data, authorId: includes('user_id') ? packs.user_id : statePacks.packsData.authorId}))
+                includes('sortPacks') && dispatch(packsActions.filterPacks({params: {sortPacks: packs.sortPacks}}))
+                includes('packName') && dispatch(packsActions.filterPacks({params: {packName: packs.packName}}))
 
             })
             .catch((err) => {
@@ -206,6 +214,40 @@ export const setPacksDataTC = (packsRequest: PacksGetRequestType) =>
 
 }
 //
+
+
+
+export const getPacksByMinMaxTC = createAppAsyncThunk(
+    'packPage/setCurrentPage',
+    async (payload: {min:number, max:number}, thunkAPI) => {
+        const {dispatch, rejectWithValue, getState} = thunkAPI
+        try {
+            dispatch(loadingAC('loading'))
+            const state = getState()
+            packsAPI.setPacks({
+                params:{
+                    pageCount: state.packs.packsData.pageCount,
+                    sortPacks: state.packs.sortPacks,
+                    packName: state.packs.packName,
+                    page: state.packs.currentPage,
+                    max: payload.max,
+                    min: payload.min,
+                    user_id: state.packs.packsData.authorId,
+                }
+            }).then(res => {
+                dispatch(packsActions.getMinMaxPacks({params: {min: payload.min, max: payload.max}}))
+                dispatch(packsActions.setPacksData({...res.data, authorId: state.packs.packsData.authorId}))
+            }
+            )
+        } catch (error: any) {
+            return rejectWithValue(error)
+        } finally {
+            dispatch(loadingAC('succeeded'))
+        }
+    }
+)
+
+
 // export const getPacksByMinMaxTC = (min:number, max:number):ThunkType =>
 //     (dispatch, getState) => {
 //     dispatch(loadingAC('loading'))
@@ -254,9 +296,54 @@ export const setPacksDataTC = (packsRequest: PacksGetRequestType) =>
 //             })
 //     }
 //
-// export const setCurrentPageTC = (payload: {page: number, pageCount: number}): ThunkType =>
-//     (dispatch, getState) => {
-//     dispatch(setCurrentPageAC(payload.page))
+
+// Делаю thunk на redux toolkit
+export const setCurrentPageTC = createAppAsyncThunk(
+    'packPage/setCurrentPage',
+    async (payload: {page: number, pageCount: number}, thunkAPI ) => {
+        debugger
+        const {dispatch, rejectWithValue, getState} = thunkAPI
+        try {
+            const state = getState()
+            dispatch(packsActions.setCurrentPage({params: {page: payload.page}}))
+            dispatch(setPacksDataTC({
+                params: {
+                    page: payload.page,
+                    pageCount: payload.pageCount ? payload.pageCount : getState().packs.packsData.pageCount,
+                    sortPacks: state.packs.sortPacks,
+                    // sortPacks: state.packs.sort,
+                    max: state.packs.max,
+                    min: state.packs.min,
+                    packName: state.packs.packName,
+                }
+            }))
+        } catch (error: any) {
+            return rejectWithValue(error)
+        }
+
+    }
+)
+export const setCurrentPageThunk = {setCurrentPageTC}
+//
+// (payload: {page: number, pageCount: number}):ThunkType =>
+//     (dispatch: Dispatch<PayloadAction<AppActionType>>, getState: ()=> RootState) => {
+//     // dispatch(setCurrentPageAC(payload.page))
+//     dispatch(setPacksDataTC({
+//         params: {
+//             page: payload.page,
+//             pageCount: payload.pageCount ? payload.pageCount : getState().packs.packsData.pageCount,
+//             sortPacks: getState().packs.sort,
+//             max: getState().packs.max,
+//             min: getState().packs.min,
+//             packName: getState().packs.packName,
+//         }
+//     }))
+// }
+//-------------------
+
+// export const setCurrentPageTC = (payload: {page: number, pageCount: number}):ThunkType =>
+//     (dispatch: Dispatch<PayloadAction<AppActionType>>, getState: ()=> RootState) => {
+//     // dispatch(setCurrentPageAC(payload.page))
 //     dispatch(setPacksDataTC({
 //         params: {
 //             page: payload.page,

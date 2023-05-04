@@ -3,7 +3,7 @@ import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {AppActionType} from "./store";
 import {loadingAC} from "./loadingReducer";
 import {setErrorRegistration} from "./registerReducer";
-import {setPacksData, filterPacks, setPacksDataTC} from "./packsReducer";
+
 import {PacksGetResponseDataType} from "../dal/packs-api";
 // import {Simulate} from "react-dom/test-utils";
 // import loadedData = Simulate.loadedData;
@@ -34,6 +34,7 @@ const authReducer = createSlice({
             state.meStatus = action.payload
         },
         changeMeStatusResponse (state, action: PayloadAction<meStatusResponseType>) {
+            debugger
             state.meStatusResponse = action.payload
         },
         // updateUserData(state, action: PayloadAction<UserDataType>) {
@@ -50,23 +51,24 @@ const authReducer = createSlice({
         // }
     }
 });
-export const {
-    setAuthUserData,
-    logOutUser,
-    changeMeStatusResponse,
-} = authReducer.actions
+// export const {
+//     setAuthUserData,
+//     logOutUser,
+//     changeMeStatusResponse,
+// } = authReducer.actions
+export const authActions = authReducer.actions
 export default authReducer.reducer
 
 export const getAuthUserTC = () => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
     dispatch(loadingAC('loading'))
     authAPI.me()
         .then((res) => {
-            dispatch(setAuthUserData(res.data))
-            dispatch(changeMeStatusResponse('done'))
+            dispatch(authActions.setAuthUserData(res.data))
+            dispatch(authActions.changeMeStatusResponse('done'))
         })
         .catch((err) => {
             console.log(err)
-            dispatch(changeMeStatusResponse('error'))
+            dispatch(authActions.changeMeStatusResponse('error'))
         })
         .finally(() => {
             dispatch(loadingAC('succeeded'))
@@ -76,8 +78,8 @@ export const setAuthUserDataTC = (payload: LoginType) => (dispatch: Dispatch<Pay
     dispatch(loadingAC('loading'))
     authAPI.login(payload)
         .then(response => {
-                dispatch(setAuthUserData(response.data))
-                dispatch(changeMeStatusResponse('done'))
+                dispatch(authActions.setAuthUserData(response.data))
+                dispatch(authActions.changeMeStatusResponse('done'))
             }
         ).catch((e) => {
         const error = e.response ? e.response.data.error : (e.message + ", more details in the console")
@@ -91,16 +93,16 @@ export const logoutUserTC = () => (dispatch:  Dispatch<PayloadAction<AppActionTy
     dispatch(loadingAC('loading'))
     authAPI.logout()
         .then(() => {
-                dispatch(logOutUser(null))
+                dispatch(authActions.logOutUser(null))
                 // dispatch(changeMeStatusResponse('none'))
-                dispatch(changeMeStatusResponse('logout'))
+                dispatch(authActions.changeMeStatusResponse('logout'))
                 // dispatch(setPacksData({} as PacksGetResponseDataType))
                 // dispatch(filterPacks({params: {}} ))
             }
         ).catch((e) => {
         const error = e.response ? e.response.data.error : (e.message + ", more details in the console")
         console.log(error)
-        dispatch(changeMeStatusResponse('error'))
+        dispatch(authActions.changeMeStatusResponse('error'))
     }).finally(() => {
         dispatch(loadingAC('succeeded'))
     })
@@ -108,7 +110,7 @@ export const logoutUserTC = () => (dispatch:  Dispatch<PayloadAction<AppActionTy
 export const updateUserProfileTC = (payload: UserProfileType) => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
     dispatch(loadingAC('loading'))
     authAPI.updateUser(payload)
-        .then(response => dispatch(setAuthUserData(response.data.updatedUser))
+        .then(response => dispatch(authActions.setAuthUserData(response.data.updatedUser))
         ).catch((e) => {
         const error = e.response ? e.response.data.error : (e.message + ", more details in the console")
         console.log(error)

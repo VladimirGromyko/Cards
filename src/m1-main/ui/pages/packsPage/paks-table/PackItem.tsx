@@ -6,6 +6,7 @@ import packsStyle from './PacksTable.module.css'
 // import SuperButton from '../../../common/c1-SuperButton/SuperButton'
 import {PATH} from "../../../../navigation/Paths";
 import SuperButton from '../../../common/button/SuperButton'
+import {useAppSelector} from "../../../../bll/hooks";
 // import {useNavigate} from "react-router-dom";
 // import {changeDateView} from "../../../../../n2-features/f3-utils/changeDateView";
 
@@ -20,6 +21,9 @@ export const PackItem = ({
                              // deletePackList, editPackList, learnPack,
                              pack}: TableItemPropsType) => {
     const navigate = useNavigate()
+    const user_id = useAppSelector(state => state.auth.meStatus?._id)
+    // const packNameLength = pack.name.length
+    // if (packNameLength) {}
     // const onDeletePressHandler = useCallback(() => {
     //     deletePackList(pack.name, pack._id)
     // }, [deletePackList, pack.name, pack._id])
@@ -47,26 +51,28 @@ export const PackItem = ({
             <div className={packsStyle.item}>{changeDateView(pack.created)}</div>
             <div className={packsStyle.item}>{pack.user_name}</div>
             <div className={packsStyle.itemAction}>
-                <SuperButton 
+                <SuperButton
                     // onClick={onLearnPressHandler}
                              icon="learn"
                              style={{borderWidth: 0}}
                 >
                     Learn
                 </SuperButton>
-                <SuperButton 
+                {pack.user_id === user_id &&
+                    (<SuperButton
                     // onClick={onEditPressHandler}
-                             icon="edit"
-                             style={{borderWidth: 0}}
-                >
-                    Edit
-                </SuperButton>
-                <SuperButton icon="delete"
+                        icon="edit"
+                        style={{borderWidth: 0}}
+                     >Edit
+                    </SuperButton>)
+                }
+                {pack.user_id === user_id &&
+                    (<SuperButton icon="delete"
                              style={{borderWidth: 0}}
                              // onClick={onDeletePressHandler}
-                >
-                    Delete
-                </SuperButton>
+                    >Delete
+                    </SuperButton>)
+                }
             </div>
 
         </div>

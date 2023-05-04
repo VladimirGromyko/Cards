@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react'
-import s from '../loginPage/LoginPage.module.css'
+import s from '../login-page/LoginPage.module.css'
 import eye_open from '../utils/eye_open.png'
 import eye_close from '../utils/eye_close.png'
 import {
@@ -8,10 +8,10 @@ import {
     setRegistration
 } from "../../../bll/registerReducer";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
-import Waiting from "../errorPage/Waiting";
+import Waiting from "../error-page/Waiting";
 import SuperInputText from "../../common/input/SuperInputText";
 import SuperButton from "../../common/button/SuperButton";
-import {changeMeStatusResponse} from "../../../bll/authReducer";
+import {authActions} from "../../../bll/authReducer";
 import checkEmail from "../utils/checkEmail";
 
 const Registration = () => {
@@ -75,7 +75,7 @@ const Registration = () => {
     useEffect(() => {
         if (isRegistered) {
             setTimeout(() => {
-                dispatch(changeMeStatusResponse('logout'))
+                dispatch(authActions.changeMeStatusResponse('logout'))
                 dispatch(setRegistration(false))
             }, 1500)
         }
@@ -143,7 +143,7 @@ const Registration = () => {
                     <div className={s.helpText}>Already have an account ?</div>
                     <div className={s.helpTextBold}
                          // onClick={() => dispatch(changeMeStatusResponse('none'))}
-                         onClick={() => dispatch(changeMeStatusResponse('error'))}
+                         onClick={() => dispatch(authActions.changeMeStatusResponse('error'))}
                     >Sign In
                     </div>
                 </div>

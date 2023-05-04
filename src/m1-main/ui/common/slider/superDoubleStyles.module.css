@@ -1,0 +1,128 @@
+.wrapper{
+    position: relative;
+    /*width: 100%;*/
+    /*background-color: #e5ecff;*/
+    /*align-items: center;*/
+    /*!*padding: 10px;*!*/
+    /*!*border-radius: 10px;*!*/
+    /*padding: 10px 5px 0 5px;*/
+}
+
+.container{
+    position: relative;
+    width: 98%;
+    padding: 15px 5px 0 0;
+}
+input.range{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    outline: none;
+    position: absolute;
+    margin: auto;
+    background-color: transparent;
+    pointer-events: none;
+}
+.sliderTrack{
+    width: 96%;
+    height: 5px;
+    position: absolute;
+    margin: auto;
+    border-radius: 5px;
+}
+input.range::-webkit-slider-runnable-track{
+    -webkit-appearance: none;
+    height: 5px;
+}
+input.range::-moz-range-track{
+    -moz-appearance: none;
+    height: 5px;
+}
+input.range::-ms-track{
+    appearance: none;
+    height: 5px;
+}
+input.range::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    height: 1.3em;
+    width: 1.3em;
+    background-color: #ffffff;
+    border: 3px solid #3264fe;
+    cursor: pointer;
+    margin-top: -6px;
+    pointer-events: auto;
+    border-radius: 50%;
+}
+input.range::-moz-range-thumb{
+    -webkit-appearance: none;
+    height: 1.3em;
+    width: 1.3em;
+    cursor: pointer;
+    border-radius: 50%;
+    pointer-events: auto;
+}
+input.range::-ms-thumb{
+    appearance: none;
+    height: 1.3em;
+    width: 1.3em;
+    cursor: pointer;
+    border-radius: 50%;
+    pointer-events: auto;
+}
+input.range:active::-webkit-slider-thumb{
+    background-color: #3264fe;
+    border: 3px solid #3264fe;
+    /*background-color: #ffffff;*/
+    /*border: 3px solid #3264fe;*/
+}
+.values{
+    background-color: #3264fe;
+    width: 32%;
+    position: relative;
+    margin: auto;
+    padding: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 25px;
+    color: #ffffff;
+}
+.values:before{
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    border-top: 15px solid #3264fe;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    margin: auto;
+    bottom: -14px;
+    left: 0;
+    right: 0;
+}
+
+.left {
+    left:0
+}
+.right {
+    right:0
+}
+
+.mainWrapper{
+    min-width: 230px;
+}
+.numbersWrapper{
+    display: flex;
+    justify-content: space-between;
+}
+.title{
+    font-size: 21px;
+    font-weight: 500;
+    padding-top: 1px;
+    border-radius: 4px;
+    width: 40px;
+    text-align: center;
+    border: 1px solid var(--input-border);
+    background: var(--input-background);
+}

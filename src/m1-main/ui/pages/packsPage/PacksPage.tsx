@@ -1,12 +1,14 @@
 
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import cps from "./PacksPage.module.css"
-import Waiting from "../errorPage/Waiting";
-import {initialPacksState, setPacksDataTC} from "../../../bll/packsReducer";
+import Waiting from "../error-page/Waiting";
+import {initialPacksState, setCurrentPageTC, setPacksDataTC} from "../../../bll/packsReducer";
 import { useAppDispatch, useAppSelector } from "../../../bll/hooks";
-import { PacksTable } from "./paksTable/PacksTable";
-import { HeaderPacks } from "./HeaderPacks/HeaderPacks";
-import SearchBlock from "./searchBlock/SearchBlock";
+import { PacksTable } from "./paks-table/PacksTable";
+import { HeaderPacks } from "./header-packs/HeaderPacks";
+import SearchBlock from "./search-block/SearchBlock";
+import Paginator from "../../common/pagination/Paginator";
+import {PackListSize} from "../../common/pack-list-size/PackListSize";
 // import {
 //     addPacksTC, deletePackTC,
 //     editPackTC, getSearchPackByNameTC,
@@ -58,6 +60,7 @@ export const PacksPage = () => {
     const dispatch = useAppDispatch()
     // const navigate = useNavigate()
     const isLoggedIn = useAppSelector((state) => state.auth.meStatusResponse);
+    const authorId = useAppSelector(state => state.packs.packsData.authorId)
     // const [search, setSearch] = useState('')
     // const [isSearching, setIsSearching] = useState(false);
     let step = true
@@ -72,9 +75,12 @@ export const PacksPage = () => {
     //     [debouncedValue]
     // );
     useEffect(() => {
+        debugger
         if (isLoggedIn === 'done' && step) {
             step = false
-            dispatch(setPacksDataTC({params: initialPacksState}))
+            const params = JSON.parse(JSON.stringify(initialPacksState))
+            if (params && params.packsData && authorId) params.packsData.authorId = authorId
+            dispatch(setPacksDataTC({params}))
         }
     }, [dispatch, isLoggedIn] )
 
@@ -124,22 +130,23 @@ export const PacksPage = () => {
     //     navigate('/main/packs-learn/'+ packId)
     // }, [navigate])
 
-    // const onPageChanged = (page: number) => {
-    //     // dispatch(setPacksDataAC({page: {currentPage: }}))
-    //     dispatch(setCurrentPageTC({page, pageCount: 0}))
-    // }
-    // const changePackListSize =  useCallback((pageCount: number, page: number) => {
-    //     dispatch(setCurrentPageTC({
-    //         // briefly hardcoded 1 Cards request
-    //         // params: {
-    //             page,
-    //             // packName: '',
-    //             pageCount
-    //         // }
-    //     }))
-    //
-    //     // dispatch(setCurrentPageTC(value))
-    // }, [dispatch])
+    const onPageChanged = (page: number) => {
+        debugger
+        // dispatch(setPacksDataAC({page: {currentPage: }}))
+        dispatch(setCurrentPageTC({page, pageCount: 0}))
+    }
+    const changePackListSize =  useCallback((pageCount: number, page: number) => {
+        dispatch(setCurrentPageTC({
+            // briefly hardcoded 1 Cards request
+            // params: {
+                page,
+                // packName: '',
+                pageCount
+            // }
+        }))
+
+        // dispatch(setCurrentPageTC(value))
+    }, [dispatch])
     const allMyClickStyle = (style: string) => {
         return cps.allMyClick + ' ' +style
     }
@@ -196,6 +203,20 @@ export const PacksPage = () => {
                             // onPageChanged={onPageChanged}
                             // changePackListSize={changePackListSize}
                         />}
+                        <div className={cps.paginationWrapper}>
+
+                            <Paginator cardPacksTotalCount={packs.cardPacksTotalCount}
+                                       pageCount={packs.pageCount}
+                                       currentPage={packs.page}
+                                       onPageChanged={onPageChanged}
+                                       portionSize={undefined}
+                            />
+                            <PackListSize changePackListSize={changePackListSize}
+                                          pageCount={packs.pageCount}
+                                          currentPage={packs.page}
+                                          onPageChanged={onPageChanged}
+                            />
+                        </div>
                     </div>
 
                 </span>

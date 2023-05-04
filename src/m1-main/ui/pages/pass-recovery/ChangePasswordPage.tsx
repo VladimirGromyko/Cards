@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import s from './PassRecovery.module.css'
 import {useNavigate, useParams} from "react-router-dom";
-import Waiting from "../errorPage/Waiting";
+import Waiting from "../error-page/Waiting";
 import SuperInputText from "../../common/input/SuperInputText";
 import SuperButton from "../../common/button/SuperButton";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";

@@ -3,10 +3,10 @@ import {useNavigate} from 'react-router-dom'
 import s from './navigation.module.css'
 import {useAppDispatch, useAppSelector} from "../bll/hooks";
 import {PATH} from "./Paths";
-import {changeMeStatusResponse, logoutUserTC} from "../bll/authReducer";
-import Waiting from "../ui/pages/errorPage/Waiting";
+import {authActions, logoutUserTC} from "../bll/authReducer";
+import Waiting from "../ui/pages/error-page/Waiting";
 import SuperButton from "../ui/common/button/SuperButton";
-import {initialPacksState, setPacksData, setPacksDataTC} from "../bll/packsReducer";
+import {initialPacksState, setPacksDataTC} from "../bll/packsReducer";
 
 function Navigation() {
     const navigate = useNavigate()
@@ -15,6 +15,7 @@ function Navigation() {
     const [menuProfile, setMenuProfile] = useState<boolean>(false)
 
     useEffect(()=>{
+        debugger
             switch (isLoggedIn) {
                 case 'done':
                     navigate(PATH.PACKS)
@@ -39,6 +40,7 @@ function Navigation() {
     // },[navigate, isLoggedIn])
     const logOutHandler = () => {
         if (isLoggedIn === "done" || isLoggedIn === "work") {
+            debugger
             dispatch(setPacksDataTC({params: initialPacksState})).then(() => {
                 dispatch(logoutUserTC())
             })
@@ -46,7 +48,7 @@ function Navigation() {
     }
     const linkProfile = () => {
         if (isLoggedIn === 'done') {
-            dispatch(changeMeStatusResponse('work'))
+            dispatch(authActions.changeMeStatusResponse('work'))
             navigate(PATH.PROFILE)
         }
     }
