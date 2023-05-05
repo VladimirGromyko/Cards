@@ -89,8 +89,7 @@ export const PacksTable = ({
 
             <>
 
-                {packs?.cardPacks.length
-                    ? packs.cardPacks.map((pack) => {
+                {packs?.cardPacks && packs.cardPacks.map((pack) => {
                         return (
 
                             <PackItem key={pack._id}
@@ -101,7 +100,6 @@ export const PacksTable = ({
                             />
                         )
                     })
-                    : (<div style={{height: "20px", backgroundColor: "#ffffff"}}></div>)
                 }
                 {/*<div className={styles.paginationWrapper}>*/}
                 {/*    <Paginator cardPacksTotalCount={packs.cardPacksTotalCount}*/}

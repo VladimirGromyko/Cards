@@ -3,6 +3,7 @@ import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/t
 import {AppActionType, RootState} from "./store";
 import { loadingAC } from "./loadingReducer";
 import {createAppAsyncThunk} from "./utils/create-app-asynk-thunk";
+import {handleServerNetworkError} from "./utils/error-utils";
 
 export type statePacksType = {
     packsData: PacksGetResponseDataType //| null
@@ -176,76 +177,118 @@ export default packsReducer.reducer
 // export const setCurrentPageAC = (currentPage: number) => (
 //     {type: 'SET_CURRENT_PAGE', currentPage}) as const
 
-export const setPacksDataTC = (packsRequest: PacksGetRequestType) =>
-    (dispatch: Dispatch<PayloadAction<AppActionType>>, getState: ()=> RootState) => {
-        dispatch(loadingAC('loading'))
-        const packs = packsRequest.params
-        const statePacks = getState().packs
-        const includes = (name: string) => Object.keys(packs).includes(name)
 
-        return packsAPI.setPacks({
-            params:{
+
+export const setPacksDataTC = createAppAsyncThunk(
+    'setPacks/fetchPacksData',
+    async (packsRequest: PacksGetRequestType, thunkAPI ) => {
+        const {dispatch, rejectWithValue, getState} = thunkAPI
+        const state = getState()
+        const statePacks = state.packs
+        const packs = packsRequest.params
+        debugger
+        try {
+            const includes = (name: string) => Object.keys(packs).includes(name)
+            dispatch(loadingAC('loading'))
+            debugger
+            const params = {
                 pageCount: packs.pageCount ?? statePacks.packsData.pageCount,
                 packName: includes('packName') ? packs.packName : statePacks.packName,
-                page: statePacks.currentPage,
+                page:  includes('page') ? packs.page : statePacks.currentPage,
                 sortPacks: includes('sortPacks') ? packs.sortPacks : statePacks.sortPacks,
-                max: packs.max ?? statePacks.max,
-                min: packs.min ?? statePacks.min,
+                max: includes('max') ? packs.max : statePacks.max,
+                min: includes('min') ? packs.min : statePacks.min,
                 user_id: includes('user_id') ? packs.user_id : statePacks.packsData.authorId,
             }
-        })
-            .then((res) => {
-                dispatch(packsActions.setPacksData({...res.data, authorId: includes('user_id') ? packs.user_id : statePacks.packsData.authorId}))
-                includes('sortPacks') && dispatch(packsActions.filterPacks({params: {sortPacks: packs.sortPacks}}))
-                includes('packName') && dispatch(packsActions.filterPacks({params: {packName: packs.packName}}))
+            const res = await packsAPI.setPacks({params})
+            const resPacks = res.data
+            dispatch(packsActions.setPacksData({...resPacks, authorId: includes('user_id') ? packs.user_id : statePacks.packsData.authorId}))
 
-            })
-            .catch((err) => {
-                console.log(err.response.data.error)
-                // dispatch(responseErrorAC(true, 'setPacks', err.response?.data.error))
-                // setTimeout(() => {
-                //     dispatch(responseErrorAC(false, 'setPacks', err.response?.data.error))
-                // }, 1000)
-            })
-            .finally(() => {
-                dispatch(loadingAC('succeeded'))
-                // dispatch(showMainPageAC(false))
-            })
+            includes('min') && includes('max') && dispatch(packsActions.getMinMaxPacks({params: {min: packs.min, max: packs.max}}))
+            includes('page') && dispatch(packsActions.setCurrentPage({params: {page: packs.page}}))
 
-}
+            includes('sortPacks') && dispatch(packsActions.filterPacks({params: {sortPacks: packs.sortPacks}}))
+            includes('packName') && dispatch(packsActions.filterPacks({params: {packName: packs.packName}}))
+
+            dispatch(loadingAC('succeeded'))
+        } catch (error) {
+            handleServerNetworkError(error, dispatch)
+            return rejectWithValue(null)
+        }
+
+})
+
+// export const setPacksDataTC = (packsRequest: PacksGetRequestType) =>
+//     (dispatch: Dispatch<PayloadAction<AppActionType>>, getState: ()=> RootState) => {
+//         dispatch(loadingAC('loading'))
+//         const packs = packsRequest.params
+//         const statePacks = getState().packs
+//         const includes = (name: string) => Object.keys(packs).includes(name)
+//
+//         return packsAPI.setPacks({
+//             params:{
+//                 pageCount: packs.pageCount ?? statePacks.packsData.pageCount,
+//                 packName: includes('packName') ? packs.packName : statePacks.packName,
+//                 page: statePacks.currentPage,
+//                 sortPacks: includes('sortPacks') ? packs.sortPacks : statePacks.sortPacks,
+//                 max: packs.max ?? statePacks.max,
+//                 min: packs.min ?? statePacks.min,
+//                 user_id: includes('user_id') ? packs.user_id : statePacks.packsData.authorId,
+//             }
+//         })
+//             .then((res) => {
+//                 dispatch(packsActions.setPacksData({...res.data, authorId: includes('user_id') ? packs.user_id : statePacks.packsData.authorId}))
+//                 includes('sortPacks') && dispatch(packsActions.filterPacks({params: {sortPacks: packs.sortPacks}}))
+//                 includes('packName') && dispatch(packsActions.filterPacks({params: {packName: packs.packName}}))
+//
+//             })
+//             .catch((err) => {
+//                 console.log(err.response.data.error)
+//                 // dispatch(responseErrorAC(true, 'setPacks', err.response?.data.error))
+//                 // setTimeout(() => {
+//                 //     dispatch(responseErrorAC(false, 'setPacks', err.response?.data.error))
+//                 // }, 1000)
+//             })
+//             .finally(() => {
+//                 dispatch(loadingAC('succeeded'))
+//                 // dispatch(showMainPageAC(false))
+//             })
+//
+// }
 //
 
 
 
-export const getPacksByMinMaxTC = createAppAsyncThunk(
-    'packPage/setCurrentPage',
-    async (payload: {min:number, max:number}, thunkAPI) => {
-        const {dispatch, rejectWithValue, getState} = thunkAPI
-        try {
-            dispatch(loadingAC('loading'))
-            const state = getState()
-            packsAPI.setPacks({
-                params:{
-                    pageCount: state.packs.packsData.pageCount,
-                    sortPacks: state.packs.sortPacks,
-                    packName: state.packs.packName,
-                    page: state.packs.currentPage,
-                    max: payload.max,
-                    min: payload.min,
-                    user_id: state.packs.packsData.authorId,
-                }
-            }).then(res => {
-                dispatch(packsActions.getMinMaxPacks({params: {min: payload.min, max: payload.max}}))
-                dispatch(packsActions.setPacksData({...res.data, authorId: state.packs.packsData.authorId}))
-            }
-            )
-        } catch (error: any) {
-            return rejectWithValue(error)
-        } finally {
-            dispatch(loadingAC('succeeded'))
-        }
-    }
-)
+// export const getPacksByMinMaxTC = createAppAsyncThunk(
+//     'packPage/setCurrentPage',
+//     async (payload: {min: number, max: number}, thunkAPI) => {
+//         const {dispatch, rejectWithValue, getState} = thunkAPI
+//         try {
+//             dispatch(loadingAC('loading'))
+//             const state = getState()
+//             await packsAPI.setPacks({
+//                 params:{
+//                     pageCount: state.packs.packsData.pageCount,
+//                     sortPacks: state.packs.sortPacks,
+//                     packName: state.packs.packName,
+//                     page: state.packs.currentPage,
+//                     max: payload.max,
+//                     min: payload.min,
+//                     user_id: state.packs.packsData.authorId,
+//                 }
+//             }).then(res => {
+//                 dispatch(packsActions.getMinMaxPacks({params: {min: payload.min, max: payload.max}}))
+//                 dispatch(packsActions.setPacksData({...res.data, authorId: state.packs.packsData.authorId}))
+//             }
+//             )
+//         } catch (error) {
+//             handleServerNetworkError(error, dispatch)
+//             return rejectWithValue(null)
+//         } finally {
+//             dispatch(loadingAC('succeeded'))
+//         }
+//     }
+// )
 
 
 // export const getPacksByMinMaxTC = (min:number, max:number):ThunkType =>
@@ -298,32 +341,32 @@ export const getPacksByMinMaxTC = createAppAsyncThunk(
 //
 
 // Делаю thunk на redux toolkit
-export const setCurrentPageTC = createAppAsyncThunk(
-    'packPage/setCurrentPage',
-    async (payload: {page: number, pageCount: number}, thunkAPI ) => {
-        debugger
-        const {dispatch, rejectWithValue, getState} = thunkAPI
-        try {
-            const state = getState()
-            dispatch(packsActions.setCurrentPage({params: {page: payload.page}}))
-            dispatch(setPacksDataTC({
-                params: {
-                    page: payload.page,
-                    pageCount: payload.pageCount ? payload.pageCount : getState().packs.packsData.pageCount,
-                    sortPacks: state.packs.sortPacks,
-                    // sortPacks: state.packs.sort,
-                    max: state.packs.max,
-                    min: state.packs.min,
-                    packName: state.packs.packName,
-                }
-            }))
-        } catch (error: any) {
-            return rejectWithValue(error)
-        }
-
-    }
-)
-export const setCurrentPageThunk = {setCurrentPageTC}
+// export const setCurrentPageTC = createAppAsyncThunk(
+//     'packPage/setCurrentPage',
+//     async (payload: {page: number, pageCount: number}, thunkAPI ) => {
+//         debugger
+//         const {dispatch, rejectWithValue, getState} = thunkAPI
+//         try {
+//             const state = getState()
+//             dispatch(packsActions.setCurrentPage({params: {page: payload.page}}))
+//             dispatch(setPacksDataTC({
+//                 params: {
+//                     page: payload.page,
+//                     pageCount: payload.pageCount ? payload.pageCount : getState().packs.packsData.pageCount,
+//                     sortPacks: state.packs.sortPacks,
+//                     // sortPacks: state.packs.sort,
+//                     max: state.packs.max,
+//                     min: state.packs.min,
+//                     packName: state.packs.packName,
+//                 }
+//             }))
+//         } catch (error: any) {
+//             return rejectWithValue(error)
+//         }
+//
+//     }
+// )
+// export const setCurrentPageThunk = {setCurrentPageTC}
 //
 // (payload: {page: number, pageCount: number}):ThunkType =>
 //     (dispatch: Dispatch<PayloadAction<AppActionType>>, getState: ()=> RootState) => {

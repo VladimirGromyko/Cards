@@ -39,6 +39,12 @@ const SearchBlock = () => {
         dispatch(setPacksDataTC({params: {user_id: ''}}))
         setSelectedAll(true)
     }, [])
+    const onResetPressHandler = useCallback(() => {
+        dispatch(setPacksDataTC({params: {user_id: '', packName: '', min: 0, max: 100}}))
+        // dispatch(getPacksByMinMaxTC( {min: 0, max: 100}))
+        setSelectedAll(true)
+        setSearch("")
+    }, [])
     const allMyClickStyle = (style: string) => {
         return cps.allMyClick + ' ' +style
     }
@@ -81,7 +87,17 @@ const SearchBlock = () => {
 
                 <Slider/>
 
-                {/*<div>Filter</div>*/}
+                {/*<div>*/}
+                <div className={cps.reset}>
+                    <SuperButton
+                        onClick={onResetPressHandler}
+                        icon="reset-filters"
+                        style={{borderWidth: 0, padding: 0}}
+                    >
+                    </SuperButton>
+                </div>
+
+                {/*</div>*/}
 
             </div>
 

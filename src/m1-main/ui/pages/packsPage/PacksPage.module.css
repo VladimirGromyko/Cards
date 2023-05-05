@@ -132,7 +132,6 @@
     background: #e5ecff;
     height: 216px;
     padding-top:24px;
-    padding-top:24px;
 }
 /*.img {*/
 /*    border-radius: 50%;*/
@@ -216,6 +215,15 @@
     border: 3px solid #e8e8e8;
     border-radius: 4px;
     text-align: left;
+}
+.reset{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 4px;
+    width: 40px;
+    border: 1px solid var(--input-border);
+    background: var(--input-background);
 }
 h3{
     margin-bottom: 20px;

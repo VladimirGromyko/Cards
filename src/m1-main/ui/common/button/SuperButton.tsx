@@ -4,9 +4,10 @@ import hat from './education.svg'
 import edit from './edit.svg'
 import del from './delete.svg'
 import logout from './logout.svg'
+import resetFilters from './filter-remove.svg'
 
 type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
-type iconPlaceType = "learn" | "delete" | "edit" | "logout" | undefined
+type iconPlaceType = "learn" | "delete" | "edit" | "logout" | "reset-filters" |undefined
 type SuperButtonPropsType = DefaultButtonPropsType & {
     red?: boolean
     dis?: boolean
@@ -29,8 +30,9 @@ const SuperButton: React.FC<SuperButtonPropsType> = (
         iconPlace = del
     } else if (icon === "logout") {
         iconPlace = logout
-    }
-    else iconPlace = ""
+    } else if (icon === "reset-filters") {
+        iconPlace = resetFilters
+    } else iconPlace = ""
     const defaultClass: string = icon
         ? iconWithText
             ? s.iconWithText

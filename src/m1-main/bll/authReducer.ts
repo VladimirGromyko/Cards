@@ -11,13 +11,15 @@ import {PacksGetResponseDataType} from "../dal/packs-api";
 export type authStateType = {
     meStatus: MeStatusType,
     meStatusResponse: meStatusResponseType
+    error?: string,
 }
 export type MeStatusType = UserDataType | null
 export type meStatusResponseType = 'none' | 'done' | 'error' | 'logout' | 'progress' | 'forgot' | 'work'
 
 const initialState: authStateType = {
     meStatus: null,
-    meStatusResponse: 'none'
+    meStatusResponse: 'none',
+    error: '',
 };
 
 const authReducer = createSlice({
@@ -34,8 +36,11 @@ const authReducer = createSlice({
             state.meStatus = action.payload
         },
         changeMeStatusResponse (state, action: PayloadAction<meStatusResponseType>) {
-            debugger
+
             state.meStatusResponse = action.payload
+        },
+        setAppError: (state, action: PayloadAction<{error: string}>) => {
+            state.error = action.payload.error
         },
         // updateUserData(state, action: PayloadAction<UserDataType>) {
         //     state.meStatus = action.payload

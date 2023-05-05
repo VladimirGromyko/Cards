@@ -2,7 +2,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import cps from "./PacksPage.module.css"
 import Waiting from "../error-page/Waiting";
-import {initialPacksState, setCurrentPageTC, setPacksDataTC} from "../../../bll/packsReducer";
+import {initialPacksState, setPacksDataTC} from "../../../bll/packsReducer";
 import { useAppDispatch, useAppSelector } from "../../../bll/hooks";
 import { PacksTable } from "./paks-table/PacksTable";
 import { HeaderPacks } from "./header-packs/HeaderPacks";
@@ -74,6 +74,7 @@ export const PacksPage = () => {
     //     },
     //     [debouncedValue]
     // );
+    debugger
     useEffect(() => {
         debugger
         if (isLoggedIn === 'done' && step) {
@@ -131,21 +132,10 @@ export const PacksPage = () => {
     // }, [navigate])
 
     const onPageChanged = (page: number) => {
-        debugger
-        // dispatch(setPacksDataAC({page: {currentPage: }}))
-        dispatch(setCurrentPageTC({page, pageCount: 0}))
+        dispatch(setPacksDataTC({params: {page}}))
     }
-    const changePackListSize =  useCallback((pageCount: number, page: number) => {
-        dispatch(setCurrentPageTC({
-            // briefly hardcoded 1 Cards request
-            // params: {
-                page,
-                // packName: '',
-                pageCount
-            // }
-        }))
-
-        // dispatch(setCurrentPageTC(value))
+    const changePackListSize =  useCallback((page: number, pageCount: number,) => {
+        dispatch(setPacksDataTC({params: {page, pageCount}}))
     }, [dispatch])
     const allMyClickStyle = (style: string) => {
         return cps.allMyClick + ' ' +style
@@ -156,7 +146,7 @@ export const PacksPage = () => {
     // if (!isLoggedIn) {
     //     navigate(PATH.LOGIN)
     // }
-
+    debugger
     return (
         <div className={cps.wrapper}>
 
@@ -183,7 +173,8 @@ export const PacksPage = () => {
 
                     <div className={cps.tableBlock}>
                         <HeaderPacks />
-                        {packs && <PacksTable
+                        {packs?.cardPacks.length
+                            ? <PacksTable
                             // deletePack={deletePack}
                             // deletePackList={deletePackList}
                             // showDeletePack={showDeletePack}
@@ -202,7 +193,9 @@ export const PacksPage = () => {
                             // currentPage={currentPage}
                             // onPageChanged={onPageChanged}
                             // changePackListSize={changePackListSize}
-                        />}
+                            />
+                            : <div style={{height: "20px", backgroundColor: "#ffffff"}}></div>
+                        }
                         <div className={cps.paginationWrapper}>
 
                             <Paginator cardPacksTotalCount={packs.cardPacksTotalCount}

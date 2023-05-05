@@ -10,7 +10,7 @@ type SuperDoubleRangePropsType = DefaultInputPropsType & {
     value?: [number, number]
     min: number
     max: number
-    setValue: (value:number[]) => void
+    setValue: (value:[number, number]) => void
 }
 
 const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (

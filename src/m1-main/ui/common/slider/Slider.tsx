@@ -2,18 +2,18 @@ import React, {useEffect, useState} from 'react';
 import s from './superDoubleStyles.module.css'
 import useDebounce from '../../features/hooks/useDebounce';
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
-import {getPacksByMinMaxTC} from "../../../bll/packsReducer";
+import {setPacksDataTC} from "../../../bll/packsReducer";
 import SuperDoubleRange from "./SuperDoubleRange";
 
 const Slider = () => {
     const maxRX = useAppSelector((state) => state.packs.max)
     const minRX = useAppSelector((state) => state.packs.min)
 
-
+debugger
 
     const dispatch = useAppDispatch()
 
-    const [value, setValue] = useState([0, 100])
+    const [value, setValue] = useState<[number, number]>([0, 100])
     const [isDebouncing, setIsDebouncing] = useState(false);
 
     const debouncedValue = useDebounce(value, 1500);
@@ -21,10 +21,15 @@ const Slider = () => {
     useEffect(() => {
         if (debouncedValue[0] !== minRX || debouncedValue[1] !== maxRX) {
             setIsDebouncing(true);
-            dispatch(getPacksByMinMaxTC( {min: debouncedValue[0], max: debouncedValue[1]})
+            dispatch(setPacksDataTC( {params: {min: debouncedValue[0], max: debouncedValue[1]}})
+            // dispatch(getPacksByMinMaxTC( {min: debouncedValue[0], max: debouncedValue[1]})
             )
         }
     },[debouncedValue, dispatch]
+    );
+    useEffect(() => {
+        setValue([minRX !== undefined ? minRX : value[0], maxRX !== undefined ? maxRX : value[1]])
+        },[minRX, maxRX, dispatch]
     );
     return (
         <>
