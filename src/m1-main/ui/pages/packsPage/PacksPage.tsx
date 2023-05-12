@@ -2,13 +2,16 @@
 import React, {useCallback, useEffect, useState} from "react";
 import cps from "./PacksPage.module.css"
 import Waiting from "../error-page/Waiting";
-import {initialPacksState, setPacksDataTC} from "../../../bll/packsReducer";
+import {addPacksTC, deletePackTC, initialPacksState, setPacksDataTC} from "../../../bll/packsReducer";
 import { useAppDispatch, useAppSelector } from "../../../bll/hooks";
 import { PacksTable } from "./paks-table/PacksTable";
 import { HeaderPacks } from "./header-packs/HeaderPacks";
 import SearchBlock from "./search-block/SearchBlock";
 import Paginator from "../../common/pagination/Paginator";
 import {PackListSize} from "../../common/pack-list-size/PackListSize";
+import ModalContainer from "../../common/modal/ModalContainer";
+import {AddPackModal} from "./packs-modals/AddPackModal";
+
 // import {
 //     addPacksTC, deletePackTC,
 //     editPackTC, getSearchPackByNameTC,
@@ -87,20 +90,25 @@ export const PacksPage = () => {
 
 
 // Block for Add pack
-//     const addPack = useCallback((pack: string) => {
-//         dispatch(addPacksTC({cardsPack: {name: pack}}))
-//     }, [dispatch,])
-//
-//     const showAddPack = (value: boolean) => {
-//         dispatch(showAddPackAC(value))
-//     }
+    const [showAddPacksModal, setShowAddPacksModal] = useState<boolean>(false);
+    const addPack = useCallback((pack: {name: string, privateStatus: boolean}) => {
+        debugger
+        dispatch(addPacksTC({cardsPack: {name: pack.name, private: pack.privateStatus}}))
+    }, [dispatch,])
+
+    // const showAddPack = (value: boolean) => {
+    //     dispatch(showAddPackAC(value))
+    // }
 //-------------
 
 // Block for Delete pack
-//     const deletePackList = useCallback((packName: string, packId: string) => {
-//         dispatch(pickDeletePackAC(packName, packId))
-//         dispatch(showDeletePackAC(true))
-//     }, [dispatch])
+    const deletePackList = useCallback((packName: string, packId: string) => {
+        debugger
+        console.log("packName: ", packName, "  packId:", packId)
+        // dispatch(deletePackTC( {params: {id: packId}}))
+        // dispatch(pickDeletePackAC(packName, packId))
+        // dispatch(showDeletePackAC(true))
+    }, [dispatch])
 //
 //     const deletePack = useCallback((packName: string, packId: string) => {
 //         dispatch(deletePackTC({params: {id: packId}}))
@@ -159,13 +167,36 @@ export const PacksPage = () => {
                 <span className={cps.content}>
 
                     <span className={cps.headerBlock}>
-                         <div ><h3>Packs list</h3></div>
-                         {/*<ModalAddContainer*/}
-                         {/*    addPack={addPack}*/}
-                         {/*    showPack={showAddPack}*/}
-                         {/*    isLoading={isLoading}*/}
-                         {/*    isShownPack={isShownAddPack}*/}
-                         {/*/>*/}
+                         <h3>Packs list</h3>
+                         <ModalContainer
+                             // realize={addPack}
+                             title={"Add new pack"}
+                             buttonStyle={{
+                                 color: "white",
+                                 width: "20ch",
+                                 fontWeight: "200",
+                                 border: "none",
+                             }}
+                             show={showAddPacksModal}
+                             setShow={setShowAddPacksModal}
+                             modalStyle={{
+                                 backgroundColor: '#FFFFFF',
+                                 width: '395px',
+                                 height: 'auto',
+                                 borderRadius: '2px'
+                             }}
+                             // addPack={addPack}
+                             // showPack={showAddPack}
+                             // isLoading={isLoading}
+                             // isShownPack={isShownAddPack}
+                         >
+                            <AddPackModal
+                                packId={'123'}
+                                show={showAddPacksModal}
+                                setShow={setShowAddPacksModal}
+                                addPack={addPack}
+                            />
+                         </ModalContainer>
                     </span>
                     <SearchBlock />
 
@@ -173,10 +204,10 @@ export const PacksPage = () => {
 
                     <div className={cps.tableBlock}>
                         <HeaderPacks />
-                        {packs?.cardPacks.length
+                        {packs?.cardPacks?.length
                             ? <PacksTable
                             // deletePack={deletePack}
-                            // deletePackList={deletePackList}
+                            deletePackList={deletePackList}
                             // showDeletePack={showDeletePack}
                             // deletePackId={pickedDeletePack.packId}
                             // deletePackName={pickedDeletePack.packName}

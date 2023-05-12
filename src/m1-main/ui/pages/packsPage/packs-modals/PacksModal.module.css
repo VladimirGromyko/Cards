@@ -1,0 +1,16 @@
+.buttonsBlock {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 80px;
+    height: 36px;
+}
+.textField {
+    /*text-align: left;*/
+    display: flex;
+    font-weight: 600;
+    font-size: 14px;
+    color: #737171;
+    /*position: relative;*/
+    /*left: 85px;*/
+    padding-left: 30px;
+}

@@ -10,14 +10,14 @@ export const packsAPI = {
     // setSortPacks( sortPackNumber: SortPackNumberType, sortPackName: SortPackNameType) {
     //     return instance.get(`cards/pack?sortPacks=${sortPackNumber}${sortPackName}&pageCount=20`);
     // },
-    // postPacks(pack: PacksPostRequestType) {
-    //     return instance.post <PacksPostRequestType, AxiosResponse<PacksPostResponseType>>('cards/pack',
-    //         pack);
-    // },
-    // deletePacks(param: PacksDeleteRequestType) {
-    //     return instance.delete <PacksDeleteRequestType, AxiosResponse<PacksDeleteResponseType>>('cards/pack',
-    //         param);
-    // },
+    postPacks(pack: PacksPostRequestType) {
+        return instance.post <PacksPostRequestType, AxiosResponse<PacksPostResponseType>>('cards/pack',
+            pack);
+    },
+    deletePacks(param: PacksDeleteRequestType) {
+        return instance.delete <PacksDeleteRequestType, AxiosResponse<PacksDeleteResponseType>>('cards/pack',
+            param);
+    },
     // putPacks(param: PacksPutRequestType) {
     //     return instance.put <PacksPutRequestType, AxiosResponse<PacksPutResponseType>>('cards/pack',
     //         param);

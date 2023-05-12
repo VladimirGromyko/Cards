@@ -5,18 +5,19 @@
 }
 .checkbox {
     appearance: none;
-    width: 24px;
-    height: 27px;
+    width: 20px;
+    height: 20px;
     margin-right: 10px;
-    background: var(--input-border);
+    /*background: var(--input-border);*/
     cursor: pointer;
-    border: #4a5651 solid 2px;
+    border: #4a5651 solid 1px;
+    border-radius: 4px
 }
 .checkbox:checked{
     appearance: none;
-    background-image: url('./checked1.png');
+    background-image: url('./checked.svg');
 }
-.checkbox:focus {
-    outline: #99ff99 solid 1px;
+.checkbox:hover {
+    outline: var(--group-background-focus) solid 1px;
 }
 

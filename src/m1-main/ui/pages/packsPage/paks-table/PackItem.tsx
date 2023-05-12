@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CardPacksType } from '../../../../dal/packs-api'
 import { changeDateView } from '../../utils/changeDateView'
@@ -11,22 +11,24 @@ import {useAppSelector} from "../../../../bll/hooks";
 // import {changeDateView} from "../../../../../n2-features/f3-utils/changeDateView";
 
 type TableItemPropsType = {
-    // deletePackList: (packName: string, packId: string) => void
+    deletePackList: (packName: string, packId: string) => void
     // editPackList: (packName: string, packId: string) => void
     // learnPack: (packId: string) => void
     pack: CardPacksType
 }
 
 export const PackItem = ({
-                             // deletePackList, editPackList, learnPack,
+                             deletePackList,
+                             // editPackList,
+                             // learnPack,
                              pack}: TableItemPropsType) => {
     const navigate = useNavigate()
     const user_id = useAppSelector(state => state.auth.meStatus?._id)
     // const packNameLength = pack.name.length
     // if (packNameLength) {}
-    // const onDeletePressHandler = useCallback(() => {
-    //     deletePackList(pack.name, pack._id)
-    // }, [deletePackList, pack.name, pack._id])
+    const onDeletePressHandler = useCallback(() => {
+        deletePackList(pack.name, pack._id)
+    }, [deletePackList, pack.name, pack._id])
     //
     // const onEditPressHandler = useCallback(() => {
     //     editPackList(pack.name, pack._id)
@@ -40,7 +42,7 @@ export const PackItem = ({
         <div className={packsStyle.items}>
             <div className={packsStyle.item}
                  style={{cursor: "pointer"}}
-                 onClick={() => navigate(`${PATH.PACKS}/${pack._id}`)}
+                 // onClick={() => navigate(`${PATH.PACKS}/${pack._id}`)}
             >
                 <div className={packsStyle.itemsLongName}>
                     {pack.name}
@@ -69,7 +71,7 @@ export const PackItem = ({
                 {pack.user_id === user_id &&
                     (<SuperButton icon="delete"
                              style={{borderWidth: 0}}
-                             // onClick={onDeletePressHandler}
+                             onClick={onDeletePressHandler}
                     >Delete
                     </SuperButton>)
                 }

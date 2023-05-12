@@ -32,6 +32,25 @@
     outline-offset: 15px;
     text-shadow: 1px 1px 2px #427388;
 }
+.dis {
+    display: block;
+    box-shadow: 0 2px 10px 0 #6D6D6D;
+    width: 10ch;
+    background: #FCFCFC;
+    cursor: pointer;
+    /*color: #889792;*/
+    font-size: 16px;
+    border-radius: 30px;
+}
+.dis:hover {
+    /*display: block;*/
+    box-shadow: 0 1px 10px 0 #c9c9c9;
+    /*width: 10ch;*/
+    /*background: #FCFCFC;*/
+    /*color: #889792;*/
+    /*font-size: 16px;*/
+    /*border-radius: 30px;*/
+}
 .dis:disabled {
     display: block;
     width: 10ch;
@@ -43,7 +62,7 @@
 .red {
     display: block;
     width: 10ch;
-    background: coral;
+    background: #FF3636;
     font-size: 16px;
     border-radius: 4px;
 }

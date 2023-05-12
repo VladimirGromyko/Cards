@@ -1,4 +1,10 @@
-import {packsAPI, PacksGetRequestDataType, PacksGetRequestType, PacksGetResponseDataType} from "../dal/packs-api"
+import {
+    packsAPI, PacksDeleteRequestType,
+    PacksGetRequestDataType,
+    PacksGetRequestType,
+    PacksGetResponseDataType,
+    PacksPostRequestType
+} from "../dal/packs-api"
 import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {AppActionType, RootState} from "./store";
 import { loadingAC } from "./loadingReducer";
@@ -186,7 +192,6 @@ export const setPacksDataTC = createAppAsyncThunk(
         const state = getState()
         const statePacks = state.packs
         const packs = packsRequest.params
-        debugger
         try {
             const includes = (name: string) => Object.keys(packs).includes(name)
             dispatch(loadingAC('loading'))
@@ -399,6 +404,21 @@ export const setPacksDataTC = createAppAsyncThunk(
 //     }))
 // }
 //
+export const addPacksTC = createAppAsyncThunk(
+    'addPack/postNewPack',
+    async (pack: PacksPostRequestType, thunkAPI ) => {
+        const {dispatch, rejectWithValue} = thunkAPI
+        debugger
+        try {
+            dispatch(loadingAC('loading'))
+            await packsAPI.postPacks(pack)
+            dispatch(setPacksDataTC({params: {}}))
+            dispatch(loadingAC('succeeded'))
+        } catch (error) {
+            handleServerNetworkError(error, dispatch)
+            return rejectWithValue(null)
+        }
+    })
 // export const addPacksTC = (pack: PacksPostRequestType): ThunkType =>
 //     (dispatch, getState) => {
 //         dispatch(loadingAC('loading'))
@@ -461,7 +481,23 @@ export const setPacksDataTC = createAppAsyncThunk(
 //             }, 1000)
 //         })
 // }
-//
+
+export const deletePackTC = createAppAsyncThunk(
+    'deletePack/removePackById',
+    async (param: PacksDeleteRequestType, thunkAPI ) => {
+        const {dispatch, rejectWithValue} = thunkAPI
+        debugger
+        try {
+            dispatch(loadingAC('loading'))
+            await packsAPI.deletePacks(param)
+            dispatch(setPacksDataTC({params: {}}))
+            dispatch(loadingAC('succeeded'))
+        } catch (error) {
+            handleServerNetworkError(error, dispatch)
+            return rejectWithValue(null)
+        }
+    })
+
 // export const deletePackTC = (param: PacksDeleteRequestType): ThunkType =>
 //     (dispatch, getState) => {
 //

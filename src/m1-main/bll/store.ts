@@ -4,12 +4,14 @@ import {PacksGetRequestType, PacksGetResponseDataType} from "../dal/packs-api";
 import loadingReducer, {LoadingStatusType} from "./loadingReducer";
 import packsReducer, { statePacksType } from "./packsReducer";
 import registerReducer, {PasswordStatusType} from "./registerReducer";
+import utilsReducer from "./utilsReducer";
 
 const rootReducer = combineReducers({
     auth: authReducer,
     loading: loadingReducer,
     register: registerReducer,
     packs: packsReducer,
+    main: utilsReducer,
 })
 
 const store = configureStore({

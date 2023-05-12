@@ -13,7 +13,7 @@ import { PackItem } from "./PackItem";
 
 type PacksTableType = {
     // deletePack: (packName: string, pack: string) => void
-    // deletePackList: (packName: string, packId: string) => void
+    deletePackList: (packName: string, packId: string) => void
     // showDeletePack: (value: boolean) => void
     // deletePackId: string
     // deletePackName: string
@@ -34,7 +34,9 @@ type PacksTableType = {
 
 
 export const PacksTable = ({
-                               // deletePack, deletePackList, showDeletePack,
+                               // deletePack,
+                               deletePackList,
+                               // showDeletePack,
                                // deletePackId,
                                // deletePackName, editPack, editPackList, showEditPack,
                                // editPackId, editPackName, learnPack,
@@ -47,6 +49,7 @@ export const PacksTable = ({
     //     debugger
     //     console.log(e)
     // }
+
     // const [scroll, setScroll] = useState(0);
     // const onScroll = useCallback(() => setScroll(Math.round(window.scrollY)), []);
     // useEffect(() => {
@@ -93,7 +96,7 @@ export const PacksTable = ({
                         return (
 
                             <PackItem key={pack._id}
-                                      // deletePackList={deletePackList}
+                                      deletePackList={deletePackList}
                                       // editPackList={editPackList}
                                       // learnPack={learnPack}
                                       pack={pack}

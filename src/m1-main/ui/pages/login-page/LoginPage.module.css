@@ -110,9 +110,10 @@
     height: 36px
 }
 .passView{
-    width: 20px;
-    height: 20px;
+    width: 17px;
+    height: 17px;
     color: #4a5651;
+    opacity: 0.5;
 }
 .message{
     font-size: 13px;
