@@ -489,7 +489,8 @@ export const deletePackTC = createAppAsyncThunk(
         debugger
         try {
             dispatch(loadingAC('loading'))
-            await packsAPI.deletePacks(param)
+            debugger
+            const res = await packsAPI.deletePacks(param)
             dispatch(setPacksDataTC({params: {}}))
             dispatch(loadingAC('succeeded'))
         } catch (error) {

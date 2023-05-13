@@ -3,23 +3,24 @@ import s from './SuperButton.module.css'
 import hat from './education.svg'
 import edit from './edit.svg'
 import del from './delete.svg'
+import close from './close.svg'
 import logout from './logout.svg'
 import resetFilters from './filter-remove.svg'
 
 type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
-type iconPlaceType = "learn" | "delete" | "edit" | "logout" | "reset-filters" |undefined
+type iconPlaceType = "learn" | "delete" | "edit" | "logout" | "close" | "reset-filters" |undefined
 type SuperButtonPropsType = DefaultButtonPropsType & {
     red?: boolean
     dis?: boolean
     icon?: iconPlaceType
     iconWithText?: boolean
+    imgStyle?: {}
 }
-
 
 const SuperButton: React.FC<SuperButtonPropsType> = (
     {
         red, className,dis,
-        icon, iconWithText, ...restProps
+        icon, iconWithText, imgStyle, ...restProps
     }) => {
     let iconPlace: string;
     if (icon === "learn") {
@@ -30,6 +31,8 @@ const SuperButton: React.FC<SuperButtonPropsType> = (
         iconPlace = del
     } else if (icon === "logout") {
         iconPlace = logout
+    } else if (icon === "close") {
+        iconPlace = close
     } else if (icon === "reset-filters") {
         iconPlace = resetFilters
     } else iconPlace = ""
@@ -45,6 +48,7 @@ const SuperButton: React.FC<SuperButtonPropsType> = (
                 ? s.dis 
                 : defaultClass} ${className}`
     // const finalClassName = `${red ? s.red : s.default && dis ? s.dis : defaultClass} ${className}`
+    // const imgClassName = `${imgStyle ? imgStyle : ""} ${s.icon}`
     return (
         <button
 
@@ -58,7 +62,8 @@ const SuperButton: React.FC<SuperButtonPropsType> = (
                         <span className={s.text}>{restProps.children}</span>
                     </>
                     :
-                    <img src={iconPlace} alt="картинка" className={s.icon}/>
+                    <img src={iconPlace} alt="картинка" style={imgStyle} className={imgStyle ? "" : s.icon}/>
+                    // <img src={iconPlace} alt="картинка" style={imgStyle}/>
                 )
                 : restProps.children
             }

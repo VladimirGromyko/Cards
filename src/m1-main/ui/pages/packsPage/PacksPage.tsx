@@ -102,10 +102,10 @@ export const PacksPage = () => {
 //-------------
 
 // Block for Delete pack
-    const deletePackList = useCallback((packName: string, packId: string) => {
+    const deletePackList = useCallback((packId: string) => {
         debugger
-        console.log("packName: ", packName, "  packId:", packId)
-        // dispatch(deletePackTC( {params: {id: packId}}))
+        console.log("packId:", packId)
+        dispatch(deletePackTC( {params: {id: packId}}))
         // dispatch(pickDeletePackAC(packName, packId))
         // dispatch(showDeletePackAC(true))
     }, [dispatch])

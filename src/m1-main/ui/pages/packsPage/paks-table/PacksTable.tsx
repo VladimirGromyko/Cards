@@ -1,6 +1,8 @@
-import React from "react";
-import { PacksGetResponseDataType } from "../../../../dal/packs-api";
+import React, {useCallback, useState} from "react";
+import {CardPacksType, PacksGetResponseDataType} from "../../../../dal/packs-api";
 import { PackItem } from "./PackItem";
+import Modal from "../../../common/modal/Modal";
+import {DeletePackModal} from "../packs-modals/DeletePackModal";
 // import {PackItem} from "./PackItem";
 // import {PacksGetResponseDataType} from "../../../../m3-dal/packs-api";
 // import l from "../../../common/c7-Loading/loader07.module.css";
@@ -13,7 +15,7 @@ import { PackItem } from "./PackItem";
 
 type PacksTableType = {
     // deletePack: (packName: string, pack: string) => void
-    deletePackList: (packName: string, packId: string) => void
+    deletePackList: (packId: string) => void
     // showDeletePack: (value: boolean) => void
     // deletePackId: string
     // deletePackName: string
@@ -31,7 +33,7 @@ type PacksTableType = {
     // onPageChanged: (pageNumber: number) => void
     // changePackListSize: (pageCount: number, page: number) => void
 }
-
+export type ActionPackType = "none" | "delete" | "edit" | "learn"
 
 export const PacksTable = ({
                                // deletePack,
@@ -49,7 +51,37 @@ export const PacksTable = ({
     //     debugger
     //     console.log(e)
     // }
+    // const [showDeletePackModal, setShowDeletePackModal] = useState<boolean>(false);
+    // const [showEditPackModal, setShowEditPackModal] = useState<boolean>(false);
+    // const [showLearnPackModal, setShowLearnPackModal] = useState<boolean>(false);
+    const initialCurrentPack: CardPacksType = {user_id: "", name: "", _id: "", cardsCount: 0, user_name: "", created: "", updated: ""}
+    const [modalType, setModalType] = useState<ActionPackType>("none");
+    const [currentPack, setCurrentPack] = useState<CardPacksType>(initialCurrentPack);
 
+    const [show, setShow] = useState<boolean>(false);
+
+    const selectedPackAction = (pack: CardPacksType, type: ActionPackType) => {
+        debugger
+        setModalType(type)
+        setShow(true)
+        setCurrentPack(pack)
+        // switch (type) {
+        //     case "delete":
+        //         setShowDeletePackModal(true)
+        //         break;
+        //     case "edit":
+        //         setShowEditPackModal(true)
+        //         break;
+        //     case "learn":
+        //         setShowLearnPackModal(true)
+        //         break;
+        // }
+    }
+    const backgroundOnClick = () => {
+        debugger
+        setShow(false)
+        setModalType("none")
+    }
     // const [scroll, setScroll] = useState(0);
     // const onScroll = useCallback(() => setScroll(Math.round(window.scrollY)), []);
     // useEffect(() => {
@@ -89,6 +121,21 @@ export const PacksTable = ({
             {/*    isLoading={isLoading}*/}
             {/*    isShownPack={isShownDeletePack}*/}
             {/*/>*/}
+            <Modal width={500}
+                   height={300}
+                   show={show}
+                   enableBackground={true}
+                   backgroundOnClick={backgroundOnClick}
+                   modalStyle={{
+                       backgroundColor: '#FFFFFF',
+                       width: '395px',
+                       height: 'auto',
+                       borderRadius: '2px'
+                   }}
+            >
+                <DeletePackModal deletePack={deletePackList} pack={currentPack} setShow={setShow} setModalType={setModalType}/>
+
+            </Modal>
 
             <>
 
@@ -97,6 +144,7 @@ export const PacksTable = ({
 
                             <PackItem key={pack._id}
                                       deletePackList={deletePackList}
+                                      selectedPackAction={selectedPackAction}
                                       // editPackList={editPackList}
                                       // learnPack={learnPack}
                                       pack={pack}

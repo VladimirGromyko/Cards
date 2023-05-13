@@ -5,12 +5,27 @@
     height: 36px;
 }
 .textField {
-    /*text-align: left;*/
     display: flex;
     font-weight: 600;
     font-size: 14px;
     color: #737171;
-    /*position: relative;*/
-    /*left: 85px;*/
     padding-left: 30px;
+}
+.delHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 2px solid #e8e8e8;
+    font-size: 18px;
+    font-weight: 500;
+}
+.delButtons{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 24px;
+}
+.delPackBody{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 24px;
 }
