@@ -41,8 +41,6 @@
 .superInput::placeholder {
     color: #212529;
     opacity: 0.4;
-    /*transition: width 0.9s ease-in-out;*/
-    /*margin-bottom: 7px;*/
 }
 
 .superInput:focus {
@@ -74,7 +72,6 @@
     width: 20%;
 }
 
-
 .errorInput {
     /*border: 3px solid red;*/
     box-shadow: 0 0 0 0.15rem rgba(255, 0, 0, 0.9);
@@ -82,4 +79,25 @@
 
 .error {
     color: red;
+}
+.inOneLine{
+    border: none;
+    border-bottom: 2px solid #dcdcdc;
+    border-radius: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #585858;
+    padding: 5px 30px 5px 15px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.inOneLine:focus {
+    border-bottom-color: #b9b9b9;
+    outline: 0;
+    box-shadow: 0 1px 0 0 #b9b9b9;
+}
+.inOneLine::placeholder {
+    color: #212529;
+    opacity: 0.4;
+    font-weight: 500;
 }

@@ -1,8 +1,9 @@
 
 import React, {useCallback, useEffect, useState} from "react";
+import {useNavigate} from 'react-router-dom'
 import cps from "./PacksPage.module.css"
 import Waiting from "../error-page/Waiting";
-import {addPacksTC, deletePackTC, initialPacksState, setPacksDataTC} from "../../../bll/packsReducer";
+import {addPacksTC, deletePackTC, editPackTC, initialPacksState, setPacksDataTC} from "../../../bll/packsReducer";
 import { useAppDispatch, useAppSelector } from "../../../bll/hooks";
 import { PacksTable } from "./paks-table/PacksTable";
 import { HeaderPacks } from "./header-packs/HeaderPacks";
@@ -11,6 +12,7 @@ import Paginator from "../../common/pagination/Paginator";
 import {PackListSize} from "../../common/pack-list-size/PackListSize";
 import ModalContainer from "../../common/modal/ModalContainer";
 import {AddPackModal} from "./packs-modals/AddPackModal";
+import {PATH} from "../../../navigation/Paths";
 
 // import {
 //     addPacksTC, deletePackTC,
@@ -61,7 +63,7 @@ export const PacksPage = () => {
 
 
     const dispatch = useAppDispatch()
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const isLoggedIn = useAppSelector((state) => state.auth.meStatusResponse);
     const authorId = useAppSelector(state => state.packs.packsData.authorId)
     // const [search, setSearch] = useState('')
@@ -77,14 +79,16 @@ export const PacksPage = () => {
     //     },
     //     [debouncedValue]
     // );
-    debugger
     useEffect(() => {
-        debugger
         if (isLoggedIn === 'done' && step) {
             step = false
             const params = JSON.parse(JSON.stringify(initialPacksState))
             if (params && params.packsData && authorId) params.packsData.authorId = authorId
             dispatch(setPacksDataTC({params}))
+        } else if (isLoggedIn !== 'done') {
+            step = true
+            alert('Waiting for the job was too long! Reauthorization required.')
+            navigate(PATH.LOGIN)
         }
     }, [dispatch, isLoggedIn] )
 
@@ -92,52 +96,27 @@ export const PacksPage = () => {
 // Block for Add pack
     const [showAddPacksModal, setShowAddPacksModal] = useState<boolean>(false);
     const addPack = useCallback((pack: {name: string, privateStatus: boolean}) => {
-        debugger
         dispatch(addPacksTC({cardsPack: {name: pack.name, private: pack.privateStatus}}))
     }, [dispatch,])
-
-    // const showAddPack = (value: boolean) => {
-    //     dispatch(showAddPackAC(value))
-    // }
 //-------------
 
 // Block for Delete pack
     const deletePackList = useCallback((packId: string) => {
-        debugger
-        console.log("packId:", packId)
         dispatch(deletePackTC( {params: {id: packId}}))
-        // dispatch(pickDeletePackAC(packName, packId))
-        // dispatch(showDeletePackAC(true))
     }, [dispatch])
-//
-//     const deletePack = useCallback((packName: string, packId: string) => {
-//         dispatch(deletePackTC({params: {id: packId}}))
-//     }, [dispatch])
-//
-//     const showDeletePack = useCallback((value: boolean) => {
-//         dispatch(showDeletePackAC(value))
-//     },[dispatch])
 //-------------
 
 // Block for Edit pack
-//     const editPackList = useCallback((packName: string, packId: string) => {
-//         dispatch(pickEditPackAC(packName, packId))
-//         dispatch(showEditPackAC(true))
-//     }, [dispatch])
-//
-//     const editPack = useCallback((packId: string, namePack: string) => {
-//         dispatch(editPackTC({cardsPack: {_id: packId, name: namePack}}))
-//     }, [dispatch])
-//
-//     const showEditPack = useCallback((value: boolean) => {
-//         dispatch(showEditPackAC(value))
-//     }, [dispatch])
+    const editPackList = useCallback((packName: string, privateStatus:boolean, packId: string) => {
+        dispatch(editPackTC({cardsPack: {_id: packId, name: packName, private: privateStatus}}))
+    }, [dispatch])
 //-------------
 
-    // const learnPack = useCallback((packId: string) => {
+    const learnPack = useCallback((packId: string) => {
+    debugger
     //     // navigate('/packs/' + packId)
     //     navigate('/main/packs-learn/'+ packId)
-    // }, [navigate])
+    }, [])
 
     const onPageChanged = (page: number) => {
         dispatch(setPacksDataTC({params: {page}}))
@@ -154,7 +133,6 @@ export const PacksPage = () => {
     // if (!isLoggedIn) {
     //     navigate(PATH.LOGIN)
     // }
-    debugger
     return (
         <div className={cps.wrapper}>
 
@@ -169,7 +147,6 @@ export const PacksPage = () => {
                     <span className={cps.headerBlock}>
                          <h3>Packs list</h3>
                          <ModalContainer
-                             // realize={addPack}
                              title={"Add new pack"}
                              buttonStyle={{
                                  color: "white",
@@ -185,14 +162,8 @@ export const PacksPage = () => {
                                  height: 'auto',
                                  borderRadius: '2px'
                              }}
-                             // addPack={addPack}
-                             // showPack={showAddPack}
-                             // isLoading={isLoading}
-                             // isShownPack={isShownAddPack}
                          >
                             <AddPackModal
-                                packId={'123'}
-                                show={showAddPacksModal}
                                 setShow={setShowAddPacksModal}
                                 addPack={addPack}
                             />
@@ -212,11 +183,11 @@ export const PacksPage = () => {
                             // deletePackId={pickedDeletePack.packId}
                             // deletePackName={pickedDeletePack.packName}
                             // editPack={editPack}
-                            // editPackList={editPackList}
+                            editPackList={editPackList}
                             // showEditPack={showEditPack}
                             // editPackId={pickedEditPack.packId}
                             // editPackName={pickedEditPack.packName}
-                            // learnPack={learnPack}
+                            learnPack={learnPack}
                             packs={packs}
                             // isLoading={isLoading}
                             // isShownEditPack={isShownEditPack}

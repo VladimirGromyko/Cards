@@ -1,24 +1,15 @@
-import React, {ChangeEvent, useState} from "react";
-import {useDispatch} from "react-redux";
+import React, {ChangeEvent, useCallback, useState} from "react";
 import SuperButton from "../../../common/button/SuperButton";
 import SuperInputText from "../../../common/input/SuperInputText";
 import s from "./PacksModal.module.css";
 import SuperCheckbox from "../../../common/сheckbox/SuperCheckbox";
 
-// import {addCardTC} from "../../n1-main/m2-bll/cardsReducer1";
-// import SuperButton from "../../n1-main/m1-ui/common/c1-SuperButton/SuperButton";
-// import SuperInputText from "../../n1-main/m1-ui/common/c2-SuperInput/SuperInputText";
-// import {Modal} from "./Modal";
-
 type AddPackModalPropsType = {
-    show: boolean
     setShow: (value:boolean)=>void
-    packId: string | undefined
     addPack: (pack: {name: string, privateStatus: boolean}) => void
 }
 
-export const AddPackModal = ({packId, show, setShow, addPack}: AddPackModalPropsType) => {
-// export const AddCardModal = ({show, setShow , packId}: AddCardModalPropsType) => {
+export const AddPackModal = ({setShow, addPack}: AddPackModalPropsType) => {
     const [name, setPackName] = useState('')
     const [privateStatus, setPrivate] = useState<boolean>(false)
     // const [answer, setAnswer] = useState('')
@@ -27,32 +18,41 @@ export const AddPackModal = ({packId, show, setShow, addPack}: AddPackModalProps
 
     const onClickAddCards = () => {
         debugger
-        console.log(name)
-        if (packId) {
-            // dispatch(addCardTC({packId, quest, answer}))
+        if (name) {
             setShow(false)
             addPack({name, privateStatus})
-            // setQuest('')
-            // setAnswer('')
         }
     }
-
     const onInputName = (e: ChangeEvent<HTMLInputElement>) => {
         debugger
-        setPackName(e.currentTarget.value)
+        setPackName(e.currentTarget.value.trim())
     }
+    const OnCancelClick = useCallback(() => {
+        setShow(false)
+    }, [setShow])
     const onAnswerInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         // setAnswer(e.currentTarget.value)
     }
 
     return (
         <>
-                <h2>Add new pack</h2>
+            <div className={s.delHeader}>
+                <div>Add new pack</div>
+                <SuperButton icon="close"
+                             style={{borderWidth: 0}}
+                             onClick={OnCancelClick}
+                             imgStyle={{width: "15px", height: "15px"}}
+                >Close
+                </SuperButton>
+            </div>
+            <div className={s.delPackBody}>
                 <div className={s.textField}>Name pack</div>
-                <div style={{margin:'10px'}}> <SuperInputText type='text' onChange={onInputName}/></div>
+                    <SuperInputText type='text' placeholder='Name Pack' className={'inOneLine'} onChange={onInputName}/>
                 <div className={s.textField}>
                     <SuperCheckbox onChangeChecked={setPrivate}>Private pack</SuperCheckbox>
                 </div>
+            </div>
+
                 <div className={s.buttonsBlock}>
                     <SuperButton
                         onClick={() => setShow(false)}

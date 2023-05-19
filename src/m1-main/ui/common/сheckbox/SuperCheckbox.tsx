@@ -14,7 +14,7 @@ const SuperCheckbox: React.FC<SuperCheckboxPropsType> = (
         onChange, onChangeChecked,
         className, spanClassName,
         children,
-
+        defaultChecked,
         ...restProps
     }
 ) => {
@@ -31,7 +31,7 @@ const SuperCheckbox: React.FC<SuperCheckboxPropsType> = (
                 type={'checkbox'}
                 onChange={onChangeCallback}
                 className={finalInputClassName}
-
+                defaultChecked={defaultChecked}
                 {...restProps}
             />
             {children && <span className={s.spanClassName}>{children}</span>}

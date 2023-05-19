@@ -1,4 +1,4 @@
-import React, {CSSProperties, ReactElement} from 'react';
+import React, {CSSProperties, ReactNode} from 'react';
 
 interface IModal {
     enableBackground?: boolean;
@@ -11,7 +11,7 @@ interface IModal {
     // modalOnClick?: () => void;
 
     show: boolean
-    children: ReactElement
+    children: ReactNode
 }
 
 const Modal: React.FC<IModal> = (
@@ -33,7 +33,7 @@ const Modal: React.FC<IModal> = (
     }
 ) => {
     const top = `calc(50vh - ${height / 2}px)`;
-    const left = `calc(47vw - ${width / 2}px)`;
+    const left = `calc(50vw - ${width / 2}px)`;
     if (!show) return null;
 
     return (

@@ -49,8 +49,6 @@ let Paginator = ({
     const getRight = currentPage === portionCount
     const getLeft = currentPage === 1
 
-    debugger
-
     useEffect(() => {
         if (currentPage === portionCount) {
             setPortionNumber(Math.ceil(currentPage / portionSize))

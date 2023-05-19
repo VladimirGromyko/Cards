@@ -3,6 +3,7 @@ import {CardPacksType, PacksGetResponseDataType} from "../../../../dal/packs-api
 import { PackItem } from "./PackItem";
 import Modal from "../../../common/modal/Modal";
 import {DeletePackModal} from "../packs-modals/DeletePackModal";
+import EditPackModal from "../packs-modals/EditPackModal";
 // import {PackItem} from "./PackItem";
 // import {PacksGetResponseDataType} from "../../../../m3-dal/packs-api";
 // import l from "../../../common/c7-Loading/loader07.module.css";
@@ -20,11 +21,11 @@ type PacksTableType = {
     // deletePackId: string
     // deletePackName: string
     // editPack: (packId: string, namePack: string) => void
-    // editPackList: (packName: string, packId: string) => void
+    editPackList: (packName: string, privateStatus:boolean, packId: string) => void
     // showEditPack: (value: boolean) => void
     // editPackId: string
     // editPackName: string
-    // learnPack: (packId: string) => void
+    learnPack: (packId: string) => void
     packs: PacksGetResponseDataType
     // isLoading: LoadingStatusType
     // isShownEditPack: boolean
@@ -40,8 +41,9 @@ export const PacksTable = ({
                                deletePackList,
                                // showDeletePack,
                                // deletePackId,
-                               // deletePackName, editPack, editPackList, showEditPack,
-                               // editPackId, editPackName, learnPack,
+                               // deletePackName, editPack,
+                               editPackList,
+                               learnPack,
                                packs,
                                // isLoading,
                                // isShownEditPack, isShownDeletePack,
@@ -54,31 +56,23 @@ export const PacksTable = ({
     // const [showDeletePackModal, setShowDeletePackModal] = useState<boolean>(false);
     // const [showEditPackModal, setShowEditPackModal] = useState<boolean>(false);
     // const [showLearnPackModal, setShowLearnPackModal] = useState<boolean>(false);
-    const initialCurrentPack: CardPacksType = {user_id: "", name: "", _id: "", cardsCount: 0, user_name: "", created: "", updated: ""}
+    const initialCurrentPack: CardPacksType = {
+        user_id: "", name: "", _id: "", cardsCount: 0, user_name: "", created: "", updated: "",
+        private: false, rating: 0, shots: 0, type: ""
+    }
     const [modalType, setModalType] = useState<ActionPackType>("none");
     const [currentPack, setCurrentPack] = useState<CardPacksType>(initialCurrentPack);
 
     const [show, setShow] = useState<boolean>(false);
 
     const selectedPackAction = (pack: CardPacksType, type: ActionPackType) => {
-        debugger
         setModalType(type)
-        setShow(true)
-        setCurrentPack(pack)
-        // switch (type) {
-        //     case "delete":
-        //         setShowDeletePackModal(true)
-        //         break;
-        //     case "edit":
-        //         setShowEditPackModal(true)
-        //         break;
-        //     case "learn":
-        //         setShowLearnPackModal(true)
-        //         break;
-        // }
+        if (type !== "none") {
+            setShow(true)
+            setCurrentPack(pack)
+        }
     }
     const backgroundOnClick = () => {
-        debugger
         setShow(false)
         setModalType("none")
     }
@@ -133,12 +127,19 @@ export const PacksTable = ({
                        borderRadius: '2px'
                    }}
             >
-                <DeletePackModal deletePack={deletePackList} pack={currentPack} setShow={setShow} setModalType={setModalType}/>
-
+                <>
+                    <DeletePackModal deletePack={deletePackList} pack={currentPack}
+                                     setShow={setShow} setModalType={setModalType}
+                                     modalType={modalType}
+                    />
+                    <EditPackModal editPack={editPackList} pack={currentPack}
+                                   setShow={setShow} setModalType={setModalType}
+                                   modalType={modalType}
+                    />
+                </>
             </Modal>
 
             <>
-
                 {packs?.cardPacks && packs.cardPacks.map((pack) => {
                         return (
 

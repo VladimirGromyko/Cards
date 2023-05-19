@@ -93,8 +93,8 @@ const ModalContainer: React.FC<ModalContainerType> = (
                 // // backgroundOnClick={() => setShow(false)}
                 //
                 modalStyle={modalStyle}
-                width={300}
-                height={500}
+                width={500}
+                height={300}
             >
                 {children}
                 {/*{children ? children : 'question Modal'}*/}

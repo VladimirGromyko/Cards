@@ -7,25 +7,24 @@ import {ActionPackType} from "../paks-table/PacksTable";
 type DeletePackModalType = {
     deletePack: (packId: string) => void
     pack: CardPacksType
+    modalType: ActionPackType;
     setShow: (value: boolean) => void
     setModalType: (value: ActionPackType) => void
 }
-export const DeletePackModal = ({deletePack, pack, setShow, setModalType}: DeletePackModalType) => {
+export const DeletePackModal = ({deletePack, pack, modalType, setShow, setModalType}: DeletePackModalType) => {
 
     const onDeleteClick = useCallback(() => {
-        debugger
-        console.log(pack)
         deletePack(pack._id)
         setShow(false)
         setModalType("none")
-    }, [deletePack])
+    }, [deletePack, setShow, setModalType])
 
     const OnCancelClick = useCallback(() => {
         setShow(false)
     }, [setShow])
-
+    if (modalType !== "delete") return (<></>)
     return (
-        <div >
+        <div>
             <div className={s.delHeader}>
                 <div>Delete Pack</div>
                 <SuperButton icon="close"

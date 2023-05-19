@@ -25,13 +25,8 @@ export const PackItem = ({
                              // learnPack,
                              selectedPackAction,
                              pack}: TableItemPropsType) => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const user_id = useAppSelector(state => state.auth.meStatus?._id)
-    // const packNameLength = pack.name.length
-    // if (packNameLength) {}
-    const onDeletePressHandler = useCallback(() => {
-        deletePackList(pack._id)
-    }, [deletePackList, pack._id])
     const onPressHandler = useCallback((type: ActionPackType) => {
         selectedPackAction(pack, type)
     }, [selectedPackAction, pack])
@@ -58,17 +53,15 @@ export const PackItem = ({
             <div className={packsStyle.item}>{pack.cardsCount}</div>
             <div className={packsStyle.item}>{changeDateView(pack.created)}</div>
             <div className={packsStyle.item}>{pack.user_name}</div>
-            <div className={packsStyle.itemAction}>
-                <SuperButton
-                    // onClick={onLearnPressHandler}
+            <div className={pack.user_id === user_id ? packsStyle.itemAction : packsStyle.itemShortAction}>
+                <SuperButton onClick={() => onPressHandler("learn")}
                              icon="learn"
                              style={{borderWidth: 0}}
-                >
-                    Learn
+                >Learn
                 </SuperButton>
                 {pack.user_id === user_id &&
                     (<SuperButton
-                    // onClick={onEditPressHandler}
+                        onClick={() => onPressHandler("edit")}
                         icon="edit"
                         style={{borderWidth: 0}}
                      >Edit
@@ -78,7 +71,6 @@ export const PackItem = ({
                     (<SuperButton icon="delete"
                              style={{borderWidth: 0}}
                              onClick={() => onPressHandler("delete")}
-                             // onClick={onDeletePressHandler}
                     >Delete
                     </SuperButton>)
                 }

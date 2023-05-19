@@ -6,95 +6,72 @@ import {setPacksDataTC} from '../../../../bll/packsReducer'
 import SuperSorting from "../../../common/sorting/SuperSorting";
 
 export type triangleViewType = 'none' | 'up' | 'down'
+type HeadingsElementType = {
+    headings: string,
+    sortField: SortPackNameType
+    arrow: triangleViewType
+}
+export type FieldType = {
+    field: SortPackNameType, arrow: triangleViewType
+}
+type ColumnHeadingsType = HeadingsElementType[]
 export const HeaderPacks = () => {
     const dispatch = useAppDispatch()
     const sort = useAppSelector(state => state.packs.sortPacks)
     const [isSorting, setIsSorting] = useState(false)
-    const [showSortDated, setShowSortDated] = useState<triangleViewType>("none")
-    const [showSortName, setShowSortName] = useState<triangleViewType>("none")
-    const [showSortCards, setShowSortCards] = useState<triangleViewType>("none")
-    const [showSortAuthor, setShowSortAuthor] = useState<triangleViewType>("none")
+    const initialColumnHeadings: ColumnHeadingsType = [
+        {headings: "Name", sortField: "name", arrow: "none"},
+        {headings: "Cards", sortField: "cardsCount", arrow: "none"},
+        {headings: "Last Updated", sortField: "updated", arrow: "none"},
+        {headings: "Created by", sortField: "user_name", arrow: "none"},
+        {headings: "Actions", sortField: "actions", arrow: "none"}]
 
-    const sortingPack = (sortPackName: SortPackNameType) => {
-        let sortPacks
-        if (!isSorting) {
-            sortPacks = `0${sortPackName}`
+    const [columnHeadings, setColumnHeadings] = useState<ColumnHeadingsType>(initialColumnHeadings)
+    const sortingPack = async (sortPackName: SortPackNameType) => {
+        if (sortPackName !== "actions" && sortPackName !== "none") {
+            const sortPacks = isSorting ? `1${sortPackName}` : `0${sortPackName}`
+            setIsSorting(!isSorting)
+            await dispatch(setPacksDataTC({params: {sortPacks}}))
+            sortingOver("", sortPackName)
         }
-        if (isSorting) {
-            sortPacks = `1${sortPackName}`
-        }
-        setIsSorting(!isSorting)
-        dispatch(setPacksDataTC({params: {sortPacks}}))
     }
-    const checkArrow = (sortPackName: SortPackNameType) => {
+    const checkArrow = (sortPackName: SortPackNameType, event: "click" | "mouse") => {
         let arrow: triangleViewType = 'down'
         if (sort?.includes(sortPackName) && sort.includes('0')) {
-            arrow = "up"
+            arrow = event === "mouse" ? "up" : "down"
         } else if (sort?.includes(sortPackName) && sort.includes('1')) {
-            arrow = "down"
+            arrow = event === "click" ? "up" : "down"
         }
         return arrow
     }
-    const sortingOver = (e: React.MouseEvent<HTMLDivElement>, sortPackName: SortPackNameType) => {
+    const sortingOver = (e: React.MouseEvent<HTMLDivElement> | string, sortPackName: SortPackNameType) => {
         let arrow: triangleViewType = 'none'
-        if (e.type === 'mouseover') {
-            arrow = checkArrow(sortPackName)
+        if (typeof e === "string" || e.type === 'mouseover') {
+            const event = typeof e === "string" ? "click" : "mouse"
+            arrow = checkArrow(sortPackName, event)
         }
-        switch (sortPackName) {
-            case 'name':
-                setShowSortName(arrow)
-                break
-            case 'cardsCount':
-                setShowSortCards(arrow)
-                break
-            case 'updated':
-                setShowSortDated(arrow)
-                break
-            case 'user_name':
-                setShowSortAuthor(arrow)
-                break
+        if ((sortPackName !== "actions") && (sortPackName !== "none")) {
+            const newColumnHeadings = columnHeadings.map((el) => {
+                if (el.sortField === sortPackName ) {
+                    el.arrow = arrow
+                }
+                return el
+            })
+            setColumnHeadings(newColumnHeadings)
         }
     }
-    useEffect(() => {
-        if (sort) {
-            showSortName !== 'none' && setShowSortName("none")
-            showSortDated !== 'none' && setShowSortDated("none")
-            showSortCards !== 'none' && setShowSortCards("none")
-            showSortAuthor !== 'none' && setShowSortAuthor("none")
-        }
-    },[sort])
-
     return (
             <div className={s.wrapper_header} >
-                <div className={s.header_tableItem}
-                     onClick={() => sortingPack('name')}
-                     onMouseOver={(e) => sortingOver(e, 'name')}
-                     onMouseLeave={(e) => sortingOver(e, 'name')}
-                >Name
-                    <SuperSorting sort={sort} sorting={'name'} show={showSortName}/>
-                </div>
-                <div className={s.header_tableItem}
-                     onClick={() => sortingPack('cardsCount')}
-                     onMouseOver={(e) => sortingOver(e, 'cardsCount')}
-                     onMouseLeave={(e) => sortingOver(e,'cardsCount')}
-                >Cards
-                    <SuperSorting sort={sort} sorting={'cardsCount'} show={showSortCards}/>
-                </div>
-                <div className={s.header_tableItem}
-                     onClick={() => sortingPack('updated')}
-                     onMouseOver={(e) => sortingOver(e, 'updated')}
-                     onMouseLeave={(e) => sortingOver(e,'updated')}
-                >Last Updated
-                    <SuperSorting sort={sort} sorting={'updated'} show={showSortDated}/>
-                </div>
-                <div className={s.header_tableItem}
-                     onClick={() => sortingPack('user_name')}
-                     onMouseOver={(e) => sortingOver(e, 'user_name')}
-                     onMouseLeave={(e) => sortingOver(e,'user_name')}
-                >Created by
-                    <SuperSorting sort={sort} sorting={'user_name'} show={showSortAuthor}/>
-                </div>
-                <div className={s.header_tableItem}>Actions</div>
+                {columnHeadings.map((el) => {
+                    return (
+                        <div className={s.header_tableItem}
+                             onMouseOver={(e) => sortingOver(e, el.sortField)}
+                             onMouseLeave={(e) => sortingOver(e, el.sortField)}
+                        >{el.headings}
+                            <SuperSorting sort={sort} sorting={el.sortField} show={el.arrow} handleClick={() => sortingPack(el.sortField)}/>
+                        </div>
+                    )
+                })}
             </div>
     )
 }

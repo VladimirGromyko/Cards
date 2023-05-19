@@ -9,7 +9,7 @@
     font-weight: 600;
     font-size: 14px;
     color: #737171;
-    padding-left: 30px;
+    padding: 0 0 5px 0;
 }
 .delHeader {
     display: flex;
@@ -18,14 +18,20 @@
     border-bottom: 2px solid #e8e8e8;
     font-size: 18px;
     font-weight: 500;
+    align-items: end;
 }
 .delButtons{
     display: flex;
     justify-content: space-between;
     padding: 20px 24px;
+    height: 36px;
 }
 .delPackBody{
     display: flex;
     flex-direction: column;
     padding: 20px 24px;
+}
+.input{
+    background: transparent;
+    border-bottom: 1px solid;
 }

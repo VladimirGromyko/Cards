@@ -9,8 +9,6 @@ const Slider = () => {
     const maxRX = useAppSelector((state) => state.packs.max)
     const minRX = useAppSelector((state) => state.packs.min)
 
-debugger
-
     const dispatch = useAppDispatch()
 
     const [value, setValue] = useState<[number, number]>([0, 100])
