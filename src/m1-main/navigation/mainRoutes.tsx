@@ -10,18 +10,18 @@ import {PATH} from "./Paths";
 // import CardsPage from '../pages/MainPage/PackList/Cards/CardsPage';
 // import Registration from "../pages/p1-registration/Registration";
 import LoginPage from "../ui/pages/login-page/LoginPage";
-import {PacksPage} from "../ui/pages/packsPage/PacksPage";
+import {PacksPage} from "../ui/pages/packs-pages/PacksPage";
 import Waiting from "../ui/pages/error-page/Waiting";
 import Registration from "../ui/pages/registration/Registration";
 import PasswordRecoveryPage from "../ui/pages/pass-recovery/PasswordRecoveryPage";
 import ChangePasswordPage from "../ui/pages/pass-recovery/ChangePasswordPage";
 import {ProfilePage} from "../ui/pages/profile/ProfilePage";
+import CardsPage from "../ui/pages/cards-pages/CardsPage";
 // import {ProfilePacksPage} from "../pages/MainPage/PackList/ProfilePacksPage";
 // import { LearnPage } from '../pages/learn/LearnPage';
 
 
 const MainRoutes = () => {
-
     return (
         <div>
             <Routes>
@@ -36,7 +36,7 @@ const MainRoutes = () => {
                 <Route path={PATH.CHANGE_PASSWORD} element={<ChangePasswordPage/>}/>
                 <Route path={PATH.PASSWORD_RECOVERY} element={<PasswordRecoveryPage/>}/>
                 <Route path={PATH.PACKS} element={<PacksPage/>}/>
-                {/*<Route path={PATH.CARDS} element={<h2 style={{textAlign: "center"}}><CardsPage/></h2>}/>*/}
+                <Route path={PATH.CARDS} element={<CardsPage/>}/>
                 {/*<Route path={PATH.PACK_LIST_LEARN} element={<h2 style={{textAlign: "center"}}><LearnPage/></h2>}/>*/}
                 <Route path={PATH.WAITING} element={<Waiting />}/>
                 <Route path={'/404'} element={<h2 style={{textAlign: "center"}}><Error404/></h2>}/>

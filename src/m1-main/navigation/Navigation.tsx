@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom'
 import s from './navigation.module.css'
 import {useAppDispatch, useAppSelector} from "../bll/hooks";
 import {PATH} from "./Paths";
-import {authActions, logoutUserTC} from "../bll/authReducer";
+import {authActions, getAuthUserTC, logoutUserTC} from "../bll/authReducer";
 import Waiting from "../ui/pages/error-page/Waiting";
 import SuperButton from "../ui/common/button/SuperButton";
 import {initialPacksState, setPacksDataTC} from "../bll/packsReducer";
@@ -32,6 +32,8 @@ function Navigation() {
                     navigate(PATH.PASSWORD_RECOVERY)
                     break
                 case 'none':
+                    // dispatch(getAuthUserTC())
+                    break
                 case 'work':
                     break
             }
@@ -88,9 +90,7 @@ function Navigation() {
                     {(isLoggedIn === "done" || isLoggedIn === "work")
                         ? <>
                             <div className={s.profile}
-                                 // onPointerEnter={() => setMenuProfile(true)}
                                  onMouseOver={() => setMenuProfile(true)}
-                                 onClick={() => setMenuProfile(!menuProfile)}
                                  onMouseLeave={() => setMenuProfile(false)}
                             >Menu profile
                                 <div className={showMenu}>

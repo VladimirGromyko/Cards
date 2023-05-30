@@ -11,15 +11,10 @@ export type PaginatorPropsType = {
 }
 
 let paginatorSpan = (currentPage: number, selectedPage: number, onPageChanged: (page: number) => void) => {
-    const onclickHandler = (e: React.MouseEvent<HTMLSpanElement>, sel: number) => {
-        return onPageChanged(sel)
-    }
     return <span
         className={cn({[styles.selectedPage]: currentPage === selectedPage}, styles.pageNumber)}
         key={selectedPage}
-        onClick={(e) => {
-            onclickHandler(e, selectedPage)
-        }}>
+        onClick={(e) => onPageChanged(selectedPage)}>
         {selectedPage}
     </span>
 
@@ -49,6 +44,7 @@ let Paginator = ({
     const getRight = currentPage === portionCount
     const getLeft = currentPage === 1
 
+
     useEffect(() => {
         if (currentPage === portionCount) {
             setPortionNumber(Math.ceil(currentPage / portionSize))
@@ -58,15 +54,23 @@ let Paginator = ({
         }
     }, [getRight, getLeft, portionSize])
 
-    useEffect(() => {
-        const prevPortionNumber = Math.ceil(currentPage / portionSize)
-        currentPage !== portionCount && onPageChanged(leftPortionPageNumber)
-        currentPage === portionCount && (prevPortionNumber !== portionNumber) && onPageChanged(leftPortionPageNumber)
-    }, [leftPortionPageNumber, portionNumber])
+    // useEffect(() => {
+    //     debugger
+    //     const prevPortionNumber = Math.ceil(currentPage / portionSize)
+    //     currentPage !== portionCount && onPageChanged(leftPortionPageNumber)
+    //     currentPage === portionCount && (prevPortionNumber !== portionNumber) && onPageChanged(leftPortionPageNumber)
+    // }, [leftPortionPageNumber, portionNumber])
+
+    const changePortion = (portion: number) => {
+        debugger
+        setPortionNumber(portion)
+        onPageChanged(((portion-1)*portionSize+1))
+    }
 
     return (
         <div className={styles.paginator}>
-            {portionNumber > 1 && <span onClick={() => setPortionNumber(portionNumber - 1)}
+            {/*{portionNumber > 1 && <span onClick={() => setPortionNumber(portionNumber - 1)}*/}
+            {portionNumber > 1 && <span onClick={() => changePortion(portionNumber - 1)}
                                         className={styles.arrow}>{'<'}</span>}
             {portionNumber > 1 && (
                 <>{paginatorSpan(currentPage, 1, onPageChanged)}
@@ -83,7 +87,8 @@ let Paginator = ({
                         {'...'}
                         {paginatorSpan(currentPage, portionCount, onPageChanged)}
                     </>
-                    <span onClick={() => setPortionNumber(portionNumber + 1)}
+                    {/*<span onClick={() => setPortionNumber(portionNumber + 1)}*/}
+                    <span onClick={() => changePortion(portionNumber + 1)}
                           className={styles.arrow}>{'>'}</span>
                 </>)
             }

@@ -1,16 +1,16 @@
-.wrapper_header {
-    /*background-color: #e5ecff;*/
-    background-color: #eeeeee;
-    display: grid;
-    grid-template-areas: "1 2 3 4 5";
-    grid-template-columns: 30% 10% 20% 24%;
-    gap: 1%;
-    height: 48px;
-    text-decoration: none;
-    align-self : center;
-    font-weight: 600;
-    align-content: center;
-}
+/*.wrapper_header {*/
+/*    !*background-color: #e5ecff;*!*/
+/*    background-color: #eeeeee;*/
+/*    display: grid;*/
+/*    grid-template-areas: "1 2 3 4 5";*/
+/*    grid-template-columns: 30% 10% 20% 24%;*/
+/*    gap: 1%;*/
+/*    height: 48px;*/
+/*    text-decoration: none;*/
+/*    align-self : center;*/
+/*    font-weight: 600;*/
+/*    align-content: center;*/
+/*}*/
 
 .header_tableItem {
     padding: 6px 0 6px 20px;

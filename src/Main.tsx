@@ -15,7 +15,7 @@ const Main = () => {
     if (isLoggedIn === 'none' && isChangePass === -1 && passwordStatus === 'none') {
         dispatch(getAuthUserTC())
     }
-    },[])
+    },[isLoggedIn])
     // },[dispatch, isLoggedIn, isChangePass, passwordStatus])
 
   return <>

@@ -5,12 +5,15 @@ import loadingReducer, {LoadingStatusType} from "./loadingReducer";
 import packsReducer, { statePacksType } from "./packsReducer";
 import registerReducer, {PasswordStatusType} from "./registerReducer";
 import utilsReducer from "./utilsReducer";
+import cardsReducer from "./cardsReducer";
+import {CardsGetRequestType, CardsGetResponseType} from "../dal/cards-api";
 
 const rootReducer = combineReducers({
     auth: authReducer,
     loading: loadingReducer,
     register: registerReducer,
     packs: packsReducer,
+    cards: cardsReducer,
     main: utilsReducer,
 })
 
@@ -38,6 +41,8 @@ export type AppActionType = MeStatusType
     | statePacksType
     | PacksGetResponseDataType
     | PacksGetRequestType
+    | CardsGetRequestType
+    | CardsGetResponseType
 
     // CardsActionType
     // | RegisterActionType

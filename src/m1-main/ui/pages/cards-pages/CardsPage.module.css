@@ -1,0 +1,60 @@
+.TableWrapper {
+    display: flex;
+    background: #678efe0a;
+}
+.returnBack {
+    display: flex;
+    width: fit-content;
+    margin: 10px 0 10px 0;
+    cursor: pointer;
+}
+.returnBack:hover{
+    fill: var(--input-border-focus);
+    color: var(--input-border-focus);
+}
+.headerBlock{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 3ch;
+    background: #F9F9FE;
+}
+.headerBlock h3{
+    margin: 5px;
+}
+.wrapper{
+    display: flex;
+    justify-content: center;
+}
+.TableWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 1186px;
+    min-width: 846px
+}
+.tableBlock{
+    margin-top: 10px;
+    border: 3px solid #e8e8e8;
+    border-radius: 4px;
+    text-align: left;
+}
+.wrapper_header{
+    background-color: #eeeeee;
+    display: grid;
+    grid-template-areas: "1 2 3 4 5";
+    grid-template-columns: 25% 30% 15% 20%;
+    gap: 1%;
+    height: 48px;
+    text-decoration: none;
+    font-weight: 600;
+    align-content: center;
+}
+.search{
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+}
+.searchCardsHeader{
+    font-weight: 500;
+    padding-bottom: 10px;
+}

@@ -40,9 +40,9 @@ const ModalContainer: React.FC<ModalContainerType> = (
     }) => {
     // const [show, setShow] = [showAddPacksModal, setShowAddPacksModal]
 
-    const [answer, setAnswer] = useState(false);
+    // const [answer, setAnswer] = useState(false);
     const setModalWindow = (val: boolean) => {
-        setAnswer(true);
+        // setAnswer(true);
         // hideAddPack(false)
         // showPack(false)
         // setShow(false);
@@ -52,12 +52,12 @@ const ModalContainer: React.FC<ModalContainerType> = (
     //     debugger
     //     setShow(showAddPacksModal)
     // },[showAddPacksModal])
-    const setFalse = () => {
-        setAnswer(false);
+    // const setFalse = () => {
+    //     setAnswer(false);
         // hideAddPack(false)
         // showPack(false)
         // setShow(false);
-    };
+    // };
     // answer && addPack('My pack for new day')
 
 
@@ -88,18 +88,12 @@ const ModalContainer: React.FC<ModalContainerType> = (
 
                 enableBackground={true}
                 backgroundOnClick={() => setShow(false)}
-                // backgroundOnClick={() => showPack(false)}
-                // // backgroundOnClick={() => hideAddPack(false)}
-                // // backgroundOnClick={() => setShow(false)}
-                //
                 modalStyle={modalStyle}
                 width={500}
                 height={300}
             >
                 {children}
                 {/*{children ? children : 'question Modal'}*/}
-
-                {/*<div>Hello</div>*/}
             {/*    <AddPack addPack={addPack} isLoading={isLoading} setFalse={setFalse}/>*/}
             {/*/!*</ModalQuestion>*!/*/}
             </Modal>

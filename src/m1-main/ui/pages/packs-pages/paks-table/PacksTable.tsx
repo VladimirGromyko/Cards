@@ -26,6 +26,7 @@ type PacksTableType = {
     // editPackId: string
     // editPackName: string
     learnPack: (packId: string) => void
+    viewPack: (packId: string) => void
     packs: PacksGetResponseDataType
     // isLoading: LoadingStatusType
     // isShownEditPack: boolean
@@ -34,28 +35,22 @@ type PacksTableType = {
     // onPageChanged: (pageNumber: number) => void
     // changePackListSize: (pageCount: number, page: number) => void
 }
-export type ActionPackType = "none" | "delete" | "edit" | "learn"
+export type ActionPackType = "none" | "delete" | "edit" | "learn" | "view"
 
 export const PacksTable = ({
-                               // deletePack,
                                deletePackList,
-                               // showDeletePack,
-                               // deletePackId,
-                               // deletePackName, editPack,
                                editPackList,
                                learnPack,
+                               viewPack,
                                packs,
                                // isLoading,
-                               // isShownEditPack, isShownDeletePack,
                                // currentPage, onPageChanged, changePackListSize
                            }: PacksTableType) => {
     // const onScroll = (e:  React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     //     debugger
     //     console.log(e)
     // }
-    // const [showDeletePackModal, setShowDeletePackModal] = useState<boolean>(false);
-    // const [showEditPackModal, setShowEditPackModal] = useState<boolean>(false);
-    // const [showLearnPackModal, setShowLearnPackModal] = useState<boolean>(false);
+
     const initialCurrentPack: CardPacksType = {
         user_id: "", name: "", _id: "", cardsCount: 0, user_name: "", created: "", updated: "",
         private: false, rating: 0, shots: 0, type: ""
@@ -64,12 +59,16 @@ export const PacksTable = ({
     const [currentPack, setCurrentPack] = useState<CardPacksType>(initialCurrentPack);
 
     const [show, setShow] = useState<boolean>(false);
-
+debugger
     const selectedPackAction = (pack: CardPacksType, type: ActionPackType) => {
         setModalType(type)
-        if (type !== "none") {
+        if (type !== "none" && type !== "view") {
             setShow(true)
             setCurrentPack(pack)
+        }
+        if (type === "view") {
+            setCurrentPack(pack)
+            viewPack(pack._id)
         }
     }
     const backgroundOnClick = () => {
@@ -95,26 +94,6 @@ export const PacksTable = ({
             // onMouseUp={(e) => onScroll(e)}
             // onMouseDown={(e) => onScroll(e)}
         >
-
-            {/*{isLoading === "loading" && <div className={l.loader07}></div>}*/}
-
-            {/*<ModalEditContainer*/}
-            {/*    editPack={editPack}*/}
-            {/*    editPackId={editPackId}*/}
-            {/*    editPackName={editPackName}*/}
-            {/*    showPack={showEditPack}*/}
-            {/*    isLoading={isLoading}*/}
-            {/*    isShownPack={isShownEditPack}*/}
-            {/*/>*/}
-
-            {/*<ModalDeleteContainer*/}
-            {/*    deletePack={deletePack}*/}
-            {/*    deletePackId={deletePackId}*/}
-            {/*    deletePackName={deletePackName}*/}
-            {/*    showPack={showDeletePack}*/}
-            {/*    isLoading={isLoading}*/}
-            {/*    isShownPack={isShownDeletePack}*/}
-            {/*/>*/}
             <Modal width={500}
                    height={300}
                    show={show}
@@ -138,35 +117,10 @@ export const PacksTable = ({
                     />
                 </>
             </Modal>
-
             <>
                 {packs?.cardPacks && packs.cardPacks.map((pack) => {
-                        return (
-
-                            <PackItem key={pack._id}
-                                      deletePackList={deletePackList}
-                                      selectedPackAction={selectedPackAction}
-                                      // editPackList={editPackList}
-                                      // learnPack={learnPack}
-                                      pack={pack}
-                            />
-                        )
-                    })
-                }
-                {/*<div className={styles.paginationWrapper}>*/}
-                {/*    <Paginator cardPacksTotalCount={packs.cardPacksTotalCount}*/}
-                {/*               pageCount={packs.pageCount}*/}
-                {/*               currentPage={packs.page}*/}
-                {/*               onPageChanged={onPageChanged}*/}
-                {/*               portionSize={undefined}*/}
-                {/*    />*/}
-                {/*    <PackListSize changePackListSize={changePackListSize}*/}
-                {/*                  pageCount={packs.pageCount}*/}
-                {/*                  currentPage={packs.page}*/}
-                {/*                  onPageChanged={onPageChanged}*/}
-                {/*    />*/}
-                {/*</div>*/}
-
+                    return <PackItem key={pack._id} selectedPackAction={selectedPackAction} pack={pack}/>
+                })}
             </>
         </div>
     )

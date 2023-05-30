@@ -1,4 +1,4 @@
-import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {loadingAC} from "./loadingReducer";
 import {authAPI, RecoverPassRequestType, RegistrationType} from "../dal/auth-api";
 import {AppActionType} from "./store";
@@ -42,21 +42,25 @@ export const {
 } = registerReducer.actions
 export default registerReducer.reducer
 
-export const registrationTC = (payload: RegistrationType) => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
+export const registrationTC = createAsyncThunk("auth/register", (payload: RegistrationType, thunkAPI) => {
+// export const registrationTC = (payload: RegistrationType) => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
     debugger
+    const {dispatch} = thunkAPI
     dispatch(loadingAC('loading'))
     authAPI.registrationUser(payload)
         .then(res => {
-                dispatch(setRegistration(true))
-            }
-        ).catch((e) => {
+            debugger
+            dispatch(setRegistration(true))
+        })
+        .catch((e) => {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
         e.response && e.response.data && dispatch(setErrorRegistration(e.response.data.error))
         console.log(error)
-    }).finally(() => {
+        })
+        .finally(() => {
         dispatch(loadingAC('succeeded'))
-    })
-}
+        })
+})
 
 export const forgotTC = (email: string) => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
     dispatch(loadingAC('loading'))

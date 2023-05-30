@@ -8,6 +8,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { loadingAC } from "./loadingReducer";
 import {createAppAsyncThunk} from "./utils/create-app-asynk-thunk";
 import {handleServerNetworkError} from "./utils/error-utils";
+import {getAuthUserTC, login} from "./authReducer";
 
 export type statePacksType = {
     packsData: PacksGetResponseDataType
@@ -38,9 +39,9 @@ const packsReducer = createSlice({
     name: 'packs',
     initialState: initialPacksState,
     reducers: {
-        setPacksData:(state, action: PayloadAction<PacksGetResponseDataType>) => {
-            state.packsData = action.payload
-        },
+        // setPacksData:(state, action: PayloadAction<PacksGetResponseDataType>) => {
+        //     state.packsData = action.payload
+        // },
         searchPacksData: (state, action: PayloadAction<PacksGetRequestType>) => {
             state.packName = action.payload.params.packName
         },
@@ -69,7 +70,14 @@ const packsReducer = createSlice({
                 state = initialPacksState
             }
         }
-    }
+    },
+    extraReducers: (builder) => {
+    builder.addCase(setPacksDataTC.fulfilled, (state, action) => {
+        debugger
+        // state.meStatus = action.payload.profile;
+        state.packsData = action.payload
+    });
+},
 });
 export const packsActions = packsReducer.actions
 export default packsReducer.reducer
@@ -81,6 +89,7 @@ export const setPacksDataTC = createAppAsyncThunk(
         const state = getState()
         const statePacks = state.packs
         const packs = packsRequest.params
+        debugger
         try {
             const includes = (name: string) => Object.keys(packs).includes(name)
             dispatch(loadingAC('loading'))
@@ -93,20 +102,25 @@ export const setPacksDataTC = createAppAsyncThunk(
                 min: includes('min') ? packs.min : statePacks.min,
                 user_id: includes('user_id') ? packs.user_id : statePacks.packsData.authorId,
             }
+            // console.log("params: ", params)
             const res = await packsAPI.setPacks({params})
             const resPacks = res.data
-            dispatch(packsActions.setPacksData({...resPacks, authorId: includes('user_id') ? packs.user_id : statePacks.packsData.authorId}))
+            // console.log("resPacks: ", resPacks)
+            // dispatch(packsActions.setPacksData({...resPacks, authorId: includes('user_id') ? packs.user_id : statePacks.packsData.authorId}))
 
             includes('min') && includes('max') && dispatch(packsActions.getMinMaxPacks({params: {min: packs.min, max: packs.max}}))
             includes('page') && dispatch(packsActions.setCurrentPage({params: {page: packs.page}}))
 
             includes('sortPacks') && dispatch(packsActions.filterPacks({params: {sortPacks: packs.sortPacks}}))
             includes('packName') && dispatch(packsActions.filterPacks({params: {packName: packs.packName}}))
+            return {...resPacks, authorId: includes('user_id') ? packs.user_id : statePacks.packsData.authorId}
 
-            dispatch(loadingAC('succeeded'))
+
         } catch (error) {
             handleServerNetworkError(error, dispatch)
             return rejectWithValue(null)
+        } finally {
+            dispatch(loadingAC('succeeded'))
         }
 
 })

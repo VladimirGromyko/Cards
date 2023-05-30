@@ -1,0 +1,41 @@
+
+.wrapper_header {
+    background-color: #eeeeee;
+    display: grid;
+    grid-template-areas: "1 2 3 4 5";
+    grid-template-columns: 30% 10% 20% 24%;
+    gap: 1%;
+    height: 48px;
+    text-decoration: none;
+    align-self : center;
+    font-weight: 600;
+    align-content: center;
+
+}
+
+.header_tableItem {
+    padding: 6px 0 6px 20px;
+
+}
+
+.button{
+    border: none;
+    background: none;
+    padding: 0px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.triangle_down {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 12px solid rgb(0, 0, 0);
+}
+.triangle_up {
+	width: 0;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 12px solid rgb(0, 0, 0);
+}

@@ -1,15 +1,7 @@
 .wrapper {
     display: flex;
-    /*position: relative;*/
-    /*width: 1008px;*/
-    /*min-height: 100vh;*/
-    /*background: #FEFEFF;*/
-    /*border-radius: 8px;*/
     justify-content: center;
-    /*align-content: center;*/
     text-align: center;
-    /*margin: 20px  auto 20px auto;*/
-    /*padding: 0 20px;*/
 }
 
 .TableWrapper {
@@ -219,6 +211,18 @@
     border: 3px solid #e8e8e8;
     border-radius: 4px;
     text-align: left;
+
+}
+.wrapper_header {
+    background-color: #eeeeee;
+    display: grid;
+    grid-template-areas: "1 2 3 4 5";
+    grid-template-columns: 30% 10% 20% 24%;
+    gap: 1%;
+    height: 48px;
+    text-decoration: none;
+    font-weight: 600;
+    align-content: center;
 }
 .reset{
     display: flex;

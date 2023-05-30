@@ -5,12 +5,12 @@
     gap: 1%;
     color: black;
     background-color: #ffffff;
-    margin: 0 auto;
-    font-style: normal;
-    font-weight: 400;
+    /*margin: 0 auto;*/
+    /*font-style: normal;*/
+    /*font-weight: 400;*/
     font-size: 14px;
     line-height: 25px;
-    justify-items: left;
+    /*justify-items: left;*/
     align-items: center;
     border: 1px solid #e8e8e8;
 }
@@ -18,8 +18,8 @@
     background-color: #f7f7f7;
 }
 .item{
-    padding: 6px 0 6px 20px
-
+    padding: 6px 0 6px 20px;
+    cursor:pointer;
 }
 .itemAction{
     display: flex;

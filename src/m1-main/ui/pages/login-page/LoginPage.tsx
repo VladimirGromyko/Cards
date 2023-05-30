@@ -6,7 +6,7 @@ import SuperInputText from "../../common/input/SuperInputText";
 import SuperCheckbox from "../../common/сheckbox/SuperCheckbox";
 import SuperButton from "../../common/button/SuperButton";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
-import {authActions, setAuthUserDataTC} from "../../../bll/authReducer";
+import {authActions, login} from "../../../bll/authReducer";
 import Waiting from "../error-page/Waiting";
 import checkEmail from "../utils/checkEmail";
 import {setErrorRegistration} from "../../../bll/registerReducer";
@@ -29,6 +29,7 @@ const LoginPage = () => {
         passMessage: ''
     }
     const [message, setMessage] = useState<MessageType>( initialMessage)
+    debugger
 
     const logInHandler = () => {
         let isRegDataCorrect = true
@@ -42,7 +43,8 @@ const LoginPage = () => {
             isRegDataCorrect = false
         }
         isRegDataCorrect
-            ? dispatch(setAuthUserDataTC({email, password, rememberMe}))
+            // ? dispatch(setAuthUserDataTC({email, password, rememberMe}))
+            ? dispatch(login({email, password, rememberMe}))
             : setMessage(onRegClickMessages)
     }
     const changeEmail = (e: string) => {

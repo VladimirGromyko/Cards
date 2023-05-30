@@ -8,11 +8,10 @@ import {PATH} from "../../../../navigation/Paths";
 import SuperButton from '../../../common/button/SuperButton'
 import {useAppSelector} from "../../../../bll/hooks";
 import {ActionPackType} from "./PacksTable";
-// import {useNavigate} from "react-router-dom";
 // import {changeDateView} from "../../../../../n2-features/f3-utils/changeDateView";
 
 type TableItemPropsType = {
-    deletePackList: (packId: string) => void
+    // deletePackList: (packId: string) => void
     // editPackList: (packName: string, packId: string) => void
     // learnPack: (packId: string) => void
     pack: CardPacksType
@@ -20,12 +19,12 @@ type TableItemPropsType = {
 }
 
 export const PackItem = ({
-                             deletePackList,
+                             // deletePackList,
                              // editPackList,
                              // learnPack,
                              selectedPackAction,
                              pack}: TableItemPropsType) => {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const user_id = useAppSelector(state => state.auth.meStatus?._id)
     const onPressHandler = useCallback((type: ActionPackType) => {
         selectedPackAction(pack, type)
@@ -42,7 +41,8 @@ export const PackItem = ({
     return (
         <div className={packsStyle.items}>
             <div className={packsStyle.item}
-                 style={{cursor: "pointer"}}
+                 // style={{cursor: "pointer"}}
+                 onClick={() => onPressHandler("view")}
                  // onClick={() => navigate(`${PATH.PACKS}/${pack._id}`)}
             >
                 <div className={packsStyle.itemsLongName}>

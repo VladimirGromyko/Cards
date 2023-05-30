@@ -1,13 +1,12 @@
 import React from 'react'
 import s from './SuperSortingStyles.module.css'
-import {triangleViewType} from "../../pages/packsPage/header-packs/HeaderPacks";
-import {SortPackNameType} from "../../../dal/packs-api";
+import {triangleViewType} from "../../pages/utils/header-table/HeaderTable";
 
 type SuperSortingPropsType = {
-    sorting: SortPackNameType
+    sorting: string
     sort: string | undefined
     show?: triangleViewType
-    handleClick: (sortPackName: SortPackNameType) => void
+    handleClick: (sortPackName: string) => void
 }
 const SuperSorting: React.FC<SuperSortingPropsType> = ({sort, sorting, show, handleClick}) => {
     return (

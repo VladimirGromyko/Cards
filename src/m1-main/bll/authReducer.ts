@@ -1,12 +1,11 @@
 import {authAPI, LoginType, UserDataType, UserProfileType} from "../dal/auth-api";
-import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {AppActionType} from "./store";
 import {loadingAC} from "./loadingReducer";
 import {setErrorRegistration} from "./registerReducer";
 
-import {PacksGetResponseDataType} from "../dal/packs-api";
-// import {Simulate} from "react-dom/test-utils";
-// import loadedData = Simulate.loadedData;
+import {handleServerNetworkError} from "./utils/error-utils";
+import {createAppAsyncThunk} from "./utils/create-app-asynk-thunk";
 
 export type authStateType = {
     meStatus: MeStatusType,
@@ -54,46 +53,87 @@ const authReducer = createSlice({
         //         state.meStatus.avatar = action.payload.avatar
         //     }
         // }
-    }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(login.fulfilled, (state, action) => {
+            debugger
+            state.meStatus = action.payload.profile;
+            state.meStatusResponse = 'done'
+        })
+        builder.addCase(getAuthUserTC.fulfilled, (state, action) => {
+            debugger
+            action.payload && (state.meStatus = action.payload.value)
+            action.payload && (state.meStatusResponse = 'work')
+        });
+    },
 });
-// export const {
-//     setAuthUserData,
-//     logOutUser,
-//     changeMeStatusResponse,
-// } = authReducer.actions
 export const authActions = authReducer.actions
 export default authReducer.reducer
 
-export const getAuthUserTC = () => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
+// export const getAuthUserTC = () => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
+export const getAuthUserTC = createAppAsyncThunk('auth/me', async (arg, thunkAPI) => {
+    const {dispatch, rejectWithValue} = thunkAPI
     dispatch(loadingAC('loading'))
-    authAPI.me()
-        .then((res) => {
-            dispatch(authActions.setAuthUserData(res.data))
-            dispatch(authActions.changeMeStatusResponse('done'))
-        })
-        .catch((err) => {
-            console.log(err)
-            dispatch(authActions.changeMeStatusResponse('error'))
-        })
-        .finally(() => {
-            dispatch(loadingAC('succeeded'))
-        })
-}
-export const setAuthUserDataTC = (payload: LoginType) => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
-    dispatch(loadingAC('loading'))
-    authAPI.login(payload)
-        .then(response => {
-                dispatch(authActions.setAuthUserData(response.data))
-                dispatch(authActions.changeMeStatusResponse('done'))
-            }
-        ).catch((e) => {
-        const error = e.response ? e.response.data.error : (e.message + ", more details in the console")
-        console.log(error)
-        dispatch(setErrorRegistration(error))
-    }).finally(() => {
+    try {
+        debugger
+        const res = await authAPI.me()
+        // .then((res) => {
+        // dispatch(authActions.changeMeStatusResponse('done'))
+        // dispatch(authActions.setAuthUserData(res.data))
+        return {value: res.data}
+
+        // })
+    } catch(err) {
+        debugger
+        console.log(err)
+        dispatch(authActions.changeMeStatusResponse('error'))
+    } finally {
         dispatch(loadingAC('succeeded'))
-    })
-}
+    }
+})
+// export const setAuthUserDataTC = createAsyncThunk("auth/login",
+export const login = createAppAsyncThunk("auth/login",
+    async (payload: LoginType, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    dispatch(loadingAC('loading'))
+    try {
+    const response = await authAPI.login(payload)
+        // .then(response => {
+        debugger
+        // dispatch(authActions.changeMeStatusResponse('done'))
+        return {profile: response.data}
+        // dispatch(authActions.setAuthUserData(response.data))
+        // dispatch(authActions.changeMeStatusResponse('done'))
+    } catch (e:any) {
+        debugger
+        console.log(e)
+        handleServerNetworkError(e, dispatch)
+        dispatch(setErrorRegistration(e.response.data.error))
+        return rejectWithValue(null)
+        // const error = e.response ? e.response.data.error : (e.message + ", more details in the console")
+
+
+    } finally {
+        dispatch(loadingAC('succeeded'))
+    }
+})
+// export const setAuthUserDataTC = (payload: LoginType) => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
+//     dispatch(loadingAC('loading'))
+//     authAPI.login(payload)
+//         .then(response => {
+//             debugger
+//                 dispatch(authActions.setAuthUserData(response.data))
+//                 dispatch(authActions.changeMeStatusResponse('done'))
+//             }
+//         ).catch((e) => {
+//             debugger
+//         const error = e.response ? e.response.data.error : (e.message + ", more details in the console")
+//         console.log(error)
+//         dispatch(setErrorRegistration(error))
+//     }).finally(() => {
+//         dispatch(loadingAC('succeeded'))
+//     })
+// }
 export const logoutUserTC = () => (dispatch:  Dispatch<PayloadAction<AppActionType>>) => {
     dispatch(loadingAC('loading'))
     authAPI.logout()
