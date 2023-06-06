@@ -6,12 +6,12 @@ import {
     registrationTC,
     setErrorRegistration,
     setRegistration
-} from "../../../bll/registerReducer";
-import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
+} from "m1-main/bll/registerReducer";
+import {useAppDispatch, useAppSelector} from "m1-main/bll/hooks";
 import Waiting from "../error-page/Waiting";
 import SuperInputText from "../../common/input/SuperInputText";
 import SuperButton from "../../common/button/SuperButton";
-import {authActions} from "../../../bll/authReducer";
+import {authActions} from "m1-main/bll/authReducer";
 import checkEmail from "../utils/checkEmail";
 
 const Registration = () => {

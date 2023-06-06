@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {cardsAPI, CardsGetRequestType, CardsGetResponseType, CardsType} from "../dal/cards-api";
+import {cardsAPI, CardsGetRequestType, CardsGetResponseType, CardsType, PostRequestCardType} from "../dal/cards-api";
 import {createAppAsyncThunk} from "./utils/create-app-asynk-thunk";
 import {handleServerNetworkError} from "./utils/error-utils";
 import {packsAPI, PacksGetResponseDataType} from "../dal/packs-api";
@@ -123,14 +123,9 @@ export const setCardsTC = createAppAsyncThunk(
         // const state = getState()
         try {
             dispatch(loadingAC('loading'))
-            debugger
             const res = await cardsAPI.getCards({params: cardsRequest})
-            // const data: CardsGetResponseType = res.data
             return {data: res.data, sortCards: cardsRequest.sortCards,}
-            // console.log(data)
-            // dispatch(cardsActions.setCards(data))
         } catch (error) {
-            debugger
             handleServerNetworkError(error, dispatch)
             return rejectWithValue(null)
         } finally {
@@ -138,6 +133,37 @@ export const setCardsTC = createAppAsyncThunk(
         }
     }
 )
+export const addCardTC = createAppAsyncThunk('addCard/newCard', async ( card:PostRequestCardType, thunkAPI) => {
+    const {dispatch, rejectWithValue, getState} = thunkAPI
+    debugger
+    try {
+        dispatch(loadingAC('loading'))
+        await cardsAPI.addCard({card})
+        await dispatch(setCardsTC({cardsPack_id: card.cardsPack_id, pageCount: 1000}))
+    } catch (err) {
+        debugger
+        handleServerNetworkError(err, dispatch)
+        return rejectWithValue(null)
+    } finally {
+        dispatch(loadingAC('succeeded'))
+    }
+})
+export const deleteCardTC = createAppAsyncThunk('deleteCard/removeCard',
+    async ( card: {cardId: string | undefined, packId: string | undefined}, thunkAPI) => {
+    const {dispatch, rejectWithValue, getState} = thunkAPI
+    debugger
+    try {
+        dispatch(loadingAC('loading'))
+        await cardsAPI.deleteCard({id: card.cardId})
+        await dispatch(setCardsTC({cardsPack_id: card.packId, pageCount: 1000}))
+    } catch (err) {
+        debugger
+        handleServerNetworkError(err, dispatch)
+        return rejectWithValue(null)
+    } finally {
+        dispatch(loadingAC('succeeded'))
+    }
+})
 
 // export const fetchCardsTC =
 //     (packId: string) => (dispatch: Dispatch) => {

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react'
+import React, {ChangeEvent, CSSProperties, useCallback, useEffect, useState} from 'react'
 
 import CardsTable from './cards-table/CardsTable';
 
@@ -11,31 +11,37 @@ import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 
 import {ReactComponent as Svg} from "./../utils/direction-arrow-left.svg";
 import SuperButton from "../../common/button/SuperButton";
-import {setCardsTC} from "../../../bll/cardsReducer";
+import {addCardTC, deleteCardTC, setCardsTC} from "../../../bll/cardsReducer";
 import {SortCardsHeaderType} from "../../../dal/cards-api";
 import {HeaderTable, triangleViewType} from "../utils/header-table/HeaderTable";
 import SuperInputText from "../../common/input/SuperInputText";
+import Popover from "../../common/popover/Popover";
+import {addPacksTC, deletePackTC} from "../../../bll/packsReducer";
+import Waiting from "m1-main/ui/pages/error-page/Waiting";
+import {AddCardModal, NewCardType} from "m1-main/ui/pages/cards-pages/cards-modals/AddCardModal";
 
+type HeadingsElementType = {
+    headings: string,
+    sortField: SortCardsHeaderType
+    arrow: triangleViewType
+}
+type ColumnHeadingsType = HeadingsElementType[]
+export type RecordType = {name: string | number | undefined | null, type: string}
 const CardsPage = () => {
 
-    const user_id = useAppSelector(state => state.auth.meStatus?._id)
+    const userId = useAppSelector(state => state.auth.meStatus?._id)
     const meStatus = useAppSelector(state => state.auth.meStatusResponse)
     const sort = useAppSelector(state => state.cards.sortCards)
     const cardsSet = useAppSelector(state => state.cards.cardsSet)
+    const packUserId = cardsSet.packUserId
     debugger
     const dispatch = useAppDispatch()
     const params = useParams()
     const navigate = useNavigate()
-    const packId = params.id
+    const packId = params.id ? params.id : ''
     debugger
 
 
-    type HeadingsElementType = {
-        headings: string,
-        sortField: SortCardsHeaderType
-        arrow: triangleViewType
-    }
-    type ColumnHeadingsType = HeadingsElementType[]
     const initialColumnHeadings: ColumnHeadingsType = [
         {headings: "Question", sortField: "question", arrow: "none"},
         {headings: "Answer", sortField: "none", arrow: "none"},
@@ -65,7 +71,7 @@ const CardsPage = () => {
 
     useEffect(() => {
         // if (selectedCards.cards[0].cardsPack_id !== packId) {
-        console.log("packId :", packId)
+        // console.log("packId :", packId)
             // dispatch(setCardsTC({
             //     // cardAnswer: "",
             //     // cardQuestion: "",
@@ -92,11 +98,14 @@ const CardsPage = () => {
         fontWeight: "200",
         border: "none",
     }
+    const records: RecordType[]= [
+        {name: 'Edit', type: 'edit'},
+        {name: 'Delete', type: 'delete'},
+        {name: 'Learn', type: 'learn'},
+    ]
 
     useEffect(() => {
-            // Убедиться что у нас есть значение (пользователь ввел что-то)
             if (debouncedValue) {
-                // Выставить состояние isSearching
                 setIsSearching(true);
                 if (packId) {
                     // dispatch(getCardsBySearchTC({packId, search: searchValue}))
@@ -107,10 +116,7 @@ const CardsPage = () => {
                 }
             }
         },
-        // Это массив зависимостей useEffect
-        // Хук useEffect сработает только если отложенное значение изменится ...
-        // ... и спасибо нашему хуку, что оно изменится только тогда ...
-        // когда значение searchTerm не менялось на протяжении 500ms.
+
         [debouncedValue]
     );
 
@@ -128,21 +134,59 @@ const CardsPage = () => {
     const learnCards = () => {
         debugger
     }
+
+    // Block for Add card
+    const [showAddCardModal, setShowAddCardModal] = useState<boolean>(false);
+    const addCard = useCallback((newCard: NewCardType) => {
+        dispatch(addCardTC({cardsPack_id: newCard.packId, question: newCard.quest, answer: newCard.answer}))
+    }, [dispatch,])
+    //-------------
+
+    // Block for Delete card
+    const deleteCard = useCallback((cardId: string | undefined) => {
+        debugger
+        const params = { cardId, packId }
+        dispatch(deleteCardTC(params))
+    }, [dispatch, deleteCardTC])
+    // }, [dispatch])
+    //-------------
+
     const setSorting = async (sortField: string) => {
         debugger
         await dispatch(setCardsTC({cardsPack_id: packId, sortCards: sortField, min: 1, max: 100, page: 1}))
     }
-
+    const settingParameters = () => {
+        debugger
+    }
     // const onSearchClick = () => {
     //     if (packId) {
     //         dispatch(getCardsBySearchTC({ packId, search: searchValue }))
     //     }
 
     // }
-
-
+    const selectedRecord = async (element: RecordType) => {
+        debugger
+        console.log(element.type)
+        // if (element.type = 'delete') {
+        //     try {
+        //         await dispatch(deletePackTC( {params: {id: packId}}))
+        //         returnBack()
+        //     } catch (e) {
+        //         console.log(e)
+        //     }
+        // }
+        // if (element.type = 'edit') {
+        //     try {
+        //         await dispatch(deletePackTC( {params: {id: packId}}))
+        //         returnBack()
+        //     } catch (e) {
+        //         console.log(e)
+        //     }
+        // }
+    }
     return (
         <div className={cs.wrapper}>
+            <Waiting />
             <div className={cs.TableWrapper}>
                 <div className={cs.returnBack} onClick={returnBack} >
                     <Svg width="30px" height="25px"/>
@@ -154,39 +198,88 @@ const CardsPage = () => {
                 {/*</div>*/}
                 {/*<div style={{width: '1008px'}}>*/}
                 <span className={cs.headerBlock}>
-                    <h3>{cardsSet.packName}</h3>
-                    <SuperButton
-                        onClick={learnCards}
-                        // onClick={() => setShow(true)}
-                        style={buttonStyle}
-                    >Learn to pack
-                    </SuperButton>
-                </span>
-                <div className={cs.search}>
-                    <span className={cs.searchCardsHeader}>Search</span>
-                    <SuperInputText
-                        placeholder='Provide your text'
-                        onChange={onSearchHandler}
-                        value={searchValue}
-                    />
-                </div>
+                    <div className={cs.cardName}>
+                        <span className={cs.cardNameText}>{cardsSet.packName}</span>
+                        {/*<div className={cs.circle} onClick={settingParameters}>*/}
+                        {userId === packUserId
+                            ? <Popover records={records}
+                                     selectedRecord={selectedRecord}
+                                     outStyle={{width: '20px', height: '20px'}}
+                            >
+                                <div className={cs.circle}>
+                                    <div className={cs.pointBlock}>
+                                        <div className={cs.point}></div>
+                                        <div className={cs.point}></div>
+                                        <div className={cs.point}></div>
+                                    </div>
+                                </div>
+                            </Popover>
+                            : <></>
+                        }
 
-                {/*<div className={packsStyle.search}>*/}
-                {/*    <SuperInputText onChange={onSearchInputChange}*/}
-                {/*                    placeholder='Enter cards name for searching'/>*/}
-                {/*</div>*/}
-                <div className={cs.tableBlock}>
-                    <div className={cs.wrapper_header}>
-                        <HeaderTable columArr={initialColumnHeadings} sorted={sort} setSorting={setSorting}/>
                     </div>
 
-                    {/*<HeaderCards getCards={getCards} packId={packId}/>*/}
-                    {cardsSet.cards.length && <CardsTable cards={cardsSet.cards} packId={packId}/>}
+                    {userId !== packUserId && cardsSet.cards.length
+                        ? <SuperButton onClick={learnCards} style={buttonStyle}>Learn to pack</SuperButton>
+                        : userId === packUserId && cardsSet.cards.length
+                            ? <SuperButton onClick={() => setShowAddCardModal(true)} style={buttonStyle}>Add new card</SuperButton>
+                            : <></>
+                    }
+                </span>
+                {cardsSet.cards.length ?
+                    <>
 
-                    {/*</div>*/}
-                    {/*</div>*/}
-                </div>
+                        <div className={cs.search}>
+                            <span className={cs.searchCardsHeader}>Search</span>
+                            <SuperInputText
+                                placeholder='Provide your text'
+                                onChange={onSearchHandler}
+                                value={searchValue}
+                            />
+                        </div>
 
+                        {/*<div className={packsStyle.search}>*/}
+                        {/*    <SuperInputText onChange={onSearchInputChange}*/}
+                        {/*                    placeholder='Enter cards name for searching'/>*/}
+                        {/*</div>*/}
+                        <div className={cs.tableBlock}>
+                            <div className={cs.wrapper_header}>
+                                <HeaderTable columArr={initialColumnHeadings} sorted={sort} setSorting={setSorting}/>
+                            </div>
+
+                            {/*<HeaderCards getCards={getCards} packId={packId}/>*/}
+                            <CardsTable cards={cardsSet.cards}
+                                        packId={packId}
+                                        userId={userId}
+                                        deleteCard={deleteCard}
+                            />
+
+                            {/*</div>*/}
+                            {/*</div>*/}
+                        </div>
+                    </>
+                    :
+                    <div className={cs.emptyBody}>
+                        <div className={cs.emptyBodyText}>
+                            {`This pack is empty.${userId === packUserId ? ' Click add new card to fill this pack' : ''}`}
+                        </div>
+                        {userId === packUserId
+                            ?
+                            <SuperButton
+                                onClick={() => setShowAddCardModal(true)}
+                                // onClick={() => setShow(true)}
+                                style={buttonStyle}
+                            >Add new card
+                            </SuperButton>
+                            : <></>
+                        }
+                    </div>
+                }
+                <AddCardModal show={showAddCardModal}
+                              setShow={setShowAddCardModal}
+                              packId={packId}
+                              addCard={addCard}
+                />
             </div>
         </div>
     );

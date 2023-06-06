@@ -136,6 +136,7 @@ export const login = createAppAsyncThunk("auth/login",
 // }
 export const logoutUserTC = () => (dispatch:  Dispatch<PayloadAction<AppActionType>>) => {
     dispatch(loadingAC('loading'))
+    debugger
     authAPI.logout()
         .then(() => {
                 dispatch(authActions.logOutUser(null))

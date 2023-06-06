@@ -2,17 +2,18 @@ import React, {ButtonHTMLAttributes, DetailedHTMLProps} from 'react'
 import s from './SuperButton.module.css'
 import hat from './education.svg'
 import edit from './edit.svg'
+import profile from './user.svg'
 import del from './delete.svg'
 import close from './close.svg'
 import logout from './logout.svg'
 import resetFilters from './filter-remove.svg'
 
 type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
-type iconPlaceType = "learn" | "delete" | "edit" | "logout" | "close" | "reset-filters" |undefined
+type iconPlaceType = "learn" | "delete" | "edit" | "logout" | "close" | "reset-filters" | undefined
 type SuperButtonPropsType = DefaultButtonPropsType & {
     red?: boolean
     dis?: boolean
-    icon?: iconPlaceType
+    icon?: string
     iconWithText?: boolean
     imgStyle?: {}
 }
@@ -33,6 +34,8 @@ const SuperButton: React.FC<SuperButtonPropsType> = (
         iconPlace = logout
     } else if (icon === "close") {
         iconPlace = close
+    } else if (icon === "profile") {
+        iconPlace = profile
     } else if (icon === "reset-filters") {
         iconPlace = resetFilters
     } else iconPlace = ""

@@ -7,6 +7,8 @@ import {authActions, getAuthUserTC, logoutUserTC} from "../bll/authReducer";
 import Waiting from "../ui/pages/error-page/Waiting";
 import SuperButton from "../ui/common/button/SuperButton";
 import {initialPacksState, setPacksDataTC} from "../bll/packsReducer";
+import Popover from "../ui/common/popover/Popover";
+import {RecordType} from "../ui/pages/cards-pages/CardsPage";
 
 function Navigation() {
     const navigate = useNavigate()
@@ -54,6 +56,12 @@ function Navigation() {
             navigate(PATH.PROFILE)
         }
     }
+    const selectedRecord = (element: RecordType) => {
+        debugger
+        console.log(element.type)
+        if (element.type === 'profile') linkProfile()
+        if (element.type === 'logout') logOutHandler()
+    }
     const showMenu = `${s.profileMenuWrapper} ${menuProfile ? s.profileMenuShow : s.profileMenuHidden}`
 
     return (
@@ -89,18 +97,25 @@ function Navigation() {
                     {/*</li>*/}
                     {(isLoggedIn === "done" || isLoggedIn === "work")
                         ? <>
-                            <div className={s.profile}
-                                 onMouseOver={() => setMenuProfile(true)}
-                                 onMouseLeave={() => setMenuProfile(false)}
-                            >Menu profile
-                                <div className={showMenu}>
-                                    <div className={s.arrow}></div>
-                                    <div className={s.profileMenu} onMouseLeave={() => setMenuProfile(false)}>
-                                        <div className={s.profile_item} onClick={linkProfile}>Profile</div>
-                                        <div className={s.profile_item} onClick={logOutHandler}>LogOut</div>
-                                    </div>
-                                </div>
-                            </div>
+                            <Popover records={[{name:'Profile', type: 'profile'}, {name:'LogOut', type: 'logout'}]}
+                                     selectedRecord={selectedRecord}>
+                                Menu profile
+                            </Popover>
+
+
+
+                            {/*<div className={s.profile}*/}
+                            {/*     onMouseOver={() => setMenuProfile(true)}*/}
+                            {/*     onMouseLeave={() => setMenuProfile(false)}*/}
+                            {/*>Menu profile*/}
+                            {/*    <div className={showMenu}>*/}
+                            {/*        <div className={s.arrow}></div>*/}
+                            {/*        <div className={s.profileMenu} onMouseLeave={() => setMenuProfile(false)}>*/}
+                            {/*            <div className={s.profile_item} onClick={linkProfile}>Profile</div>*/}
+                            {/*            <div className={s.profile_item} onClick={logOutHandler}>LogOut</div>*/}
+                            {/*        </div>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
                         </>
 
                         :

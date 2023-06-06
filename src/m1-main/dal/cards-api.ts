@@ -17,17 +17,19 @@ export const cardsAPI = {
         debugger
         return instance.get<CardsGetRequestType, AxiosResponse<CardsSetType>>('cards/card', param);
     },
-    addCard(params:{cardsPack_id: string, question: string, answer:string}){
-        return  instance.post(`/cards/card`, {card: {cardsPack_id:params.cardsPack_id, question:params.question, answer:params.answer}})
+    addCard(param:{card: PostRequestCardType}){
+    // addCard(params:{cardsPack_id: string, question: string, answer:string}){
+        debugger
+        return  instance.post<PostRequestCardType, AxiosResponse>(`/cards/card`, param)
     },
-    deleteCard(params:{cardId: string}){
-        return instance.delete(`/cards/card?id=${params.cardId}`)
+    deleteCard(params:{id: string | undefined}){
+        return instance.delete(`/cards/card?id=${params.id}`)
     },
     updateCard(params:{cardId: string, newQuestion?: string}){
         return instance.put(`/cards/card`, {card: {_id:params.cardId, question:params.newQuestion}})
     },
     gradeCard: (payload: GradeCardPayload) => {
-        return instance.put("/cards/grade", { ...payload });
+        return instance.put<GradeCardPayload, AxiosResponse<any>>("/cards/grade", { ...payload });
     },
 }
 
@@ -81,4 +83,15 @@ export type CardsSetType = {
     packUpdated: string,
     token: string,
     tokenDeathTime: number | null,
+}
+export type PostRequestCardType = {
+    cardsPack_id: string
+    answer: string
+    question: string
+    grade?: number | null
+    shots?: number | null
+    answerImg?: string
+    questionImg?: string
+    questionVideo?: string
+    answerVideo?: string
 }

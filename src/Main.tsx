@@ -6,6 +6,7 @@ import {useLocation} from "react-router-dom";
 import MainRoutes from "./m1-main/navigation/mainRoutes";
 
 const Main = () => {
+    debugger
     const dispatch = useAppDispatch()
     const isLoggedIn = useAppSelector((state) => state.auth.meStatusResponse);
     const passwordStatus = useAppSelector((state) => state.register.passwordStatus);

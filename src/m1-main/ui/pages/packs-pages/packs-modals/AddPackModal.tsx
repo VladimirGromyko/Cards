@@ -38,12 +38,9 @@ export const AddPackModal = ({setShow, addPack}: AddPackModalPropsType) => {
         <>
             <div className={s.delHeader}>
                 <div>Add new pack</div>
-                <SuperButton icon="close"
-                             style={{borderWidth: 0}}
-                             onClick={OnCancelClick}
+                <SuperButton icon="close" style={{borderWidth: 0}} onClick={OnCancelClick}
                              imgStyle={{width: "15px", height: "15px"}}
-                >Close
-                </SuperButton>
+                />
             </div>
             <div className={s.delPackBody}>
                 <div className={s.textField}>Name pack</div>

@@ -2,14 +2,14 @@ import React, {useCallback, useState} from "react";
 import SuperButton from "../../../common/button/SuperButton";
 import s from "./PacksModal.module.css";
 import {CardPacksType} from "../../../../dal/packs-api";
-import {ActionPackType} from "../paks-table/PacksTable";
+import {ActionPackCardType} from "../paks-table/PacksTable";
 
 type DeletePackModalType = {
     deletePack: (packId: string) => void
     pack: CardPacksType
-    modalType: ActionPackType;
+    modalType: ActionPackCardType;
     setShow: (value: boolean) => void
-    setModalType: (value: ActionPackType) => void
+    setModalType: (value: ActionPackCardType) => void
 }
 export const DeletePackModal = ({deletePack, pack, modalType, setShow, setModalType}: DeletePackModalType) => {
 

@@ -35,7 +35,7 @@ type PacksTableType = {
     // onPageChanged: (pageNumber: number) => void
     // changePackListSize: (pageCount: number, page: number) => void
 }
-export type ActionPackType = "none" | "delete" | "edit" | "learn" | "view"
+export type ActionPackCardType = "none" | "delete" | "edit" | "learn" | "view"
 
 export const PacksTable = ({
                                deletePackList,
@@ -55,12 +55,12 @@ export const PacksTable = ({
         user_id: "", name: "", _id: "", cardsCount: 0, user_name: "", created: "", updated: "",
         private: false, rating: 0, shots: 0, type: ""
     }
-    const [modalType, setModalType] = useState<ActionPackType>("none");
+    const [modalType, setModalType] = useState<ActionPackCardType>("none");
     const [currentPack, setCurrentPack] = useState<CardPacksType>(initialCurrentPack);
 
     const [show, setShow] = useState<boolean>(false);
 debugger
-    const selectedPackAction = (pack: CardPacksType, type: ActionPackType) => {
+    const selectedPackAction = (pack: CardPacksType, type: ActionPackCardType) => {
         setModalType(type)
         if (type !== "none" && type !== "view") {
             setShow(true)

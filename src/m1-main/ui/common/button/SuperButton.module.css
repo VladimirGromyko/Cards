@@ -84,6 +84,7 @@
 .iconDefault {
     height: 20px;
     background: none;
+    cursor: pointer;
 }
 .iconWithText{
     display: flex;

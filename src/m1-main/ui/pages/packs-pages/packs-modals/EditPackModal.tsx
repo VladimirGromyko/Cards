@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react'
 import s from './PacksModal.module.css';
 import {CardPacksType} from "../../../../dal/packs-api";
-import {ActionPackType} from "../paks-table/PacksTable";
+import {ActionPackCardType} from "../paks-table/PacksTable";
 import SuperCheckbox from "../../../common/сheckbox/SuperCheckbox";
 import SuperButton from "../../../common/button/SuperButton";
 import SuperInputText from "../../../common/input/SuperInputText";
@@ -10,9 +10,9 @@ import SuperInputText from "../../../common/input/SuperInputText";
 type EditPackType = {
     editPack: (packName: string, privateStatus:boolean, packId: string) => void
     pack: CardPacksType
-    modalType: ActionPackType;
+    modalType: ActionPackCardType;
     setShow: (value: boolean) => void
-    setModalType: (value: ActionPackType) => void
+    setModalType: (value: ActionPackCardType) => void
 }
 
 const EditPackModal = ({editPack, pack, modalType, setShow, setModalType}: EditPackType) => {

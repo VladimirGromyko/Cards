@@ -26,7 +26,7 @@
 .items {
     display: grid;
     grid-template-areas: "1 2 3 4 5";
-    grid-template-columns: 25% 30% 15% 20%;
+    grid-template-columns: 25% 30% 15% 15%;
     gap: 1%;
     color: black;
     background-color: #ffffff;
@@ -42,7 +42,8 @@
 .item{
     padding: 6px 0 6px 20px;
     cursor:pointer;
-    line-height: 23px;
+    line-height: 25px;
+    display: flex;
 }
 .icon {
     width: 16px;

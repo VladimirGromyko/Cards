@@ -37,7 +37,7 @@ const MainRoutes = () => {
                 <Route path={PATH.PASSWORD_RECOVERY} element={<PasswordRecoveryPage/>}/>
                 <Route path={PATH.PACKS} element={<PacksPage/>}/>
                 <Route path={PATH.CARDS} element={<CardsPage/>}/>
-                {/*<Route path={PATH.PACK_LIST_LEARN} element={<h2 style={{textAlign: "center"}}><LearnPage/></h2>}/>*/}
+                {/*<Route path={PATH.PACK_LIST_LEARN} element={<LearnPage/>}/>*/}
                 <Route path={PATH.WAITING} element={<Waiting />}/>
                 <Route path={'/404'} element={<h2 style={{textAlign: "center"}}><Error404/></h2>}/>
                 <Route path='*' element={<Navigate to={'/404'}/>}/>

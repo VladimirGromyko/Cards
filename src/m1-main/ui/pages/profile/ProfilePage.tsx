@@ -2,11 +2,12 @@ import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from 'react'
 import s from './Profile.module.css';
 import {ReactComponent as Svg} from "./../utils/direction-arrow-left.svg";
 import {useNavigate} from "react-router-dom";
-import {PATH} from "../../../navigation/Paths";
-import {authActions, logoutUserTC, updateUserProfileTC} from "../../../bll/authReducer";
-import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
+import {PATH} from "m1-main/navigation/Paths";
+import {authActions, logoutUserTC, updateUserProfileTC} from "m1-main/bll/authReducer";
+import {useAppDispatch, useAppSelector} from "m1-main/bll/hooks";
 import SuperButton from "../../common/button/SuperButton";
-import {initialPacksState, setPacksDataTC} from "../../../bll/packsReducer";
+import {initialPacksState, setPacksDataTC} from "m1-main/bll/packsReducer";
+import defaultAvatar from "./../utils/enot.jpg";
 
 export const ProfilePage = () => {
 
@@ -25,7 +26,7 @@ export const ProfilePage = () => {
     }
     const onKeyPressCallback = (e: KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter') {
-            dispatch(updateUserProfileTC({name: nameFromInput, avatar:"https://www.meme-arsenal.com/memes/8d5e37167343dd477fde3ba2e59f9dee.jpg"}))
+            dispatch(updateUserProfileTC({name: nameFromInput, avatar: defaultAvatar}))
             setFieldValue(false)
             setViewEdit(false)
         }
@@ -50,6 +51,7 @@ export const ProfilePage = () => {
         navigate(PATH.PACKS)
     }
     const onOutClick = (e: React.SyntheticEvent<EventTarget>) => {
+        debugger
         const target =  (e.target as HTMLElement).className
         const isContentButton = target.indexOf("SuperButton_icon")
         const isContentInput = target.indexOf("editValue")

@@ -7,7 +7,7 @@ import packsStyle from './PacksTable.module.css'
 import {PATH} from "../../../../navigation/Paths";
 import SuperButton from '../../../common/button/SuperButton'
 import {useAppSelector} from "../../../../bll/hooks";
-import {ActionPackType} from "./PacksTable";
+import {ActionPackCardType} from "./PacksTable";
 // import {changeDateView} from "../../../../../n2-features/f3-utils/changeDateView";
 
 type TableItemPropsType = {
@@ -15,7 +15,7 @@ type TableItemPropsType = {
     // editPackList: (packName: string, packId: string) => void
     // learnPack: (packId: string) => void
     pack: CardPacksType
-    selectedPackAction: (pack: CardPacksType, type: ActionPackType) => void
+    selectedPackAction: (pack: CardPacksType, type: ActionPackCardType) => void
 }
 
 export const PackItem = ({
@@ -26,7 +26,7 @@ export const PackItem = ({
                              pack}: TableItemPropsType) => {
     const navigate = useNavigate()
     const user_id = useAppSelector(state => state.auth.meStatus?._id)
-    const onPressHandler = useCallback((type: ActionPackType) => {
+    const onPressHandler = useCallback((type: ActionPackCardType) => {
         selectedPackAction(pack, type)
     }, [selectedPackAction, pack])
     //

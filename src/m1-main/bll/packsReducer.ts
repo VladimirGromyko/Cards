@@ -39,9 +39,9 @@ const packsReducer = createSlice({
     name: 'packs',
     initialState: initialPacksState,
     reducers: {
-        // setPacksData:(state, action: PayloadAction<PacksGetResponseDataType>) => {
-        //     state.packsData = action.payload
-        // },
+        setPacksData:(state, action: PayloadAction<PacksGetResponseDataType>) => {
+            state.packsData = action.payload
+        },
         searchPacksData: (state, action: PayloadAction<PacksGetRequestType>) => {
             state.packName = action.payload.params.packName
         },
