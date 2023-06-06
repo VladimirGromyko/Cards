@@ -5,15 +5,17 @@ import {CardItem} from "./CardItem";
 import {ActionPackCardType} from "m1-main/ui/pages/packs-pages/paks-table/PacksTable";
 import Modal from "m1-main/ui/common/modal/Modal";
 import {DeleteCardModal} from "./../cards-modals/DeleteCardModal";
+import {AddEditCardModal} from "m1-main/ui/pages/cards-pages/cards-modals/AddEditCardModal";
 
 export type CardsTablePropsType = {
     cards: CardsType[];
     packId: string | undefined
     userId: string | undefined
     deleteCard: (cardId: string | undefined) => void
+    editCard: (card: CardsType) => void
 }
 
-const CardsTable = ({cards, packId, userId, deleteCard, ...props}: CardsTablePropsType) => {
+const CardsTable = ({cards, packId, userId, deleteCard, editCard, ...props}: CardsTablePropsType) => {
 
     const initialCurrentCard: CardsType = {cardsPack_id: '', __v: null, question: '', answer: '', grade: null}
     const [modalType, setModalType] = useState<ActionPackCardType>("none");
@@ -67,10 +69,14 @@ const CardsTable = ({cards, packId, userId, deleteCard, ...props}: CardsTablePro
                                      setShow={setShow} setModalType={setModalType}
                                      modalType={modalType}
                     />
-                    {/*<EditCardModal editPack={editPackList} pack={currentPack}*/}
-                    {/*               setShow={setShow} setModalType={setModalType}*/}
-                    {/*               modalType={modalType}*/}
-                    {/*/>*/}
+                    <AddEditCardModal show={show}
+                                      setShow={setShow}
+                                      packId={packId}
+                                      editCard={editCard}
+                                      card={currentCard}
+                                      modalType={modalType}
+                                      setModalType={setModalType}
+                    />
                 </>
             </Modal>
         </div>

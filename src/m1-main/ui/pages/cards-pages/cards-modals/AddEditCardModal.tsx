@@ -3,17 +3,23 @@ import SuperButton from "m1-main/ui/common/button/SuperButton";
 import Modal from "m1-main/ui/common/modal/Modal";
 import SuperInputText from "m1-main/ui/common/input/SuperInputText";
 import s from "./CardsModal.module.css";
+import {CardsType} from "m1-main/dal/cards-api";
+import {ActionPackCardType} from "m1-main/ui/pages/packs-pages/paks-table/PacksTable";
 
 export type NewCardType = {
     packId: string,
-    quest: string,
+    question: string,
     answer: string
 }
-type AddCardModalPropsType = {
+type AddEditCardModalPropsType = {
     show: boolean
     setShow: (value:boolean)=>void
     packId: string | undefined
-    addCard: (newCard: NewCardType) => void
+    addCard?: (newCard: NewCardType) => void
+    editCard?: (card: CardsType) => void
+    card?: CardsType
+    modalType?: ActionPackCardType;
+    setModalType?: (value: ActionPackCardType) => void
 }
 const modalStyle = {
     backgroundColor: '#FFFFFF',
@@ -28,26 +34,25 @@ const buttonStyle = {
     border: "none",
     background: "#678EFE"
 }
-export const AddCardModal = ({show, setShow , packId, addCard}: AddCardModalPropsType) => {
-    const [quest, setQuest] = useState('')
-    const [answer, setAnswer] = useState('')
+export const AddEditCardModal = ({ show, setShow , packId,
+                                   addCard, editCard, card,
+                                   modalType, setModalType }: AddEditCardModalPropsType) => {
+    const [question, setQuestion] = useState(card ? card.question : '')
+    const [answer, setAnswer] = useState(card ? card.answer : '')
 
     const onClickAddCards = () => {
         if (packId) {
-            addCard({packId, quest, answer})
-            // dispatch(addCardTC({packId, quest, answer}))
+            if (addCard) addCard({packId, question, answer})
+            if (editCard) {
+                setModalType && setModalType("none")
+                editCard({_id: card?._id, question, answer})
+            }
             setShow(false)
-            setQuest('')
+            setQuestion('')
             setAnswer('')
         }
     }
-    const onQuestionInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setQuest(e.currentTarget.value)
-    }
-    const onAnswerInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setAnswer(e.currentTarget.value)
-    }
-
+    if (modalType && modalType !== "edit") return (<></>)
     return (
         <>
             <Modal width={500} height={400} show={show} enableBackground={true}
@@ -55,16 +60,21 @@ export const AddCardModal = ({show, setShow , packId, addCard}: AddCardModalProp
                    modalStyle={modalStyle}
             >
                 <div className={s.delHeader}>
-                    <div>Add card</div>
+                    <div>{card ? `Edit card - ${card.question}` : 'Add card'}</div>
                     <SuperButton icon="close" style={{borderWidth: 0}} onClick={() => setShow(false)}
                                  imgStyle={{width: "15px", height: "15px"}}
                     />
                 </div>
                 <div className={s.delPackBody}>
                     <div className={s.textField}>Question:</div>
-                    <SuperInputText type='text' placeholder='Name Card' className={'inOneLine'} onChange={onQuestionInputChange}/>
+                    <SuperInputText type='text' placeholder='Name Card' className={'inOneLine'}
+                                    onChangeText={setQuestion}
+                                    value={question}
+                    />
                     <div className={s.textField}>Answer:</div>
-                    <SuperInputText type='text' placeholder='Answer' className={'inOneLine'} onChange={onAnswerInputChange}/>
+                    <SuperInputText type='text' placeholder='Answer' className={'inOneLine'}
+                                    onChangeText={setAnswer}
+                                    value={answer}/>
                 </div>
                 <div className={s.buttonsBlock}>
                     <SuperButton onClick={() => setShow(false)} dis={true}

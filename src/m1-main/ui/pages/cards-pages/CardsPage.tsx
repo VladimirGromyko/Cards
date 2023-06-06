@@ -12,13 +12,12 @@ import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import {ReactComponent as Svg} from "./../utils/direction-arrow-left.svg";
 import SuperButton from "../../common/button/SuperButton";
 import {addCardTC, deleteCardTC, setCardsTC} from "../../../bll/cardsReducer";
-import {SortCardsHeaderType} from "../../../dal/cards-api";
+import {CardsType, SortCardsHeaderType} from "../../../dal/cards-api";
 import {HeaderTable, triangleViewType} from "../utils/header-table/HeaderTable";
 import SuperInputText from "../../common/input/SuperInputText";
 import Popover from "../../common/popover/Popover";
-import {addPacksTC, deletePackTC} from "../../../bll/packsReducer";
 import Waiting from "m1-main/ui/pages/error-page/Waiting";
-import {AddCardModal, NewCardType} from "m1-main/ui/pages/cards-pages/cards-modals/AddCardModal";
+import {AddEditCardModal, NewCardType} from "m1-main/ui/pages/cards-pages/cards-modals/AddEditCardModal";
 
 type HeadingsElementType = {
     headings: string,
@@ -138,7 +137,7 @@ const CardsPage = () => {
     // Block for Add card
     const [showAddCardModal, setShowAddCardModal] = useState<boolean>(false);
     const addCard = useCallback((newCard: NewCardType) => {
-        dispatch(addCardTC({cardsPack_id: newCard.packId, question: newCard.quest, answer: newCard.answer}))
+        dispatch(addCardTC({cardsPack_id: newCard.packId, question: newCard.question, answer: newCard.answer}))
     }, [dispatch,])
     //-------------
 
@@ -149,6 +148,14 @@ const CardsPage = () => {
         dispatch(deleteCardTC(params))
     }, [dispatch, deleteCardTC])
     // }, [dispatch])
+    //-------------
+
+    // Block for Edit card
+
+    const editCard = useCallback((card: CardsType) => {
+        debugger
+        // dispatch(addCardTC({cardsPack_id: newCard.packId, question: newCard.question, answer: newCard.answer}))
+    }, [dispatch,])
     //-------------
 
     const setSorting = async (sortField: string) => {
@@ -252,6 +259,7 @@ const CardsPage = () => {
                                         packId={packId}
                                         userId={userId}
                                         deleteCard={deleteCard}
+                                        editCard={editCard}
                             />
 
                             {/*</div>*/}
@@ -275,10 +283,10 @@ const CardsPage = () => {
                         }
                     </div>
                 }
-                <AddCardModal show={showAddCardModal}
-                              setShow={setShowAddCardModal}
-                              packId={packId}
-                              addCard={addCard}
+                <AddEditCardModal show={showAddCardModal}
+                                  setShow={setShowAddCardModal}
+                                  packId={packId}
+                                  addCard={addCard}
                 />
             </div>
         </div>

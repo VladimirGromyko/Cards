@@ -24,6 +24,7 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = (
     onKeyPress, onEnter,
     error,
     className, spanClassName,
+    children,
 
     ...restProps
 }
@@ -44,6 +45,7 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = (
 // }
 
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
+        debugger
         onChange && onChange(e)
         onChangeText && onChangeText(e.currentTarget.value)
     }

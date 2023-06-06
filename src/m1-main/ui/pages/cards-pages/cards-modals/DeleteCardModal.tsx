@@ -7,8 +7,8 @@ import s from "./CardsModal.module.css";
 type DeleteCardModalPropsType = {
     setShow: (value:boolean)=>void
     card: CardsType
-    modalType: ActionPackCardType;
     deleteCard: (cardId: string | undefined) => void
+    modalType: ActionPackCardType;
     setModalType: (value: ActionPackCardType) => void
 }
 
@@ -17,6 +17,10 @@ export const DeleteCardModal = ({modalType, setModalType, setShow , card, delete
         deleteCard(card._id)
         setModalType("none")
         setShow(false)
+    }
+    const onClickCancel = () => {
+        setShow(false);
+        // setModalType("none")
     }
     if (modalType !== "delete") return (<></>)
     return (

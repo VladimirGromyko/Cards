@@ -54,8 +54,8 @@ export type CardsGetRequestType = {
 export type CardsType = {
     answer: string
     question: string
-    cardsPack_id: string
-    grade: number | null
+    cardsPack_id?: string
+    grade?: number | null
     rating?: number | null
     shots?: number | null
     type?: string
