@@ -1,6 +1,6 @@
-import React, {ChangeEvent, CSSProperties, useCallback, useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import cardsStyle from './CardsTable.module.css'
-import {CardsType, SortNameType, SortNumberType} from "../../../../dal/cards-api";
+import {CardsType} from "m1-main/dal/cards-api";
 import {CardItem} from "./CardItem";
 import {ActionPackCardType} from "m1-main/ui/pages/packs-pages/paks-table/PacksTable";
 import Modal from "m1-main/ui/common/modal/Modal";

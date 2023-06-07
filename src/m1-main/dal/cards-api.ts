@@ -25,8 +25,8 @@ export const cardsAPI = {
     deleteCard(params:{id: string | undefined}){
         return instance.delete(`/cards/card?id=${params.id}`)
     },
-    updateCard(params:{cardId: string, newQuestion?: string}){
-        return instance.put(`/cards/card`, {card: {_id:params.cardId, question:params.newQuestion}})
+    updateCard(params: PutRequestUpdateCardType){
+        return instance.put<PutRequestUpdateCardType, AxiosResponse>(`/cards/card`, {card: params})
     },
     gradeCard: (payload: GradeCardPayload) => {
         return instance.put<GradeCardPayload, AxiosResponse<any>>("/cards/grade", { ...payload });
@@ -94,4 +94,10 @@ export type PostRequestCardType = {
     questionImg?: string
     questionVideo?: string
     answerVideo?: string
+}
+export type PutRequestUpdateCardType = {
+    _id: string | undefined,
+    question?: string
+    answer?: string
+    cardsPack_id?: string
 }

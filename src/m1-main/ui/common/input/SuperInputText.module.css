@@ -39,8 +39,7 @@
 }
 
 .superInput::placeholder {
-    color: #212529;
-    opacity: 0.4;
+    color: #b9b9b9;
 }
 
 .superInput:focus {

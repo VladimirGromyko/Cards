@@ -18,10 +18,6 @@ export const DeleteCardModal = ({modalType, setModalType, setShow , card, delete
         setModalType("none")
         setShow(false)
     }
-    const onClickCancel = () => {
-        setShow(false);
-        // setModalType("none")
-    }
     if (modalType !== "delete") return (<></>)
     return (
         <>

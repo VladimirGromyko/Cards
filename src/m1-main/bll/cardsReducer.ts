@@ -1,5 +1,12 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {cardsAPI, CardsGetRequestType, CardsGetResponseType, CardsType, PostRequestCardType} from "../dal/cards-api";
+import {createSlice} from "@reduxjs/toolkit";
+import {
+    cardsAPI,
+    CardsGetRequestType,
+    CardsGetResponseType,
+    CardsType,
+    PostRequestCardType,
+    PutRequestUpdateCardType
+} from "../dal/cards-api";
 import {createAppAsyncThunk} from "./utils/create-app-asynk-thunk";
 import {handleServerNetworkError} from "./utils/error-utils";
 import {packsAPI, PacksGetResponseDataType} from "../dal/packs-api";
@@ -164,30 +171,21 @@ export const deleteCardTC = createAppAsyncThunk('deleteCard/removeCard',
         dispatch(loadingAC('succeeded'))
     }
 })
-
-// export const fetchCardsTC =
-//     (packId: string) => (dispatch: Dispatch) => {
-//         const payload: any = {
-//             cardAnswer: "",
-//             cardQuestion: "",
-//             cardsPack_id: packId,
-//             min: 0,
-//             max: 0,
-//             sortCards: "",
-//             page: 1,
-//             pageCount: 1000,
-//         };
-//
-//         cardsAPI
-//             .getAllCards(payload)
-//             .then((res) => {
-//                 dispatch(setCardsAC(res.data));
-//                 console.log(res.data)
-//             })
-//             .catch((err) => {
-//                 console.log(err);
-//             })
-//
-//     }
+export const updateCardTC = createAppAsyncThunk('deleteCard/removeCard',
+    async ( card: PutRequestUpdateCardType, thunkAPI) => {
+        const {dispatch, rejectWithValue, getState} = thunkAPI
+        debugger
+        try {
+            dispatch(loadingAC('loading'))
+            await cardsAPI.updateCard(card)
+            await dispatch(setCardsTC({cardsPack_id: card.cardsPack_id, pageCount: 1000}))
+        } catch (err) {
+            debugger
+            handleServerNetworkError(err, dispatch)
+            return rejectWithValue(null)
+        } finally {
+            dispatch(loadingAC('succeeded'))
+        }
+    })
 
 

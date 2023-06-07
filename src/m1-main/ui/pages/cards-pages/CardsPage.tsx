@@ -1,18 +1,18 @@
-import React, {ChangeEvent, CSSProperties, useCallback, useEffect, useState} from 'react'
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react'
 
 import CardsTable from './cards-table/CardsTable';
 
 import {useNavigate, useParams} from "react-router-dom";
 import cs from "./CardsPage.module.css";
 import useDebounce from "../../features/hooks/useDebounce";
-import {authActions} from "../../../bll/authReducer";
-import {PATH} from "../../../navigation/Paths";
-import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
+import {authActions} from "m1-main/bll/authReducer";
+import {PATH} from "m1-main/navigation/Paths";
+import {useAppDispatch, useAppSelector} from "m1-main/bll/hooks";
 
 import {ReactComponent as Svg} from "./../utils/direction-arrow-left.svg";
 import SuperButton from "../../common/button/SuperButton";
-import {addCardTC, deleteCardTC, setCardsTC} from "../../../bll/cardsReducer";
-import {CardsType, SortCardsHeaderType} from "../../../dal/cards-api";
+import {addCardTC, deleteCardTC, setCardsTC, updateCardTC} from "m1-main/bll/cardsReducer";
+import {CardsType, SortCardsHeaderType} from "m1-main/dal/cards-api";
 import {HeaderTable, triangleViewType} from "../utils/header-table/HeaderTable";
 import SuperInputText from "../../common/input/SuperInputText";
 import Popover from "../../common/popover/Popover";
@@ -154,7 +154,7 @@ const CardsPage = () => {
 
     const editCard = useCallback((card: CardsType) => {
         debugger
-        // dispatch(addCardTC({cardsPack_id: newCard.packId, question: newCard.question, answer: newCard.answer}))
+        dispatch(updateCardTC({cardsPack_id: packId, _id:card._id, question: card.question, answer: card.answer}))
     }, [dispatch,])
     //-------------
 

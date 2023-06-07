@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {useState} from "react";
 import SuperButton from "m1-main/ui/common/button/SuperButton";
 import Modal from "m1-main/ui/common/modal/Modal";
 import SuperInputText from "m1-main/ui/common/input/SuperInputText";
