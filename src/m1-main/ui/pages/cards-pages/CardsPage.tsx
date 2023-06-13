@@ -33,7 +33,7 @@ const CardsPage = () => {
     const sort = useAppSelector(state => state.cards.sortCards)
     const cardsSet = useAppSelector(state => state.cards.cardsSet)
     const packUserId = cardsSet.packUserId
-    debugger
+
     const dispatch = useAppDispatch()
     const params = useParams()
     const navigate = useNavigate()

@@ -4,9 +4,9 @@ import {useNavigate, useParams} from "react-router-dom";
 import Waiting from "../error-page/Waiting";
 import SuperInputText from "../../common/input/SuperInputText";
 import SuperButton from "../../common/button/SuperButton";
-import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
-import {PATH} from "../../../navigation/Paths";
-import {createNewPasswordTC, setErrorPassRecover} from "../../../bll/registerReducer";
+import {useAppDispatch, useAppSelector} from "m1-main/bll/hooks";
+import {PATH} from "m1-main/navigation/Paths";
+import {createNewPasswordTC, setErrorPassRecover} from "m1-main/bll/registerReducer";
 
 const ChangePasswordPage = () => {
     const newPassStatus = useAppSelector(state => state.register.passwordStatus)

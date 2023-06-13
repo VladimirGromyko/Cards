@@ -1,12 +1,6 @@
 import {instance} from "./instance";
 import {AxiosResponse} from "axios";
 
-// export const authsAPI = {
-
-    // updateUser(name: string) {
-    //     return instance.put<{ name: string },AxiosResponse<ResponseType>>('auth/me', {name});
-    // }
-// }
 export type SortCardsHeaderType = 'question' | 'answer' | 'updated' | 'grade' | 'none'
 export const cardsAPI = {
 
@@ -14,12 +8,9 @@ export const cardsAPI = {
         return instance.get(`/cards/card?cardsPack_id=${params.cardsPackId}&pageCount=${params.pageCount}&sortCards=${params.sortNumber}${params.sortName}&cardQuestion=${params.search}`);
     },
     getCards(param: {params: CardsGetRequestType}) {
-        debugger
         return instance.get<CardsGetRequestType, AxiosResponse<CardsSetType>>('cards/card', param);
     },
     addCard(param:{card: PostRequestCardType}){
-    // addCard(params:{cardsPack_id: string, question: string, answer:string}){
-        debugger
         return  instance.post<PostRequestCardType, AxiosResponse>(`/cards/card`, param)
     },
     deleteCard(params:{id: string | undefined}){
@@ -28,8 +19,8 @@ export const cardsAPI = {
     updateCard(params: PutRequestUpdateCardType){
         return instance.put<PutRequestUpdateCardType, AxiosResponse>(`/cards/card`, {card: params})
     },
-    gradeCard: (payload: GradeCardPayload) => {
-        return instance.put<GradeCardPayload, AxiosResponse<any>>("/cards/grade", { ...payload });
+    gradeCard: (params: GradeCardPayload) => {
+        return instance.put<GradeCardPayload, AxiosResponse<any>>("/cards/grade", params);
     },
 }
 
@@ -39,17 +30,18 @@ export type SortNameType = 'question' | 'answer' | 'updated' | 'grade'
 export type GradeCardPayload = {
     grade: number;
     card_id: string;
-};
+    cardsPack_id?: string
+}
 
 export type CardsGetRequestType = {
-    cardAnswer?: string // не обязательно
-    cardQuestion?: string // не обязательно
+    cardAnswer?: string
+    cardQuestion?: string
     cardsPack_id: string | undefined
-    min?: number // не обязательно
-    max?: number // не обязательно
-    sortCards?: string // не обязательно
-    page?: number // не обязательно
-    pageCount?: number // не обязательно
+    min?: number
+    max?: number
+    sortCards?: string
+    page?: number
+    pageCount?: number
 }
 export type CardsType = {
     answer: string

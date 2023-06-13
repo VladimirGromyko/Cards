@@ -1,88 +1,73 @@
 import { useNavigate, useParams } from "react-router-dom"
 import React, { useEffect, useState } from "react"
-import { LearnCard } from "./LearnCard"
-import s from "./LearnPage.module.css"
-// import { PATH } from "../../routes/Paths"
-import { useDispatch, useSelector } from "react-redux";
-// import { CardType, getCardsTC, gradeCardTC } from "../../../m2-bll/cardsReducer1"
-// import { AppStoreType } from "../../../m2-bll/store";
-import l from "../../common/c7-Loading/loader07.module.css";
-// import { cardsType } from "../../../m2-bll/cardsReducer"
+import {LearnCard, QuestionRateType} from "./LearnCard"
+import s from "./Learn.module.css"
+import {ReactComponent as Svg} from "./../utils/direction-arrow-left.svg";
+import {useAppDispatch, useAppSelector} from "m1-main/bll/hooks";
+import {cardsActions, gradeCardTC, initCardsState, setCardsTC} from "m1-main/bll/cardsReducer";
+import {CardsType} from "m1-main/dal/cards-api";
+import Waiting from "m1-main/ui/pages/error-page/Waiting";
+import {getCard} from "m1-main/ui/pages/utils/get-card";
+import {authActions} from "m1-main/bll/authReducer";
+import {PATH} from "m1-main/navigation/Paths";
 
 
 export const LearnPage = () => {
+    const cards = useAppSelector(state => state.cards.cardsSet)
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const params = useParams()
+    const packId = params.id
+debugger
+    const [currentCard, setCurrentCard] = useState<CardsType>(cards.cards[0])
+    const learn = async () => {
+        try{
+            await dispatch(setCardsTC({
+                // cardAnswer: "",
+                // cardQuestion: "",
+                cardsPack_id: packId,
+                // min: 3,
+                // max: 5,
+                sortCards: "0grade",
+                // page: 1,
+                pageCount: 1000,
+            }))
+        } catch (e) {
+            console.log(e)
+        }
 
-    // const isLoading = useSelector<AppStoreType>(state => state.loading.isLoading);
-    // const cards = useSelector<AppStoreType, CardType[]>(state => state.cards1.cards)
-    //
-    // const navigate = useNavigate()
-    // const dispatch = useDispatch()
-    // const params = useParams()
-    // const packId = params.id
-    // const [first, setFirst] = useState(true);
-    //
-    // const [currentCard, setCurrentCard] = useState<cardsType>({
-    //
-    // }) //
-    //
-    // const navigateBackPage = () => navigate(PATH.PACKS)
-    //
-    // const nextCardHandler = (grade: number) => {
-    //     if (cards && currentCard._id) {
-    //         setCurrentCard(getCard(cards))
-    //         dispatch(gradeCardTC((+grade), currentCard._id));
-    //     }
-    // }
-    //
-    // useEffect(() => {
-    //     if (first) {
-    //
-    //         packId && dispatch(getCardsTC({ packId }));
-    //         setCurrentCard(getCard(cards))
-    //         setFirst(false);
-    //
-    //     }
-    //
-    //     if (cards.length > 0) {
-    //         setCurrentCard(getCard(cards));
-    //         setFirst(false);
-    //     }
-    //
-    // }, [cards, dispatch, ]);
-    //
-    //
-    // return (<div className={s.superWrapper}>
-    //     {isLoading === "loading" && <div className={l.loader07}></div>}
-    //
-    //         <div className={s.wrapper}>
-    //             {currentCard && <LearnCard
-    //                 currentCard={currentCard}
-    //                 nextCardHandler={nextCardHandler}
-    //                 navigateBackPage={navigateBackPage}
-    //             />}
-    //         </div>
-    //     </div>
-    // )
+    }
+    useEffect(() => {
+        debugger
+        learn()
+    }, [packId, dispatch, ]);
+    useEffect(() => {
+        debugger
+        setCurrentCard(getCard(cards.cards))
+    }, [cards.packName, dispatch, ]);
+    const changeCard = async (questionRate: QuestionRateType) => {
+        debugger
+        await dispatch(gradeCardTC({cardsPack_id: packId,card_id: questionRate.card_id, grade: questionRate.grade}))
+        setCurrentCard(getCard(cards.cards))
+    }
+    const returnBack = () => {
+        dispatch(authActions.changeMeStatusResponse('done'))
+        dispatch(cardsActions.setCards(initCardsState))
+        navigate(PATH.PACKS)
+    }
+
+    return (
+        <>
+            <div className={s.returnBack} onClick={returnBack} >
+                <Svg width="30px" height="25px"/>
+                Back to Packs List
+            </div>
+            <div className={s.superWrapper}>
+                <Waiting />
+                {cards.packUserId && <LearnCard currentCard={currentCard} changeCard={changeCard}/>}
+            </div>
+        </>
+
+    )
 }
 
-
-
-
-
-
-
-//utility
-
-
-// const getCard = (cards: CardType[]) => {
-//     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
-//     const rand = Math.random() * sum;
-//     const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
-//         const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
-//         return { sum: newSum, id: newSum < rand ? i : acc.id }
-//     }
-//         , { sum: 0, id: -1 });
-//     console.log('test: ', sum, rand, res)
-//
-//     return cards[res.id + 1];
-// }

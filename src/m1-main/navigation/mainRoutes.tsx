@@ -17,6 +17,7 @@ import PasswordRecoveryPage from "../ui/pages/pass-recovery/PasswordRecoveryPage
 import ChangePasswordPage from "../ui/pages/pass-recovery/ChangePasswordPage";
 import {ProfilePage} from "../ui/pages/profile/ProfilePage";
 import CardsPage from "../ui/pages/cards-pages/CardsPage";
+import {LearnPage} from "m1-main/ui/pages/learn/LearnPage";
 // import {ProfilePacksPage} from "../pages/MainPage/PackList/ProfilePacksPage";
 // import { LearnPage } from '../pages/learn/LearnPage';
 
@@ -37,7 +38,9 @@ const MainRoutes = () => {
                 <Route path={PATH.PASSWORD_RECOVERY} element={<PasswordRecoveryPage/>}/>
                 <Route path={PATH.PACKS} element={<PacksPage/>}/>
                 <Route path={PATH.CARDS} element={<CardsPage/>}/>
-                {/*<Route path={PATH.PACK_LIST_LEARN} element={<LearnPage/>}/>*/}
+                <Route path={PATH.CARD_ID} element={<CardsPage/>}/>
+                <Route path={PATH.LEARN} element={<LearnPage/>}/>
+                <Route path={PATH.LEARN_PACK} element={<LearnPage/>}/>
                 <Route path={PATH.WAITING} element={<Waiting />}/>
                 <Route path={'/404'} element={<h2 style={{textAlign: "center"}}><Error404/></h2>}/>
                 <Route path='*' element={<Navigate to={'/404'}/>}/>

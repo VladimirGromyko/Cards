@@ -1,9 +1,0 @@
-.superWrapper{
-    min-height: 100vh;
-    margin: 0 auto;
-    displey: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    justify-content: center;
-}

@@ -1,9 +1,9 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {
     cardsAPI,
     CardsGetRequestType,
     CardsGetResponseType,
-    CardsType,
+    CardsType, GradeCardPayload,
     PostRequestCardType,
     PutRequestUpdateCardType
 } from "../dal/cards-api";
@@ -51,7 +51,10 @@ const cardsReducer = createSlice({
     name: 'cards',
     initialState: initCardsState,
     reducers: {
-        // setCards:(state, action: PayloadAction<CardsGetResponseType>) => {
+
+        setCards:(state, action: PayloadAction<CardsGetResponseType>) => {
+            debugger
+            return action.payload
         //     // state.cards = action.payload.cards
         //     // state.cardsTotalCount = action.payload.cardsTotalCount
         //     // state.tokenDeathTime = action.payload.tokenDeathTime
@@ -66,7 +69,7 @@ const cardsReducer = createSlice({
         //     // state.packUserId = action.payload.packUserId
         //     // state.token = action.payload.token
         //     return {...state, ...action.payload}
-        // },
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(setCardsTC.fulfilled, (state, action) => {
@@ -187,5 +190,20 @@ export const updateCardTC = createAppAsyncThunk('deleteCard/removeCard',
             dispatch(loadingAC('succeeded'))
         }
     })
-
+export const gradeCardTC = createAppAsyncThunk('gradeCard/cardStatus',
+    async ( card: GradeCardPayload, thunkAPI) => {
+        const {dispatch, rejectWithValue, getState} = thunkAPI
+        debugger
+        try {
+            dispatch(loadingAC('loading'))
+            await cardsAPI.gradeCard({grade: card.grade, card_id: card.card_id})
+            await dispatch(setCardsTC({cardsPack_id: card.cardsPack_id, pageCount: 1000}))
+        } catch (err) {
+            debugger
+            handleServerNetworkError(err, dispatch)
+            return rejectWithValue(null)
+        } finally {
+            dispatch(loadingAC('succeeded'))
+        }
+    })
 

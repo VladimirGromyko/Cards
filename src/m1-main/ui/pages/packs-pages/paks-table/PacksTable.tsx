@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react";
-import {CardPacksType, PacksGetResponseDataType} from "../../../../dal/packs-api";
+import {CardPacksType, PacksGetResponseDataType} from "m1-main/dal/packs-api";
 import { PackItem } from "./PackItem";
 import Modal from "../../../common/modal/Modal";
 import {DeletePackModal} from "../packs-modals/DeletePackModal";
@@ -50,7 +50,6 @@ export const PacksTable = ({
     //     debugger
     //     console.log(e)
     // }
-
     const initialCurrentPack: CardPacksType = {
         user_id: "", name: "", _id: "", cardsCount: 0, user_name: "", created: "", updated: "",
         private: false, rating: 0, shots: 0, type: ""
@@ -59,17 +58,21 @@ export const PacksTable = ({
     const [currentPack, setCurrentPack] = useState<CardPacksType>(initialCurrentPack);
 
     const [show, setShow] = useState<boolean>(false);
-debugger
     const selectedPackAction = (pack: CardPacksType, type: ActionPackCardType) => {
-        setModalType(type)
-        if (type !== "none" && type !== "view") {
-            setShow(true)
-            setCurrentPack(pack)
+        if (type !== "learn") {
+            setModalType(type)
+            if (type !== "none" && type !== "view") {
+                setShow(true)
+                setCurrentPack(pack)
+            }
+            if (type === "view") {
+                setCurrentPack(pack)
+                viewPack(pack._id)
+            }
+        } else {
+            learnPack(pack._id)
         }
-        if (type === "view") {
-            setCurrentPack(pack)
-            viewPack(pack._id)
-        }
+
     }
     const backgroundOnClick = () => {
         setShow(false)

@@ -71,7 +71,7 @@ export const ProfilePage = () => {
     const saveName = () => {
         const trimNameFromInput = nameFromInput?.trim()
         if (userName !== trimNameFromInput) {
-            dispatch(updateUserProfileTC({name: trimNameFromInput, avatar:"https://www.meme-arsenal.com/memes/8d5e37167343dd477fde3ba2e59f9dee.jpg"}))
+            dispatch(updateUserProfileTC({name: trimNameFromInput, avatar:defaultAvatar}))
         }
     }
     const onLogoutHandle = () =>{
@@ -100,7 +100,7 @@ export const ProfilePage = () => {
                     <span>Personal Information</span>
                     <div className={s.photo}>
                         <img
-                             src="https://www.meme-arsenal.com/memes/8d5e37167343dd477fde3ba2e59f9dee.jpg"
+                             src={defaultAvatar}
                              alt="UserPhoto"
                              className={s.photoImg}
                         />

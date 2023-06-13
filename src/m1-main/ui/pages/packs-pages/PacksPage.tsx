@@ -145,7 +145,10 @@ export const PacksPage = () => {
             // page: 1,
             pageCount: 1000,
         }))
-        navigate(`${PATH.PACKS}/${packId}`)
+        // console.log(`${PATH.PACKS}/${packId}`)
+        console.log(`${PATH.CARDS}/${packId}`)
+        // navigate(`${PATH.PACKS}/${packId}`)
+        navigate(`${PATH.CARDS}/${packId}`)
         // dispatch(editPackTC({cardsPack: {_id: packId, name: packName, private: privateStatus}}))
     }, [dispatch])
 //-------------
@@ -153,7 +156,7 @@ export const PacksPage = () => {
     const learnPack = useCallback((packId: string) => {
     debugger
     //     // navigate('/packs/' + packId)
-    //     navigate('/main/packs-learn/'+ packId)
+        navigate(`${PATH.LEARN}/${packId}`)
     }, [])
 
 // Block for Edit pack
