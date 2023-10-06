@@ -1,54 +1,54 @@
 .wrapper {
-    display: flex;
-    /*position: relative;*/
-    min-width: 1008px;
-    height: 100%;
-    background: #FEFEFF;
-    border-radius: 8px;
-    justify-content: center;
-    align-content: center;
-    text-align: center;
-    margin: 0 auto 20px auto;
+  display: flex;
+  /*position: relative;*/
+  min-width: 1008px;
+  height: 100%;
+  background: #fefeff;
+  border-radius: 8px;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  margin: 0 auto 20px auto;
 }
 /*пробуем дизайн*/
 .TableWrapper {
-    display: grid;
-    grid-template-areas:
-            'A  B B B B B B '
-            'A  B B B B B B';
-    /*background: linear-gradient(180deg, #678efe0a, #678efe8f); !*изменила фон таблицы*!*/
-    background: #678efe0a;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    min-height: 638px;
+  display: grid;
+  grid-template-areas:
+    "A  B B B B B B "
+    "A  B B B B B B";
+  /*background: linear-gradient(180deg, #678efe0a, #678efe8f); !*изменила фон таблицы*!*/
+  background: #678efe0a;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 638px;
 }
 .items {
-    display: grid;
-    grid-template-areas: "1 2 3 4 5";
-    grid-template-columns: 25% 30% 15% 15%;
-    gap: 1%;
-    color: black;
-    background-color: #ffffff;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 35px;
-    border: 1px solid #e8e8e8;
-    align-items: center;
+  display: grid;
+  grid-template-areas: "1 2 3 4 5";
+  grid-template-columns: 25% 30% 15% 15%;
+  gap: 1%;
+  color: black;
+  background-color: #ffffff;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 35px;
+  border: 1px solid #e8e8e8;
+  align-items: center;
 }
 .items:hover {
-    background-color: #f7f7f7;
+  background-color: #f7f7f7;
 }
-.item{
-    padding: 6px 0 6px 20px;
-    cursor:pointer;
-    line-height: 25px;
-    display: flex;
+.item {
+  padding: 6px 0 6px 20px;
+  cursor: pointer;
+  line-height: 25px;
+  display: flex;
 }
 .icon {
-    width: 16px;
-    height: 16px;
-    /*cursor: pointer;*/
-    margin-bottom: 0;
-    border-radius: 0;
+  width: 16px;
+  height: 16px;
+  /*cursor: pointer;*/
+  margin-bottom: 0;
+  border-radius: 0;
 }

@@ -1,69 +1,77 @@
 .menu {
-    display: flex;
-    /*background: linear-gradient(180deg, #678efe0a, #678efe8f);*/
-    /*color: white;*/
-    flex-direction: row;
-    list-style-type: none;
-    padding: 20px;
-    height: 25px;
-    justify-content:center;
+  display: flex;
+  /*background: linear-gradient(180deg, #678efe0a, #678efe8f);*/
+  /*color: white;*/
+  flex-direction: row;
+  list-style-type: none;
+  padding: 20px;
+  height: 25px;
+  justify-content: center;
 }
 
-.menu a{
-    padding: 30px;
-    font-size: 20px;
-    color: black;
-    text-decoration: none;
+.menu a {
+  padding: 30px;
+  font-size: 20px;
+  color: black;
+  text-decoration: none;
 }
 
 .profile {
-    cursor: pointer;
+  cursor: pointer;
 }
 .profile_item {
-    cursor: pointer;
+  cursor: pointer;
 }
 .profile_item:hover {
-    background: #eeeeee;
+  background: #eeeeee;
 }
 .arrow {
-    position: absolute;
-    border: solid #bdbdbd;
-    border-width: 0 1px 1px 0;
-    display: inline-block;
-    background: white;
-    padding: 3px;
-    top: 5px;
-    right: 20px;
-    transform: rotate(-135deg);
+  position: absolute;
+  border: solid #bdbdbd;
+  border-width: 0 1px 1px 0;
+  display: inline-block;
+  background: white;
+  padding: 3px;
+  top: 5px;
+  right: 20px;
+  transform: rotate(-135deg);
 }
-.profileMenuWrapper{
-    position: relative;
-    right: 30px;
-    height: 100px;
-    padding-top: 8px;
+.profileMenuWrapper {
+  position: relative;
+  right: 30px;
+  height: 100px;
+  padding-top: 8px;
 }
 .profileMenu {
-    background: white;
-    padding: 10px;
-    width: 100px;
-    border-radius: 3px;
-    border: #bdbdbd solid 1px;
+  background: white;
+  padding: 10px;
+  width: 100px;
+  border-radius: 3px;
+  border: #bdbdbd solid 1px;
 }
 .profileMenuShow {
-    animation: showDiv 1000ms forwards;
+  animation: showDiv 1000ms forwards;
 }
 
 .profileMenuHidden {
-    animation: hidDiv 500ms forwards;
-    transition-duration: 500ms;
-    transition-property: visibility;
-    visibility: hidden;
+  animation: hidDiv 500ms forwards;
+  transition-duration: 500ms;
+  transition-property: visibility;
+  visibility: hidden;
 }
 @keyframes showDiv {
-    0% {opacity: 0}
-    100% {opacity: 1}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 @keyframes hidDiv {
-    0% {opacity: 1}
-    100% {opacity: 0}
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

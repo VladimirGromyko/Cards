@@ -1,28 +1,28 @@
-.button{
-    border: none;
-    background: none;
-    padding: 0;
-    margin-left: 5px;
+.button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin-left: 5px;
 }
-.buttonGrey{
-	border: none;
-	background: none;
-	padding: 0;
-	margin-left: 5px;
-	cursor: pointer;
-	opacity: 40%;
+.buttonGrey {
+  border: none;
+  background: none;
+  padding: 0;
+  margin-left: 5px;
+  cursor: pointer;
+  opacity: 40%;
 }
 .triangle_down {
-	width: 0;
-	height: 0;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	border-top: 12px solid rgb(0, 0, 0);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 12px solid rgb(0, 0, 0);
 }
 .triangle_up {
-	width: 0;
-	height: 0;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	border-bottom: 12px solid rgb(0, 0, 0);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 12px solid rgb(0, 0, 0);
 }

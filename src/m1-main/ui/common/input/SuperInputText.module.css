@@ -1,102 +1,101 @@
 :root {
+  /*--input-color: #99A3BA;*/
+  --input-color: #4a5651;
+  --input-border: #cdd9ed;
+  --input-background: #fff;
+  --input-placeholder: #cbd1dc;
 
-    /*--input-color: #99A3BA;*/
-    --input-color: #4a5651;
-    --input-border: #CDD9ED;
-    --input-background: #fff;
-    --input-placeholder: #CBD1DC;
+  --input-border-focus: #275efe;
 
-    --input-border-focus: #275EFE;
+  --group-color: var(--input-color);
+  --group-border: var(--input-border);
+  --group-background: #eef4ff;
 
-    --group-color: var(--input-color);
-    --group-border: var(--input-border);
-    --group-background: #EEF4FF;
-
-    --group-color-focus: #fff;
-    --group-border-focus: var(--input-border-focus);
-    --group-background-focus: #678EFE;
-    display: flex;
+  --group-color-focus: #fff;
+  --group-border-focus: var(--input-border-focus);
+  --group-background-focus: #678efe;
+  display: flex;
 }
 
 .superInput {
+  /*width: 90%;*/
+  /*box-sizing: border-box;*/
 
-    /*width: 90%;*/
-    /*box-sizing: border-box;*/
-
-    border: 1px solid var(--input-border);
-    border-radius: 4px;
-    font-size: 16px;
-    /*background-color: white;*/
-    /*background-image: url('./pen.png');*/
-    /*background-position: 0 3px;*/
-    /*background-repeat: no-repeat;*/
-    padding: 5px 30px 5px 15px;
-    -webkit-transition: width 0.4s ease-in-out;
-    /*transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;*/
-    transition: width 0.4s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    /*transition-duration: 0.5s;*/
-    /*margin-bottom: 0px;*/
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  font-size: 16px;
+  /*background-color: white;*/
+  /*background-image: url('./pen.png');*/
+  /*background-position: 0 3px;*/
+  /*background-repeat: no-repeat;*/
+  padding: 5px 30px 5px 15px;
+  -webkit-transition: width 0.4s ease-in-out;
+  /*transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;*/
+  transition: width 0.4s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+  /*transition-duration: 0.5s;*/
+  /*margin-bottom: 0px;*/
 }
 
 .superInput::placeholder {
-    color: #b9b9b9;
+  color: #b9b9b9;
 }
 
 .superInput:focus {
-    border-color: rgba(103, 142, 254, 0.9);
-    outline: 0;
-    box-shadow: 0 0 0 0.15rem rgba(103, 142, 254, 0.9);
+  border-color: rgba(103, 142, 254, 0.9);
+  outline: 0;
+  box-shadow: 0 0 0 0.15rem rgba(103, 142, 254, 0.9);
 }
 
-
 .spanClass {
-    display: inline-block;
-    width: 10%;
-    height: 18px;
-    cursor: pointer;
-    border: 1px solid var(--input-border);
-    border-radius: 4px;
-    font-size: 16px;
-    font-palette: dark;
-    background-color: white;
-    background-image: url('./pen.png');
-    background-position: 0 3px;
-    background-repeat: no-repeat;
-    padding: 6px 20px 6px 30px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
+  display: inline-block;
+  width: 10%;
+  height: 18px;
+  cursor: pointer;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  font-size: 16px;
+  font-palette: dark;
+  background-color: white;
+  background-image: url("./pen.png");
+  background-position: 0 3px;
+  background-repeat: no-repeat;
+  padding: 6px 20px 6px 30px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
 }
 
 .spanClass:focus {
-    width: 20%;
+  width: 20%;
 }
 
 .errorInput {
-    /*border: 3px solid red;*/
-    box-shadow: 0 0 0 0.15rem rgba(255, 0, 0, 0.9);
+  /*border: 3px solid red;*/
+  box-shadow: 0 0 0 0.15rem rgba(255, 0, 0, 0.9);
 }
 
 .error {
-    color: red;
+  color: red;
 }
-.inOneLine{
-    border: none;
-    border-bottom: 2px solid #dcdcdc;
-    border-radius: 0;
-    font-size: 16px;
-    font-weight: 600;
-    color: #585858;
-    padding: 5px 30px 5px 15px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+.inOneLine {
+  border: none;
+  border-bottom: 2px solid #dcdcdc;
+  border-radius: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #585858;
+  padding: 5px 30px 5px 15px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 .inOneLine:focus {
-    border-bottom-color: #b9b9b9;
-    outline: 0;
-    box-shadow: 0 1px 0 0 #b9b9b9;
+  border-bottom-color: #b9b9b9;
+  outline: 0;
+  box-shadow: 0 1px 0 0 #b9b9b9;
 }
 .inOneLine::placeholder {
-    color: #212529;
-    opacity: 0.4;
-    font-weight: 500;
+  color: #212529;
+  opacity: 0.4;
+  font-weight: 500;
 }

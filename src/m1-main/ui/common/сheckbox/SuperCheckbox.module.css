@@ -1,23 +1,23 @@
 .label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 .checkbox {
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    margin: 15px 10px 15px 0;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin: 15px 10px 15px 0;
 
-    cursor: pointer;
-    border: var(--group-background-focus) solid 1px;
-    border-radius: 5px
+  cursor: pointer;
+  border: var(--group-background-focus) solid 1px;
+  border-radius: 5px;
 }
-.checkbox:checked{
-    appearance: none;
-    background-image: url('./checked.svg');
-    border: 0;
+.checkbox:checked {
+  appearance: none;
+  background-image: url("./checked.svg");
+  border: 0;
 }
 .checkbox:hover {
-    outline: var(--group-background-focus) solid 1px;
+  outline: var(--group-background-focus) solid 1px;
 }
