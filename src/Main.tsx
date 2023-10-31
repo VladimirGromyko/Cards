@@ -8,14 +8,20 @@ import MainRoutes from "./m1-main/navigation/mainRoutes";
 const Main = () => {
   debugger;
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector((state) => state.auth.meStatusResponse);
+  const isLoggedIn = useAppSelector((state) => {
+    return state.auth.meStatusResponse;
+  });
   const passwordStatus = useAppSelector(
     (state) => state.register.passwordStatus
   );
   const isChangePass = useLocation().pathname.indexOf("change-pass");
 
   useEffect(() => {
-    if (isLoggedIn === "none" && isChangePass === -1 && passwordStatus === "none") {
+    if (
+      isLoggedIn === "none" &&
+      isChangePass === -1 &&
+      passwordStatus === "none"
+    ) {
       dispatch(getAuthUserTC());
     }
   }, [isLoggedIn]);

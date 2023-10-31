@@ -14,23 +14,29 @@
   align-items: center;
   border: 1px solid #e8e8e8;
 }
+
 .items:hover {
   background-color: #f7f7f7;
 }
+
 .item {
   padding: 6px 0 6px 20px;
   cursor: pointer;
+  word-break: break-all;
 }
+
 .itemAction {
   display: flex;
   width: 100px;
   justify-content: space-between;
 }
+
 .itemShortAction {
   display: flex;
   width: 100px;
   justify-content: center;
 }
+
 .itemsLongName {
   cursor: pointer;
   max-width: 250px;

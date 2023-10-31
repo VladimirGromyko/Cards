@@ -1,5 +1,4 @@
 const checkEmail = (email: string) => {
-  debugger;
   let indexA: number | undefined = email?.indexOf("@");
   let indexPoint: number | undefined = email?.indexOf(".");
   let value = false;

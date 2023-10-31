@@ -80,18 +80,18 @@ export const LearnCard = ({ currentCard, changeCard }: LearnCardType) => {
       <div className={s.question_wrapper}>
         <div className={s.wrapper_text}>
           <span>Question:</span>
-          <p className={s.headerText}>{currentCard.question}</p>
+          <p className={s.headerText}>{currentCard?.question}</p>
         </div>
         <div
           className={s.shots}
-        >{`Количество попыток ответов на вопрос: ${currentCard.shots}`}</div>
+        >{`Количество попыток ответов на вопрос: ${currentCard?.shots}`}</div>
       </div>
 
       {showAnswer && (
         <div className={s.wrapper_button}>
           <div className={s.wrapper_text}>
             <span>Answer:</span>
-            <p className={s.headerText}>{currentCard.answer}</p>
+            <p className={s.headerText}>{currentCard?.answer}</p>
           </div>
           <span className={s.rateHeader}>Rate yourself:</span>
           {option.map((el, i) => {

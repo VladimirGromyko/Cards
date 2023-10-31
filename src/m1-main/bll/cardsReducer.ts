@@ -132,9 +132,8 @@ export const setCardsTC = createAppAsyncThunk(
   "setCards/fetchCardsData",
   async (cardsRequest: CardsGetRequestType, thunkAPI) => {
     const { dispatch, rejectWithValue, getState } = thunkAPI;
-    // const state = getState()
+    dispatch(loadingAC("loading"));
     try {
-      dispatch(loadingAC("loading"));
       const res = await cardsAPI.getCards({ params: cardsRequest });
       return { data: res.data, sortCards: cardsRequest.sortCards };
     } catch (error) {
