@@ -1,33 +1,20 @@
-import React, { useCallback, useState } from "react";
+import React, { FC, useCallback } from "react";
 import SuperButton from "../../../common/button/SuperButton";
 import s from "./PacksModal.module.css";
-import { CardPacksType } from "../../../../dal/packs-api";
-import { ActionPackCardType } from "../paks-table/PacksTable";
+import { ModalPropsType } from "m1-main/ui/pages/packs-pages/packs-modals/TablePacksModal";
 
-type DeletePackModalType = {
-  deletePack: (packId: string) => void;
-  pack: CardPacksType;
-  modalType: ActionPackCardType;
-  setShow: (value: boolean) => void;
-  setModalType: (value: ActionPackCardType) => void;
-};
-export const DeletePackModal = ({
-  deletePack,
-  pack,
-  modalType,
-  setShow,
-  setModalType,
-}: DeletePackModalType) => {
+type DeletePackModalType = { modalProps: ModalPropsType };
+export const DeletePackModal: FC<DeletePackModalType> = ({ modalProps }) => {
   const onDeleteClick = useCallback(() => {
-    deletePack(pack._id);
-    setShow(false);
-    setModalType("none");
-  }, [deletePack, setShow, setModalType]);
+    modalProps.action(modalProps.pack._id);
+    modalProps.setShow(false);
+    modalProps.setModalType("none");
+  }, [modalProps]);
 
   const OnCancelClick = useCallback(() => {
-    setShow(false);
-  }, [setShow]);
-  if (modalType !== "delete") return <></>;
+    modalProps.setShow(false);
+  }, [modalProps]);
+  if (modalProps.modalType !== "delete") return <></>;
   return (
     <div>
       <div className={s.delHeader}>
@@ -44,7 +31,7 @@ export const DeletePackModal = ({
 
       <div className={s.delPackBody}>
         <div>
-          Do you really want to remove <b>{pack.name}</b>
+          Do you really want to remove <b>{modalProps.pack.name}</b>
         </div>
         <div>All cards well be excluded from this course</div>
       </div>

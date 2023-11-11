@@ -1,7 +1,7 @@
 import React from "react";
 import SuperButton from "m1-main/ui/common/button/SuperButton";
 import { CardsType } from "m1-main/dal/cards-api";
-import { ActionPackCardType } from "m1-main/ui/pages/packs-pages/paks-table/PacksTable";
+import { ActionPackCardType } from "m1-main/ui/pages/packs-pages/packs-modals/TablePacksModal";
 import s from "./CardsModal.module.css";
 
 type DeleteCardModalPropsType = {

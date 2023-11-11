@@ -37,9 +37,20 @@ type HeadingsElementType = {
 };
 type ColumnHeadingsType = HeadingsElementType[];
 export type RecordType = {
-  name: string | number | undefined | null;
-  type: string;
+  name: "Edit" | "Delete" | "Learn" | "Login" | "LogOut" | "Profile";
+  type: "edit" | "delete" | "learn" | "profile" | "logout";
 };
+const buttonStyle = {
+  color: "white",
+  width: "20ch",
+  fontWeight: "200",
+  border: "none",
+};
+const records: RecordType[] = [
+  { name: "Edit", type: "edit" },
+  { name: "Delete", type: "delete" },
+  { name: "Learn", type: "learn" },
+];
 const CardsPage = () => {
   const userId = useAppSelector((state) => state.auth.meStatus?._id);
   const meStatus = useAppSelector((state) => state.auth.meStatusResponse);
@@ -101,17 +112,6 @@ const CardsPage = () => {
   const [searchValue, setSearchValue] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const debouncedValue = useDebounce(searchValue, 1500);
-  const buttonStyle = {
-    color: "white",
-    width: "20ch",
-    fontWeight: "200",
-    border: "none",
-  };
-  const records: RecordType[] = [
-    { name: "Edit", type: "edit" },
-    { name: "Delete", type: "delete" },
-    { name: "Learn", type: "learn" },
-  ];
 
   useEffect(() => {
     if (debouncedValue) {
@@ -199,9 +199,7 @@ const CardsPage = () => {
       })
     );
   };
-  const settingParameters = () => {
-    debugger;
-  };
+  const settingParameters = () => {};
   // const onSearchClick = () => {
   //     if (packId) {
   //         dispatch(getCardsBySearchTC({ packId, search: searchValue }))
@@ -211,6 +209,17 @@ const CardsPage = () => {
   const selectedRecord = async (element: RecordType) => {
     debugger;
     console.log(element.type);
+    switch (element.type) {
+      case "edit":
+        // await dispatch(editPackTC({ params: { id: packId } }));
+        break;
+      case "delete":
+        break;
+      case "learn":
+        break;
+      default:
+        break;
+    }
     // if (element.type = 'delete') {
     //     try {
     //         await dispatch(deletePackTC( {params: {id: packId}}))

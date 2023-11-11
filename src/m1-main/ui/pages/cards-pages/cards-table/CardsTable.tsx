@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import cardsStyle from "./CardsTable.module.css";
 import { CardsType } from "m1-main/dal/cards-api";
 import { CardItem } from "./CardItem";
-import { ActionPackCardType } from "m1-main/ui/pages/packs-pages/paks-table/PacksTable";
+import { ActionPackCardType } from "m1-main/ui/pages/packs-pages/packs-modals/TablePacksModal";
 import Modal from "m1-main/ui/common/modal/Modal";
 import { DeleteCardModal } from "./../cards-modals/DeleteCardModal";
 import { AddEditCardModal } from "m1-main/ui/pages/cards-pages/cards-modals/AddEditCardModal";
@@ -21,7 +21,6 @@ const CardsTable = ({
   userId,
   deleteCard,
   editCard,
-  ...props
 }: CardsTablePropsType) => {
   const initialCurrentCard: CardsType = {
     cardsPack_id: "",

@@ -1,31 +1,17 @@
 import React, { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { CardPacksType } from "../../../../dal/packs-api";
+import { CardPacksType } from "m1-main/dal/packs-api";
 import { changeDateView } from "../../utils/changeDateView";
 import packsStyle from "./PacksTable.module.css";
-// import SuperButton from '../../../common/c1-SuperButton/SuperButton'
-import { PATH } from "../../../../navigation/Paths";
 import SuperButton from "../../../common/button/SuperButton";
-import { useAppSelector } from "../../../../bll/hooks";
-import { ActionPackCardType } from "./PacksTable";
-// import {changeDateView} from "../../../../../n2-features/f3-utils/changeDateView";
+import { useAppSelector } from "m1-main/bll/hooks";
+import { ActionPackCardType } from "m1-main/ui/pages/packs-pages/packs-modals/TablePacksModal";
 
 type TableItemPropsType = {
-  // deletePackList: (packId: string) => void
-  // editPackList: (packName: string, packId: string) => void
-  // learnPack: (packId: string) => void
   pack: CardPacksType;
   selectedPackAction: (pack: CardPacksType, type: ActionPackCardType) => void;
 };
 
-export const PackItem = ({
-  // deletePackList,
-  // editPackList,
-  // learnPack,
-  selectedPackAction,
-  pack,
-}: TableItemPropsType) => {
-  const navigate = useNavigate();
+export const PackItem = ({ selectedPackAction, pack }: TableItemPropsType) => {
   const user_id = useAppSelector((state) => state.auth.meStatus?._id);
   const onPressHandler = useCallback(
     (type: ActionPackCardType) => {

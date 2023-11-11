@@ -1,40 +1,29 @@
-import React, { useCallback, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import s from "./PacksModal.module.css";
-import { CardPacksType } from "../../../../dal/packs-api";
-import { ActionPackCardType } from "../paks-table/PacksTable";
 import SuperCheckbox from "../../../common/сheckbox/SuperCheckbox";
 import SuperButton from "../../../common/button/SuperButton";
 import SuperInputText from "../../../common/input/SuperInputText";
+import { ModalPropsType } from "m1-main/ui/pages/packs-pages/packs-modals/TablePacksModal";
 
-type EditPackType = {
-  editPack: (packName: string, privateStatus: boolean, packId: string) => void;
-  pack: CardPacksType;
-  modalType: ActionPackCardType;
-  setShow: (value: boolean) => void;
-  setModalType: (value: ActionPackCardType) => void;
-};
+type EditPackType = { modalProps: ModalPropsType };
 
-const EditPackModal = ({
-  editPack,
-  pack,
-  modalType,
-  setShow,
-  setModalType,
-}: EditPackType) => {
-  const [newPackName, setNewPackName] = useState<string>(pack.name);
-  const [privateStatus, setPrivate] = useState<boolean>(pack.private);
+const EditPackModal: FC<EditPackType> = ({ modalProps }) => {
+  const [newPackName, setNewPackName] = useState<string>(modalProps.pack.name);
+  const [privateStatus, setPrivate] = useState<boolean>(
+    modalProps.pack.private
+  );
 
   const onKeyPressHandler = useCallback(() => {
-    editPack(newPackName.trim(), privateStatus, pack._id);
-    setShow(false);
-    setModalType("none");
-  }, [setShow, setModalType, editPack, newPackName, privateStatus]);
-
+    modalProps.action(newPackName.trim(), privateStatus, modalProps.pack._id);
+    modalProps.setShow(false);
+    modalProps.setModalType("none");
+  }, [modalProps, newPackName, privateStatus]);
+  debugger;
   const OnCancelClick = useCallback(() => {
-    setShow(false);
-  }, [setShow]);
+    modalProps.setShow(false);
+  }, [modalProps]);
 
-  if (modalType !== "edit") return <></>;
+  if (modalProps.modalType !== "edit") return <></>;
 
   return (
     <div>

@@ -1,13 +1,13 @@
 import React, { useCallback } from "react";
 import s from "./CardsTable.module.css";
 import { changeDateView } from "../../utils/changeDateView";
-import { CardsType } from "../../../../dal/cards-api";
+import { CardsType } from "m1-main/dal/cards-api";
 import fullStar from "./../../utils/Star-3_full.svg";
 import halfStar from "./../../utils/Star-4_half_full.svg";
 import emptyStar from "./../../utils/Star-5_empty.svg";
 import SuperButton from "m1-main/ui/common/button/SuperButton";
-import { ActionPackCardType } from "m1-main/ui/pages/packs-pages/paks-table/PacksTable";
-import { CardPacksType } from "m1-main/dal/packs-api";
+import { ActionPackCardType } from "m1-main/ui/pages/packs-pages/packs-modals/TablePacksModal";
+
 type CardItemPropsType = {
   card: CardsType;
   isMine: boolean;
