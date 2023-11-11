@@ -13,6 +13,7 @@ import registerReducer, { PasswordStatusType } from "./registerReducer";
 import utilsReducer from "./utilsReducer";
 import cardsReducer from "./cardsReducer";
 import { CardsGetRequestType, CardsGetResponseType } from "../dal/cards-api";
+import packsModalReducer from "m1-main/bll/packsModalReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   packs: packsReducer,
   cards: cardsReducer,
   main: utilsReducer,
+  packsModal: packsModalReducer,
 });
 
 const store = configureStore({
