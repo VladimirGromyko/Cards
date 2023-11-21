@@ -40,11 +40,7 @@ const Popover = ({
                   onClick={() => selectedRecord(el)}
                   key={`${ind}-${el.type}`}
                 >
-                  <SuperButton
-                    // onClick={() => onPressHandler("edit")}
-                    icon={el.type}
-                    style={{ borderWidth: 0 }}
-                  />
+                  <SuperButton icon={el.type} style={{ borderWidth: 0 }} />
                   {el.name}
                 </div>
               );

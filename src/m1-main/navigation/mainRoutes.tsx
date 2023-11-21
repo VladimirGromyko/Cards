@@ -20,7 +20,6 @@ const MainRoutes = () => {
 
         <Route path={PATH.LOGIN} element={<LoginPage />} />
         <Route path={PATH.PROFILE} element={<ProfilePage />} />
-        {/*<Route path={PATH.EDIT_PROFILE} element={<h2 style={{textAlign: "center"}}><EditProfilePage/></h2>}/>*/}
         {/*<Route path={PATH.MAIN} element={<h2 style={{textAlign: "center"}}><MainPage/></h2>}/>*/}
         {/*<Route path={PATH.TEST} element={<h2 style={{textAlign: "center"}}><ProfilePacksPage/></h2>}/>*/}
         <Route path={PATH.CHANGE_PASSWORD} element={<ChangePasswordPage />} />

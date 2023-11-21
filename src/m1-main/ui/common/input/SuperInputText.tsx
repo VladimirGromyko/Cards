@@ -35,22 +35,7 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = ({
 
   ...restProps
 }) => {
-  // let [editMode, setEditMode] = useState(false);
-  //
-  // const activateEditMode = () => {
-  //     setEditMode(true);
-  //     setTitle(props.value);
-  // }
-  // const activateViewMode = () => {
-  //     setEditMode(false);
-  //     props.onChange(title);
-  // }
-  // const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-  //     setTitle(e.currentTarget.value)
-  // }
-
   const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
-    debugger;
     onChange && onChange(e);
     onChangeText && onChangeText(e.currentTarget.value);
   };

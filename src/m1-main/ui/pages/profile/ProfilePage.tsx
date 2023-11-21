@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  useRef,
-  KeyboardEvent,
-  useEffect,
-  useState,
-} from "react";
+import React, { useRef, KeyboardEvent, useEffect, useState } from "react";
 import s from "./Profile.module.css";
 import { ReactComponent as Svg } from "./../utils/direction-arrow-left.svg";
 import { useNavigate } from "react-router-dom";
@@ -34,16 +28,15 @@ export const ProfilePage = () => {
   const [viewEdit, setViewEdit] = useState<boolean>(false);
   const [currentRows, setCurrentRows] = useState<number>(1);
   const [inputPhoto, setInputPhoto] = useState<boolean>(false);
-  const [ava, setAva] = useState(userAvatar || defaultAvatar);
+  const [ava, setAva] = useState(
+    userAvatar?.toString() ? userAvatar : defaultAvatar
+  );
   const [isAvaBroken, setIsAvaBroken] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // const setName = (e: ChangeEvent<HTMLTextAreaElement>) =>{
-  //     setNameFromInput(e.currentTarget.value)
-  // }
   const onKeyPressCallback = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
-      dispatch(updateUserProfileTC({ name: nameFromInput, avatar: ava }));
+      saveName(ava);
       setFieldValue(false);
       setViewEdit(false);
     }
@@ -74,10 +67,8 @@ export const ProfilePage = () => {
   const onOutClick = (e: React.SyntheticEvent<EventTarget>) => {
     debugger;
     const target = (e.target as HTMLElement).className;
-    const isContentButton =
-      typeof target === "string" ? target?.includes("SuperButton_icon") : false;
-    const isContentInput =
-      typeof target === "string" ? target?.includes("editValue") : false;
+    const isContentButton = target?.includes("SuperButton_icon");
+    const isContentInput = target?.includes("editValue");
     if (fieldValue) {
       if (!isContentButton && !isContentInput) {
         setFieldValue(false);
@@ -93,10 +84,12 @@ export const ProfilePage = () => {
     setFieldValue(true);
     userName && adjustHeight(userName);
   };
-  const saveName = () => {
+  const saveName = (newAva: string) => {
     const trimNameFromInput = nameFromInput?.trim();
-    if (userName !== trimNameFromInput || userAvatar !== ava) {
-      dispatch(updateUserProfileTC({ name: trimNameFromInput, avatar: ava }));
+    if (userName !== trimNameFromInput || userAvatar !== newAva) {
+      dispatch(
+        updateUserProfileTC({ name: trimNameFromInput, avatar: newAva })
+      );
     }
   };
   const onLogoutHandle = () => {
@@ -118,7 +111,6 @@ export const ProfilePage = () => {
     debugger;
     if (e.target.files?.length) {
       const file: File = e.target.files[0];
-      console.log("file: ", file);
       const pattern = /^image\//;
       if (!pattern.test(file.type)) {
         alert(`File ${file.name} - invalid format`);
@@ -128,9 +120,7 @@ export const ProfilePage = () => {
         setIsAvaBroken(false);
         convertFileToBase64(file, (file64: string) => {
           setAva(file64);
-          new Promise((resolve, reject) => {
-            resolve("true");
-          }).then(() => saveName());
+          saveName(file64);
         });
       } else {
         console.error("Error: ", "Файл слишком большого размера");
@@ -151,7 +141,7 @@ export const ProfilePage = () => {
 
   const errorHandler = () => {
     setIsAvaBroken(true);
-    alert("Кривая картинка");
+    alert("Inappropriate picture");
   };
 
   let userNameStyle =
@@ -187,8 +177,6 @@ export const ProfilePage = () => {
                   onError={errorHandler}
                   className={s.photoImg}
                 />
-
-                {/*<div>Bla</div>*/}
                 {inputPhoto && (
                   <div className={s.photoInput}>
                     <PhotoInput
@@ -216,7 +204,6 @@ export const ProfilePage = () => {
                     rows={currentRows}
                     value={nameFromInput}
                     onChange={(e) => setNameFromInput(e.currentTarget.value)}
-                    // onChange={(e) => setName}
                     onKeyDown={onKeyPressCallback}
                     onKeyUp={adjustHeight}
                     onClick={adjustHeight}
@@ -232,7 +219,7 @@ export const ProfilePage = () => {
                       fontSize: "16px",
                       maxHeight: "25px",
                     }}
-                    onClick={saveName}
+                    onClick={() => saveName(ava)}
                   >
                     SAVE
                   </SuperButton>

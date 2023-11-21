@@ -19,23 +19,10 @@ export const PackItem = ({ selectedPackAction, pack }: TableItemPropsType) => {
     },
     [selectedPackAction, pack]
   );
-  //
-  // const onEditPressHandler = useCallback(() => {
-  //     editPackList(pack.name, pack._id)
-  // }, [editPackList, pack.name, pack._id])
-  //
-  // const onLearnPressHandler = useCallback(() => {
-  //     learnPack(pack._id)
-  // }, [learnPack, pack._id])
 
   return (
     <div className={packsStyle.items}>
-      <div
-        className={packsStyle.item}
-        // style={{cursor: "pointer"}}
-        onClick={() => onPressHandler("view")}
-        // onClick={() => navigate(`${PATH.PACKS}/${pack._id}`)}
-      >
+      <div className={packsStyle.item} onClick={() => onPressHandler("view")}>
         <div className={packsStyle.itemsLongName}>{pack.name}</div>
       </div>
 

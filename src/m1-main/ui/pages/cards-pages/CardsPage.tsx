@@ -29,6 +29,9 @@ import {
   AddEditCardModal,
   NewCardType,
 } from "m1-main/ui/pages/cards-pages/cards-modals/AddEditCardModal";
+import { setPacksModal } from "m1-main/bll/packsModalReducer";
+import { TablePacksModal } from "m1-main/ui/pages/packs-pages/packs-modals/TablePacksModal";
+import { packsSelector } from "m1-main/bll/selectors/paks-selectors";
 
 type HeadingsElementType = {
   headings: string;
@@ -57,6 +60,10 @@ const CardsPage = () => {
   const sort = useAppSelector((state) => state.cards.sortCards);
   const cardsSet = useAppSelector((state) => state.cards.cardsSet);
   const packUserId = cardsSet.packUserId;
+  const modal = useAppSelector((state) => {
+    return state.packsModal;
+  });
+  const packs = useAppSelector(packsSelector.packs);
 
   const dispatch = useAppDispatch();
   const params = useParams();
@@ -93,21 +100,36 @@ const CardsPage = () => {
   // }
 
   useEffect(() => {
-    // if (selectedCards.cards[0].cardsPack_id !== packId) {
-    // console.log("packId :", packId)
-    // dispatch(setCardsTC({
-    //     // cardAnswer: "",
-    //     // cardQuestion: "",
-    //     cardsPack_id: packId,
-    //     // min: 3,
-    //     // max: 5,
-    //     // sortCards: "",
-    //     // page: 1,
-    //     pageCount: 1000,
-    // }))
-    // }
+    const getCards = async () => {
+      dispatch(
+        setCardsTC({
+          cardsPack_id: packId,
+          pageCount: 1000,
+        })
+      );
+    };
+    getCards().then(() => {
+      dispatch(
+        setPacksModal({
+          currentPack: {
+            _id: packId,
+            name: cardsSet.packName,
+            status: cardsSet.packPrivate,
+          },
+          modalAction: "none",
+          showModal: false,
+        })
+      );
+    });
   }, [packId]);
-  // }, [packId, selectedCards.cards[0].cardsPack_id])
+  useEffect(() => {
+    if (packs?.cardPacks?.length) {
+      const currentPack = packs.cardPacks.filter((el) => el._id === packId);
+      if (!currentPack.length) {
+        returnBack();
+      }
+    }
+  }, [packs]);
 
   const [searchValue, setSearchValue] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -206,40 +228,33 @@ const CardsPage = () => {
   //     }
 
   // }
-  const selectedRecord = async (element: RecordType) => {
-    debugger;
-    console.log(element.type);
+  const selectedRecord = (element: RecordType) => {
     switch (element.type) {
       case "edit":
-        // await dispatch(editPackTC({ params: { id: packId } }));
-        break;
       case "delete":
+        dispatch(
+          setPacksModal({
+            currentPack: {
+              _id: packId,
+              name: cardsSet.packName,
+              status: cardsSet.packPrivate,
+            },
+            modalAction: element.type,
+            showModal: true,
+          })
+        );
         break;
       case "learn":
+        navigate(`${PATH.LEARN}/${packId}`);
         break;
       default:
         break;
     }
-    // if (element.type = 'delete') {
-    //     try {
-    //         await dispatch(deletePackTC( {params: {id: packId}}))
-    //         returnBack()
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
-    // if (element.type = 'edit') {
-    //     try {
-    //         await dispatch(deletePackTC( {params: {id: packId}}))
-    //         returnBack()
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
   };
   return (
     <div className={cs.wrapper}>
       <Waiting />
+      {modal && <TablePacksModal />}
       <div className={cs.TableWrapper}>
         <div className={cs.returnBack} onClick={returnBack}>
           <Svg width="30px" height="25px" />
@@ -298,11 +313,6 @@ const CardsPage = () => {
                 value={searchValue}
               />
             </div>
-
-            {/*<div className={packsStyle.search}>*/}
-            {/*    <SuperInputText onChange={onSearchInputChange}*/}
-            {/*                    placeholder='Enter cards name for searching'/>*/}
-            {/*</div>*/}
             <div className={cs.tableBlock}>
               <div className={cs.wrapper_header}>
                 <HeaderTable
@@ -320,9 +330,6 @@ const CardsPage = () => {
                 deleteCard={deleteCard}
                 editCard={editCard}
               />
-
-              {/*</div>*/}
-              {/*</div>*/}
             </div>
           </>
         ) : (

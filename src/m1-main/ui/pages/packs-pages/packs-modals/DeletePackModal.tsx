@@ -6,15 +6,12 @@ import { ModalPropsType } from "m1-main/ui/pages/packs-pages/packs-modals/TableP
 type DeletePackModalType = { modalProps: ModalPropsType };
 export const DeletePackModal: FC<DeletePackModalType> = ({ modalProps }) => {
   const onDeleteClick = useCallback(() => {
-    modalProps.action(modalProps.pack._id);
-    modalProps.setShow(false);
-    modalProps.setModalType("none");
+    modalProps.action({ _id: modalProps.pack?._id });
   }, [modalProps]);
 
   const OnCancelClick = useCallback(() => {
-    modalProps.setShow(false);
+    modalProps.action({});
   }, [modalProps]);
-  if (modalProps.modalType !== "delete") return <></>;
   return (
     <div>
       <div className={s.delHeader}>
@@ -31,7 +28,7 @@ export const DeletePackModal: FC<DeletePackModalType> = ({ modalProps }) => {
 
       <div className={s.delPackBody}>
         <div>
-          Do you really want to remove <b>{modalProps.pack.name}</b>
+          Do you really want to remove <b>{modalProps.pack?.name}</b>
         </div>
         <div>All cards well be excluded from this course</div>
       </div>

@@ -2,14 +2,9 @@ import {
   authAPI,
   LoginType,
   UserDataType,
-  UserProfileType
+  UserProfileType,
 } from "../dal/auth-api";
-import {
-  createAsyncThunk,
-  createSlice,
-  Dispatch,
-  PayloadAction
-} from "@reduxjs/toolkit";
+import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import { AppActionType } from "./store";
 import { loadingAC } from "./loadingReducer";
 import { setErrorRegistration } from "./registerReducer";
@@ -35,16 +30,13 @@ export type meStatusResponseType =
 const initialState: authStateType = {
   meStatus: null,
   meStatusResponse: "none",
-  error: ""
+  error: "",
 };
 
 const authReducer = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // getMeStatus(state, action: PayloadAction<UserDataType>) {
-    //     state.meStatus = action.payload
-    // },
     setAuthUserData(state, action: PayloadAction<UserDataType>) {
       state.meStatus = action.payload;
     },
@@ -56,32 +48,18 @@ const authReducer = createSlice({
     },
     setAppError: (state, action: PayloadAction<{ error: string }>) => {
       state.error = action.payload.error;
-    }
-    // updateUserData(state, action: PayloadAction<UserDataType>) {
-    //     state.meStatus = action.payload
-    // },
-    // updateUserProfile (state, action: PayloadAction<UserDataType>) {
-    // state.meStatus = action.payload
-    //     if (state.meStatus?.name) {
-    //         state.meStatus.name = action.payload.name
-    //     }
-    //     if (state.meStatus?.avatar) {
-    //         state.meStatus.avatar = action.payload.avatar
-    //     }
-    // }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
-      debugger;
       state.meStatus = action.payload.profile;
       state.meStatusResponse = "done";
     });
     builder.addCase(getAuthUserTC.fulfilled, (state, action) => {
-      debugger;
       action.payload && (state.meStatus = action.payload.value);
       action.payload && (state.meStatusResponse = "work");
     });
-  }
+  },
 });
 export const authActions = authReducer.actions;
 export default authReducer.reducer;
@@ -93,17 +71,9 @@ export const getAuthUserTC = createAppAsyncThunk(
     const { dispatch, rejectWithValue } = thunkAPI;
     dispatch(loadingAC("loading"));
     try {
-      debugger;
-
       const res = await authAPI.me();
-      // .then((res) => {
-      // dispatch(authActions.changeMeStatusResponse('done'))
-      // dispatch(authActions.setAuthUserData(res.data))
       return { value: res.data };
-
-      // })
     } catch (err) {
-      debugger;
       console.log(err);
       dispatch(authActions.changeMeStatusResponse("error"));
     } finally {
@@ -111,7 +81,6 @@ export const getAuthUserTC = createAppAsyncThunk(
     }
   }
 );
-// export const setAuthUserDataTC = createAsyncThunk("auth/login",
 export const login = createAppAsyncThunk(
   "auth/login",
   async (payload: LoginType, thunkAPI) => {
@@ -119,50 +88,24 @@ export const login = createAppAsyncThunk(
     dispatch(loadingAC("loading"));
     try {
       const response = await authAPI.login(payload);
-      // .then(response => {
-      debugger;
-      // dispatch(authActions.changeMeStatusResponse('done'))
       return { profile: response.data };
-      // dispatch(authActions.setAuthUserData(response.data))
-      // dispatch(authActions.changeMeStatusResponse('done'))
     } catch (e: any) {
-      debugger;
       console.log(e);
       handleServerNetworkError(e, dispatch);
       dispatch(setErrorRegistration(e.response.data.error));
       return rejectWithValue(null);
-      // const error = e.response ? e.response.data.error : (e.message + ", more details in the console")
     } finally {
       dispatch(loadingAC("succeeded"));
     }
   }
 );
-// export const setAuthUserDataTC = (payload: LoginType) => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
-//     dispatch(loadingAC('loading'))
-//     authAPI.login(payload)
-//         .then(response => {
-//             debugger
-//                 dispatch(authActions.setAuthUserData(response.data))
-//                 dispatch(authActions.changeMeStatusResponse('done'))
-//             }
-//         ).catch((e) => {
-//             debugger
-//         const error = e.response ? e.response.data.error : (e.message + ", more details in the console")
-//         console.log(error)
-//         dispatch(setErrorRegistration(error))
-//     }).finally(() => {
-//         dispatch(loadingAC('succeeded'))
-//     })
-// }
 export const logoutUserTC =
   () => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
     dispatch(loadingAC("loading"));
-    debugger;
     authAPI
       .logout()
       .then(() => {
         dispatch(authActions.logOutUser(null));
-        // dispatch(changeMeStatusResponse('none'))
         dispatch(authActions.changeMeStatusResponse("logout"));
         // dispatch(setPacksData({} as PacksGetResponseDataType))
         // dispatch(filterPacks({params: {}} ))
@@ -180,22 +123,21 @@ export const logoutUserTC =
   };
 export const updateUserProfileTC =
   (payload: UserProfileType) =>
-    (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
-      dispatch(loadingAC("loading"));
-      authAPI
-        .updateUser(payload)
-        .then((response) =>
-          dispatch(authActions.setAuthUserData(response.data.updatedUser))
-        )
-        .catch((e) => {
-          const error = e.response
-            
-            ? e.response.data.error
-            : e.message + ", more details in the console";
-          console.log(error);
-          dispatch(setErrorRegistration(error));
-        })
-        .finally(() => {
-          dispatch(loadingAC("succeeded"));
-        });
-    };
+  (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
+    dispatch(loadingAC("loading"));
+    authAPI
+      .updateUser(payload)
+      .then((response) => {
+        dispatch(authActions.setAuthUserData(response.data.updatedUser));
+      })
+      .catch((e) => {
+        const error = e.response
+          ? e.response.data.error
+          : e.message + ", more details in the console";
+        console.log(error);
+        dispatch(setErrorRegistration(error));
+      })
+      .finally(() => {
+        dispatch(loadingAC("succeeded"));
+      });
+  };

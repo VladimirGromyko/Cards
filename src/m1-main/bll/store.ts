@@ -13,7 +13,9 @@ import registerReducer, { PasswordStatusType } from "./registerReducer";
 import utilsReducer from "./utilsReducer";
 import cardsReducer from "./cardsReducer";
 import { CardsGetRequestType, CardsGetResponseType } from "../dal/cards-api";
-import packsModalReducer from "m1-main/bll/packsModalReducer";
+import packsModalReducer, {
+  statePacksModalType,
+} from "m1-main/bll/packsModalReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -52,7 +54,8 @@ export type AppActionType =
   | PacksGetResponseDataType
   | PacksGetRequestType
   | CardsGetRequestType
-  | CardsGetResponseType;
+  | CardsGetResponseType
+  | statePacksModalType;
 
 // CardsActionType
 // | RegisterActionType

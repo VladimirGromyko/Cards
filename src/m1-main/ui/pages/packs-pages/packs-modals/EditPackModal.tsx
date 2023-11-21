@@ -8,22 +8,18 @@ import { ModalPropsType } from "m1-main/ui/pages/packs-pages/packs-modals/TableP
 type EditPackType = { modalProps: ModalPropsType };
 
 const EditPackModal: FC<EditPackType> = ({ modalProps }) => {
-  const [newPackName, setNewPackName] = useState<string>(modalProps.pack.name);
-  const [privateStatus, setPrivate] = useState<boolean>(
-    modalProps.pack.private
+  const [newPackName, setNewPackName] = useState<string>(
+    modalProps.pack?.name ? modalProps.pack.name : ""
   );
-
+  const [privateStatus, setPrivate] = useState<boolean>(
+    modalProps.pack?.status ? modalProps.pack.status : false
+  );
   const onKeyPressHandler = useCallback(() => {
-    modalProps.action(newPackName.trim(), privateStatus, modalProps.pack._id);
-    modalProps.setShow(false);
-    modalProps.setModalType("none");
+    modalProps.action({ name: newPackName.trim(), status: privateStatus });
   }, [modalProps, newPackName, privateStatus]);
-  debugger;
   const OnCancelClick = useCallback(() => {
-    modalProps.setShow(false);
+    modalProps.action({});
   }, [modalProps]);
-
-  if (modalProps.modalType !== "edit") return <></>;
 
   return (
     <div>
@@ -71,7 +67,6 @@ const EditPackModal: FC<EditPackType> = ({ modalProps }) => {
         </SuperButton>
         <SuperButton
           onClick={onKeyPressHandler}
-          // dis={true}
           dis={true}
           style={{
             color: "white",
@@ -84,15 +79,6 @@ const EditPackModal: FC<EditPackType> = ({ modalProps }) => {
           Save
         </SuperButton>
       </div>
-
-      {/*{confirmRes.isResponseConfirm && */}
-      {/*    <div style={{color: 'blue'}}>*/}
-      {/*        {confirmResponse(confirmRes, 'editPack')}*/}
-      {/*    </div>*/}
-      {/*}*/}
-      {/*{errorRes.isResponseError && <div style={{color: 'red'}}>*/}
-      {/*    {errorResponse(errorRes, 'editPack')}*/}
-      {/*</div>}*/}
     </div>
   );
 };

@@ -66,8 +66,12 @@ CardItemPropsType) => {
 
   return (
     <div className={s.items}>
-      <div className={s.item}>{card.question}</div>
-      <div className={s.item}>{card.answer}</div>
+      <div className={s.item} onDoubleClick={() => onPressHandler("edit")}>
+        {card.question}
+      </div>
+      <div className={s.item} onDoubleClick={() => onPressHandler("edit")}>
+        {card.answer}
+      </div>
       <div className={s.item}>
         {changeDateView(card.updated ? card.updated : "")}
       </div>

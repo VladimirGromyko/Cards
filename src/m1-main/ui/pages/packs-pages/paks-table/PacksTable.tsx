@@ -5,56 +5,38 @@ import {
   ActionPackCardType,
   TablePacksModal,
 } from "m1-main/ui/pages/packs-pages/packs-modals/TablePacksModal";
+import { useAppDispatch } from "m1-main/bll/hooks";
+import { setPacksModal } from "m1-main/bll/packsModalReducer";
 
 type PacksTableType = {
-  deletePackList: (packId: string) => void;
-  editPackList: (
-    packName: string,
-    privateStatus: boolean,
-    packId: string
-  ) => void;
   learnPack: (packId: string) => void;
   viewPack: (packId: string) => void;
   packs: PacksGetResponseDataType;
 };
 
-export const PacksTable = ({
-  deletePackList,
-  editPackList,
-  learnPack,
-  viewPack,
-  packs,
-}: PacksTableType) => {
-  const initialCurrentPack: CardPacksType = {
-    user_id: "",
-    name: "",
-    _id: "",
-    cardsCount: 0,
-    user_name: "",
-    created: "",
-    updated: "",
-    private: false,
-    rating: 0,
-    shots: 0,
-    type: "",
-  };
-  const [modalType, setModalType] = useState<ActionPackCardType>("none");
-  const [currentPack, setCurrentPack] =
-    useState<CardPacksType>(initialCurrentPack);
-
-  const [show, setShow] = useState<boolean>(false);
+export const PacksTable = ({ learnPack, viewPack, packs }: PacksTableType) => {
+  const dispatch = useAppDispatch();
+  const [modal, setModal] = useState<boolean>(false);
   const selectedPackAction = (
     pack: CardPacksType,
     type: ActionPackCardType
   ) => {
     if (type !== "learn") {
-      setModalType(type);
       if (type !== "none" && type !== "view") {
-        setShow(true);
-        setCurrentPack(pack);
+        setModal(true);
+        dispatch(
+          setPacksModal({
+            currentPack: {
+              _id: pack._id,
+              name: pack.name,
+              status: pack.private,
+            },
+            modalAction: type,
+            showModal: true,
+          })
+        );
       }
       if (type === "view") {
-        setCurrentPack(pack);
         viewPack(pack._id);
       }
     } else {
@@ -80,27 +62,17 @@ export const PacksTable = ({
     // onMouseUp={(e) => onScroll(e)}
     // onMouseDown={(e) => onScroll(e)}
     >
-      <TablePacksModal
-        deletePackList={deletePackList}
-        editPackList={editPackList}
-        currentPack={currentPack}
-        setModalType={setModalType}
-        modalType={modalType}
-        show={show}
-        setShow={setShow}
-      />
-      <>
-        {packs?.cardPacks &&
-          packs.cardPacks.map((pack) => {
-            return (
-              <PackItem
-                key={pack._id}
-                selectedPackAction={selectedPackAction}
-                pack={pack}
-              />
-            );
-          })}
-      </>
+      {modal && <TablePacksModal />}
+      {packs?.cardPacks &&
+        packs.cardPacks.map((pack) => {
+          return (
+            <PackItem
+              key={pack._id}
+              selectedPackAction={selectedPackAction}
+              pack={pack}
+            />
+          );
+        })}
     </div>
   );
 };
