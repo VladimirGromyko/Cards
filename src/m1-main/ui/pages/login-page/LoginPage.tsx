@@ -30,7 +30,6 @@ const LoginPage = () => {
     passMessage: "",
   };
   const [message, setMessage] = useState<MessageType>(initialMessage);
-  debugger;
 
   const logInHandler = () => {
     let isRegDataCorrect = true;

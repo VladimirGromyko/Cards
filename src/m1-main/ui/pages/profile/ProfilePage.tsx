@@ -65,7 +65,6 @@ export const ProfilePage = () => {
     navigate(PATH.PACKS);
   };
   const onOutClick = (e: React.SyntheticEvent<EventTarget>) => {
-    debugger;
     const target = (e.target as HTMLElement).className;
     const isContentButton = target?.includes("SuperButton_icon");
     const isContentInput = target?.includes("editValue");
@@ -104,11 +103,9 @@ export const ProfilePage = () => {
   }, [userName]);
 
   const selectPhoto = () => {
-    debugger;
     inputRef && inputRef.current?.click();
   };
   const onPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debugger;
     if (e.target.files?.length) {
       const file: File = e.target.files[0];
       const pattern = /^image\//;

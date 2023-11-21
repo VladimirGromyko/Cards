@@ -26,7 +26,6 @@ export const HeaderTable = ({
   const [columnHeadings, setColumnHeadings] =
     useState<HeadingsElementType[]>(columArr);
   const mainSorting = async (sortName: string) => {
-    debugger;
     if (sortName !== "none") {
       const sortField = isSorting ? `1${sortName}` : `0${sortName}`;
       setIsSorting(!isSorting);

@@ -17,7 +17,6 @@ function Navigation() {
   const isLoggedIn = useAppSelector(authSelector.isLoggedIn);
 
   useEffect(() => {
-    debugger;
     switch (isLoggedIn) {
       case "done":
         navigate(PATH.PACKS);

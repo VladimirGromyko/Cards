@@ -39,7 +39,6 @@ const Registration = () => {
     setConfirmPass(e.currentTarget.value);
   };
   const onRegisterClick = () => {
-    debugger;
     let isRegDataCorrect = true;
     const onRegClickMessages = { ...initialMessage };
     if (!password) {
@@ -67,7 +66,6 @@ const Registration = () => {
   };
 
   const onOutClick = () => {
-    debugger;
     if (message.confirmPassMessage || message.emailMessage) {
       setMessage(initialMessage);
     }

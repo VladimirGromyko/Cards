@@ -3,7 +3,6 @@ import { instance } from "m1-main/dal/instance";
 
 export const packsAPI = {
   setPacks(param: PacksGetRequestType) {
-    debugger;
     return instance.get<
       PacksGetRequestDataType,
       // PacksGetRequestType,

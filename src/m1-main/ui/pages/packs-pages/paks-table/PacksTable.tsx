@@ -48,7 +48,6 @@ export const PacksTable = ({ learnPack, viewPack, packs }: PacksTableType) => {
   // useEffect(() => {
   //     onScroll();
   //     window.addEventListener("scroll", onScroll);
-  //     debugger
   //     console.log(scroll)
   //     return () => window.removeEventListener("scroll", onScroll);
   // }, [onScroll]);

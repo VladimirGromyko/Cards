@@ -60,7 +60,6 @@ export const PacksPage = () => {
 
   // Block for sorting
   const setSorting = async (sortField: string) => {
-    debugger;
     await dispatch(setPacksDataTC({ params: { sortPacks: sortField } }));
   };
 

@@ -1,5 +1,6 @@
 import s from "./PackListSize.module.css";
 import { ChangeEvent, useState } from "react";
+
 type PackListSizeType = {
   // changePackListSize: (page: number, pageCount: number) => void
   changePackListSize: (pageCount: number) => void;
@@ -23,7 +24,6 @@ export const PackListSize = ({
 
   const [selected, setSelected] = useState(pageCount);
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    debugger;
     const pageSize = +event.currentTarget.value;
     setSelected(pageSize);
 

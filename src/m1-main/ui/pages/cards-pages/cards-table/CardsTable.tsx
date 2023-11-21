@@ -40,7 +40,6 @@ const CardsTable = ({
   // }, [packId, props])
 
   const selectedCardAction = (card: CardsType, type: ActionPackCardType) => {
-    debugger;
     setModalType(type);
     if (type !== "none") {
       setShow(true);

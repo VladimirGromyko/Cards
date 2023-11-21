@@ -47,7 +47,6 @@ const ModalContainer: React.FC<ModalContainerType> = ({
     setShow(val);
   };
   // useEffect(() => {
-  //     debugger
   //     setShow(showAddPacksModal)
   // },[showAddPacksModal])
   // const setFalse = () => {

@@ -69,7 +69,6 @@ const CardsPage = () => {
   const params = useParams();
   const navigate = useNavigate();
   const packId = params.id ? params.id : "";
-  debugger;
 
   const initialColumnHeadings: ColumnHeadingsType = [
     { headings: "Question", sortField: "question", arrow: "none" },
@@ -159,9 +158,7 @@ const CardsPage = () => {
   const onSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.currentTarget.value);
   };
-  const learnCards = () => {
-    debugger;
-  };
+  const learnCards = () => {};
 
   // Block for Add card
   const [showAddCardModal, setShowAddCardModal] = useState<boolean>(false);
@@ -182,7 +179,6 @@ const CardsPage = () => {
   // Block for Delete card
   const deleteCard = useCallback(
     (cardId: string | undefined) => {
-      debugger;
       const params = { cardId, packId };
       dispatch(deleteCardTC(params));
     },
@@ -195,7 +191,6 @@ const CardsPage = () => {
 
   const editCard = useCallback(
     (card: CardsType) => {
-      debugger;
       dispatch(
         updateCardTC({
           cardsPack_id: packId,
@@ -210,7 +205,6 @@ const CardsPage = () => {
   //-------------
 
   const setSorting = async (sortField: string) => {
-    debugger;
     await dispatch(
       setCardsTC({
         cardsPack_id: packId,

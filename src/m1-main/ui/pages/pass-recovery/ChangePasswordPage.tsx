@@ -40,7 +40,6 @@ const ChangePasswordPage = () => {
   const [password, setPassword] = useState<string>("");
 
   const onKeyPressHandler = useCallback(() => {
-    debugger;
     dispatch(createNewPasswordTC({ password, resetPasswordToken }));
   }, [dispatch, password, resetPasswordToken]);
   const onOutClick = () => {

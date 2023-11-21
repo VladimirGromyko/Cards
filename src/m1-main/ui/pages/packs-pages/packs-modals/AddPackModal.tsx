@@ -14,14 +14,12 @@ export const AddPackModal = ({ setShow, addPack }: AddPackModalPropsType) => {
   const [privateStatus, setPrivate] = useState<boolean>(false);
 
   const onClickAddCards = () => {
-    debugger;
     if (name) {
       setShow(false);
       addPack({ name, privateStatus });
     }
   };
   const onInputName = (e: ChangeEvent<HTMLInputElement>) => {
-    debugger;
     setPackName(e.currentTarget.value.trim());
   };
   const OnCancelClick = useCallback(() => {

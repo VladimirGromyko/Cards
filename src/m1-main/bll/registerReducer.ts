@@ -45,9 +45,7 @@ const registerReducer = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(registrationTC.rejected, (state, action) => {
-      debugger;
-    });
+    builder.addCase(registrationTC.rejected, (state, action) => {});
   },
 });
 export const {
@@ -62,13 +60,10 @@ export const registrationTC = createAppAsyncThunk<void, RegistrationType>(
   "auth/register",
   async (payload: RegistrationType, thunkAPI) => {
     // export const registrationTC = (payload: RegistrationType) => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
-    debugger;
     const { dispatch, rejectWithValue } = thunkAPI;
     dispatch(loadingAC("loading"));
     try {
       const res = await authAPI.registrationUser(payload);
-      console.log(res);
-      debugger;
       dispatch(setRegistration(true));
     } catch (e) {
       const err = e as Error | AxiosError<{ error: string }>;
@@ -114,7 +109,6 @@ export const createNewPasswordTC =
         dispatch(setPasswordStatus("succeeded"));
       })
       .catch((err) => {
-        debugger;
         dispatch(setPasswordStatus("failed"));
         dispatch(setErrorPassRecover(err.response?.data?.error));
       })

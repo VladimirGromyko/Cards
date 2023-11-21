@@ -67,14 +67,12 @@ let Paginator = ({
   }, [getRight, getLeft, portionSize]);
 
   // useEffect(() => {
-  //     debugger
   //     const prevPortionNumber = Math.ceil(currentPage / portionSize)
   //     currentPage !== portionCount && onPageChanged(leftPortionPageNumber)
   //     currentPage === portionCount && (prevPortionNumber !== portionNumber) && onPageChanged(leftPortionPageNumber)
   // }, [leftPortionPageNumber, portionNumber])
 
   const changePortion = (portion: number) => {
-    debugger;
     setPortionNumber(portion);
     onPageChanged((portion - 1) * portionSize + 1);
   };

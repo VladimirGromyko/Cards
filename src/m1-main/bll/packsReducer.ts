@@ -91,7 +91,6 @@ export const setPacksDataTC = createAppAsyncThunk(
     const state = getState();
     const statePacks = state.packs;
     const packs = packsRequest.params;
-    debugger;
     try {
       const includes = (name: string) => Object.keys(packs).includes(name);
       dispatch(loadingAC("loading"));

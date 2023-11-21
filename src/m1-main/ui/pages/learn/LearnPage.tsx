@@ -22,7 +22,6 @@ export const LearnPage = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
   const packId = params.id;
-  debugger;
   const [currentCard, setCurrentCard] = useState<CardsType>(cards.cards[0]);
   const learn = async () => {
     try {
@@ -43,15 +42,12 @@ export const LearnPage = () => {
     }
   };
   useEffect(() => {
-    debugger;
     learn();
   }, [packId, dispatch]);
   useEffect(() => {
-    debugger;
     setCurrentCard(getCard(cards.cards));
   }, [cards.packName, dispatch]);
   const changeCard = async (questionRate: QuestionRateType) => {
-    debugger;
     await dispatch(
       gradeCardTC({
         cardsPack_id: packId,

@@ -54,7 +54,6 @@ const cardsReducer = createSlice({
   initialState: initCardsState,
   reducers: {
     setCards: (state, action: PayloadAction<CardsGetResponseType>) => {
-      debugger;
       return action.payload;
       //     // state.cards = action.payload.cards
       //     // state.cardsTotalCount = action.payload.cardsTotalCount
@@ -74,7 +73,6 @@ const cardsReducer = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(setCardsTC.fulfilled, (state, action) => {
-      debugger;
       // state.meStatus = action.payload.profile;
       state.cardsSet = action.payload.data;
       state.sortCards =
@@ -148,7 +146,6 @@ export const addCardTC = createAppAsyncThunk(
   "addCard/newCard",
   async (card: PostRequestCardType, thunkAPI) => {
     const { dispatch, rejectWithValue, getState } = thunkAPI;
-    debugger;
     try {
       dispatch(loadingAC("loading"));
       await cardsAPI.addCard({ card });
@@ -156,7 +153,6 @@ export const addCardTC = createAppAsyncThunk(
         setCardsTC({ cardsPack_id: card.cardsPack_id, pageCount: 1000 })
       );
     } catch (err) {
-      debugger;
       handleServerNetworkError(err, dispatch);
       return rejectWithValue(null);
     } finally {
@@ -171,7 +167,6 @@ export const deleteCardTC = createAppAsyncThunk(
     thunkAPI
   ) => {
     const { dispatch, rejectWithValue, getState } = thunkAPI;
-    debugger;
     try {
       dispatch(loadingAC("loading"));
       await cardsAPI.deleteCard({ id: card.cardId });
@@ -179,7 +174,6 @@ export const deleteCardTC = createAppAsyncThunk(
         setCardsTC({ cardsPack_id: card.packId, pageCount: 1000 })
       );
     } catch (err) {
-      debugger;
       handleServerNetworkError(err, dispatch);
       return rejectWithValue(null);
     } finally {
@@ -191,7 +185,6 @@ export const updateCardTC = createAppAsyncThunk(
   "deleteCard/removeCard",
   async (card: PutRequestUpdateCardType, thunkAPI) => {
     const { dispatch, rejectWithValue, getState } = thunkAPI;
-    debugger;
     try {
       dispatch(loadingAC("loading"));
       await cardsAPI.updateCard(card);
@@ -199,7 +192,6 @@ export const updateCardTC = createAppAsyncThunk(
         setCardsTC({ cardsPack_id: card.cardsPack_id, pageCount: 1000 })
       );
     } catch (err) {
-      debugger;
       handleServerNetworkError(err, dispatch);
       return rejectWithValue(null);
     } finally {
@@ -211,7 +203,6 @@ export const gradeCardTC = createAppAsyncThunk(
   "gradeCard/cardStatus",
   async (card: GradeCardPayload, thunkAPI) => {
     const { dispatch, rejectWithValue, getState } = thunkAPI;
-    debugger;
     try {
       dispatch(loadingAC("loading"));
       await cardsAPI.gradeCard({ grade: card.grade, card_id: card.card_id });
@@ -219,7 +210,6 @@ export const gradeCardTC = createAppAsyncThunk(
         setCardsTC({ cardsPack_id: card.cardsPack_id, pageCount: 1000 })
       );
     } catch (err) {
-      debugger;
       handleServerNetworkError(err, dispatch);
       return rejectWithValue(null);
     } finally {
