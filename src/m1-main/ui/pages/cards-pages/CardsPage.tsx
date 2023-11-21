@@ -158,7 +158,9 @@ const CardsPage = () => {
   const onSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.currentTarget.value);
   };
-  const learnCards = () => {};
+  const learnCards = () => {
+    navigate(`${PATH.LEARN}/${packId}`);
+  };
 
   // Block for Add card
   const [showAddCardModal, setShowAddCardModal] = useState<boolean>(false);
