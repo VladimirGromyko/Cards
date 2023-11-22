@@ -10,10 +10,7 @@ import {
 } from "../dal/cards-api";
 import { createAppAsyncThunk } from "./utils/create-app-asynk-thunk";
 import { handleServerNetworkError } from "./utils/error-utils";
-import { packsAPI, PacksGetResponseDataType } from "../dal/packs-api";
 import { loadingAC } from "./loadingReducer";
-import { packsActions, setPacksDataTC } from "./packsReducer";
-import { getAuthUserTC } from "./authReducer";
 
 export const initCardsState: CardsGetResponseType = {
   cardsSet: {
@@ -55,20 +52,6 @@ const cardsReducer = createSlice({
   reducers: {
     setCards: (state, action: PayloadAction<CardsGetResponseType>) => {
       return action.payload;
-      //     // state.cards = action.payload.cards
-      //     // state.cardsTotalCount = action.payload.cardsTotalCount
-      //     // state.tokenDeathTime = action.payload.tokenDeathTime
-      //     // state.packName = action.payload.packName
-      //     // state.page = action.payload.page
-      //     // state.pageCount = action.payload.pageCount
-      //     // state.maxGrade = action.payload.maxGrade
-      //     // state.minGrade = action.payload.minGrade
-      //     // state.packCreated = action.payload.packCreated
-      //     // state.packPrivate = action.payload.packPrivate
-      //     // state.packUpdated = action.payload.packUpdated
-      //     // state.packUserId = action.payload.packUserId
-      //     // state.token = action.payload.token
-      //     return {...state, ...action.payload}
     },
   },
   extraReducers: (builder) => {
@@ -85,51 +68,10 @@ const cardsReducer = createSlice({
 export const cardsActions = cardsReducer.actions;
 export default cardsReducer.reducer;
 
-// export const cardsReducer = (state: stateCardsType = initState,
-//                              action: cardsReducerType): stateCardsType => {
-//     switch (action.type) {
-//         case "SET-CARDS": {
-//             return {
-//                 ...state,
-//                 ...action.data
-//             }
-//         }
-//         case "CHANGE-CARD": {
-//             return {...state};
-//         }
-//         case "FIND-CARD": {
-//             return {...state};
-//         }
-//         default:
-//             return state;
-//     }
-// };
-
-// export const setCardsAC = (data: statePacksType) => {
-//     return { type: "SET-CARDS", data } as const
-// }
-//
-// export const changeCardAC = (card: string) => ({
-//     type: 'CHANGE-CARD', card
-// } as const)
-//
-// export const findCardAC = (card: string) => ({
-//     type: 'FIND-CARD', card
-// } as const)
-
-// export type cardsReducerType = changeCardACType
-//     | findCardACType
-//     | setCardACType
-//
-//
-// type setCardACType = ReturnType<typeof setCardsAC>
-// type changeCardACType = ReturnType<typeof changeCardAC>
-// type findCardACType = ReturnType<typeof findCardAC>
-
 export const setCardsTC = createAppAsyncThunk(
   "setCards/fetchCardsData",
   async (cardsRequest: CardsGetRequestType, thunkAPI) => {
-    const { dispatch, rejectWithValue, getState } = thunkAPI;
+    const { dispatch, rejectWithValue } = thunkAPI;
     dispatch(loadingAC("loading"));
     try {
       const res = await cardsAPI.getCards({ params: cardsRequest });
@@ -145,7 +87,7 @@ export const setCardsTC = createAppAsyncThunk(
 export const addCardTC = createAppAsyncThunk(
   "addCard/newCard",
   async (card: PostRequestCardType, thunkAPI) => {
-    const { dispatch, rejectWithValue, getState } = thunkAPI;
+    const { dispatch, rejectWithValue } = thunkAPI;
     try {
       dispatch(loadingAC("loading"));
       await cardsAPI.addCard({ card });
@@ -166,7 +108,7 @@ export const deleteCardTC = createAppAsyncThunk(
     card: { cardId: string | undefined; packId: string | undefined },
     thunkAPI
   ) => {
-    const { dispatch, rejectWithValue, getState } = thunkAPI;
+    const { dispatch, rejectWithValue } = thunkAPI;
     try {
       dispatch(loadingAC("loading"));
       await cardsAPI.deleteCard({ id: card.cardId });
@@ -184,7 +126,7 @@ export const deleteCardTC = createAppAsyncThunk(
 export const updateCardTC = createAppAsyncThunk(
   "deleteCard/removeCard",
   async (card: PutRequestUpdateCardType, thunkAPI) => {
-    const { dispatch, rejectWithValue, getState } = thunkAPI;
+    const { dispatch, rejectWithValue } = thunkAPI;
     try {
       dispatch(loadingAC("loading"));
       await cardsAPI.updateCard(card);
@@ -202,7 +144,7 @@ export const updateCardTC = createAppAsyncThunk(
 export const gradeCardTC = createAppAsyncThunk(
   "gradeCard/cardStatus",
   async (card: GradeCardPayload, thunkAPI) => {
-    const { dispatch, rejectWithValue, getState } = thunkAPI;
+    const { dispatch, rejectWithValue } = thunkAPI;
     try {
       dispatch(loadingAC("loading"));
       await cardsAPI.gradeCard({ grade: card.grade, card_id: card.card_id });
