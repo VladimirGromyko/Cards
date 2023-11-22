@@ -1,31 +1,17 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import cps from "../PacksPage.module.css";
-import SuperInputText from "../../../common/input/SuperInputText";
 import SuperButton from "../../../common/button/SuperButton";
-import { useAppDispatch, useAppSelector } from "../../../../bll/hooks";
-import useDebounce from "../../../features/hooks/useDebounce";
-import { setPacksDataTC } from "../../../../bll/packsReducer";
+import { useAppDispatch, useAppSelector } from "m1-main/bll/hooks";
+import { setPacksDataTC } from "m1-main/bll/packsReducer";
 import Slider from "../../../common/slider/Slider";
+import Search from "m1-main/ui/common/search/Search";
+
 const SearchBlock = () => {
   const dispatch = useAppDispatch();
-  const searchInMemory = useAppSelector((state) => state.packs.packName);
   const user_id = useAppSelector((state) => state.auth.meStatus?._id);
   const authorId = useAppSelector((state) => state.packs.packsData.authorId);
-  const [search, setSearch] = useState<string>("");
-  const [isSearching, setIsSearching] = useState(false);
-  const debouncedValue = useDebounce(search, 1500);
-
+  const [isClearSearching, setClearSearching] = useState(false);
   const [selectedAll, setSelectedAll] = useState<boolean>(false);
-  const onSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.currentTarget.value);
-  };
-  useEffect(() => {
-    if (debouncedValue !== searchInMemory) {
-      setIsSearching(true);
-      dispatch(setPacksDataTC({ params: { packName: search } }));
-    }
-  }, [debouncedValue]);
-  //
   useEffect(() => {
     setSelectedAll(!authorId);
   }, [authorId]);
@@ -33,22 +19,21 @@ const SearchBlock = () => {
   const onSetMyPressHandler = useCallback(() => {
     dispatch(setPacksDataTC({ params: { user_id: user_id } }));
     setSelectedAll(false);
-  }, []);
+  }, [dispatch, user_id]);
 
   const onSetAllPressHandler = useCallback(() => {
     dispatch(setPacksDataTC({ params: { user_id: "" } }));
     setSelectedAll(true);
-  }, []);
+  }, [dispatch]);
   const onResetPressHandler = useCallback(() => {
     dispatch(
       setPacksDataTC({
         params: { user_id: "", packName: "", min: 0, max: 100 },
       })
     );
-    // dispatch(getPacksByMinMaxTC( {min: 0, max: 100}))
     setSelectedAll(true);
-    setSearch("");
-  }, []);
+    setClearSearching(true);
+  }, [dispatch]);
   const allMyClickStyle = (style: string) => {
     return cps.allMyClick + " " + style;
   };
@@ -63,10 +48,11 @@ const SearchBlock = () => {
         <span className={cps.searchCardsHeader}>Show Packs cards</span>
         <span className={cps.searchCardsHeader}>Number of cards</span>
         <span></span>
-        <SuperInputText
+        <Search
           placeholder="Enter cardPacks name for searching"
-          onChange={onSearchHandler}
-          value={search}
+          searchPlace="packs"
+          clear={isClearSearching}
+          setClear={setClearSearching}
         />
         <div style={{ textAlign: "start" }} className={cps.contentAllMy}>
           <div className={cps.allMyWrapper}>
@@ -95,10 +81,7 @@ const SearchBlock = () => {
             {/*{errorResponse(errorRes, 'setPacks')}*/}
           </div>
         </div>
-
         <Slider />
-
-        {/*<div>*/}
         <div className={cps.reset}>
           <SuperButton
             onClick={onResetPressHandler}
@@ -106,13 +89,7 @@ const SearchBlock = () => {
             style={{ borderWidth: 0, padding: 0 }}
           ></SuperButton>
         </div>
-
-        {/*</div>*/}
       </div>
-
-      {/*<div className={commonPacksStyle.ariaA}>*/}
-
-      {/*</div>*/}
     </div>
   );
 };

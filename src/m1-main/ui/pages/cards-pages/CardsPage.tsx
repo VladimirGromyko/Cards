@@ -1,10 +1,9 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import CardsTable from "./cards-table/CardsTable";
 
 import { useNavigate, useParams } from "react-router-dom";
 import cs from "./CardsPage.module.css";
-import useDebounce from "../../features/hooks/useDebounce";
 import { authActions } from "m1-main/bll/authReducer";
 import { PATH } from "m1-main/navigation/Paths";
 import { useAppDispatch, useAppSelector } from "m1-main/bll/hooks";
@@ -22,7 +21,6 @@ import {
   HeaderTable,
   triangleViewType,
 } from "../utils/header-table/HeaderTable";
-import SuperInputText from "../../common/input/SuperInputText";
 import Popover from "../../common/popover/Popover";
 import Waiting from "m1-main/ui/pages/error-page/Waiting";
 import {
@@ -32,6 +30,7 @@ import {
 import { setPacksModal } from "m1-main/bll/packsModalReducer";
 import { TablePacksModal } from "m1-main/ui/pages/packs-pages/packs-modals/TablePacksModal";
 import { packsSelector } from "m1-main/bll/selectors/paks-selectors";
+import Search from "m1-main/ui/common/search/Search";
 
 type HeadingsElementType = {
   headings: string;
@@ -56,7 +55,6 @@ const records: RecordType[] = [
 ];
 const CardsPage = () => {
   const userId = useAppSelector((state) => state.auth.meStatus?._id);
-  const meStatus = useAppSelector((state) => state.auth.meStatusResponse);
   const sort = useAppSelector((state) => state.cards.sortCards);
   const cardsSet = useAppSelector((state) => state.cards.cardsSet);
   const packUserId = cardsSet.packUserId;
@@ -77,26 +75,10 @@ const CardsPage = () => {
     { headings: "Grade", sortField: "grade", arrow: "none" },
     { headings: "", sortField: "none", arrow: "none" },
   ];
-
-  // if(meStatus === "work") {
-  //     const getCards = async () => {
-  //         await dispatch(setCardsTC({
-  //             // cardAnswer: "",
-  //             // cardQuestion: "",
-  //             cardsPack_id: packId,
-  //             // min: 3,
-  //             // max: 5,
-  //             // sortCards: "",
-  //             // page: 1,
-  //             pageCount: 1000,
-  //         }))
-  //
-  //     }
-  //     getCards()
-  //         .then(() => {
-  //             console.log(selectedCards)
-  //         })
-  // }
+  const returnBack = useCallback(() => {
+    dispatch(authActions.changeMeStatusResponse("done"));
+    navigate(PATH.PACKS);
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     const getCards = async () => {
@@ -120,7 +102,7 @@ const CardsPage = () => {
         })
       );
     });
-  }, [packId]);
+  }, [packId, dispatch, cardsSet.packName, cardsSet.packPrivate]);
   useEffect(() => {
     if (packs?.cardPacks?.length) {
       const currentPack = packs.cardPacks.filter((el) => el._id === packId);
@@ -128,36 +110,8 @@ const CardsPage = () => {
         returnBack();
       }
     }
-  }, [packs]);
+  }, [packs, packId, returnBack]);
 
-  const [searchValue, setSearchValue] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
-  const debouncedValue = useDebounce(searchValue, 1500);
-
-  useEffect(() => {
-    if (debouncedValue) {
-      setIsSearching(true);
-      if (packId) {
-        // dispatch(getCardsBySearchTC({packId, search: searchValue}))
-      }
-    } else {
-      if (packId) {
-        // dispatch(getCardsBySearchTC({packId, search: searchValue}))
-      }
-    }
-  }, [debouncedValue]);
-
-  // const getCards = (packId: string, sortNumber?: SortNumberType, sortName?: SortNameType, search?: string) => {
-  // dispatch(getCardsTC({packId, sortNumber, sortName}))
-  // }
-  const returnBack = () => {
-    dispatch(authActions.changeMeStatusResponse("done"));
-    navigate(PATH.PACKS);
-  };
-
-  const onSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.currentTarget.value);
-  };
   const learnCards = () => {
     navigate(`${PATH.LEARN}/${packId}`);
   };
@@ -184,7 +138,7 @@ const CardsPage = () => {
       const params = { cardId, packId };
       dispatch(deleteCardTC(params));
     },
-    [dispatch, deleteCardTC]
+    [dispatch, packId]
   );
   // }, [dispatch])
   //-------------
@@ -202,7 +156,7 @@ const CardsPage = () => {
         })
       );
     },
-    [dispatch]
+    [dispatch, packId]
   );
   //-------------
 
@@ -217,13 +171,7 @@ const CardsPage = () => {
       })
     );
   };
-  const settingParameters = () => {};
-  // const onSearchClick = () => {
-  //     if (packId) {
-  //         dispatch(getCardsBySearchTC({ packId, search: searchValue }))
-  //     }
 
-  // }
   const selectedRecord = (element: RecordType) => {
     switch (element.type) {
       case "edit":
@@ -256,15 +204,9 @@ const CardsPage = () => {
           <Svg width="30px" height="25px" />
           Back to Packs List
         </div>
-        {/*<div className={cs.TableWrapper}>*/}
-        {/*<div style={{width: '100%'}}>*/}
-        {/*    {isLoading === "loading" && <div className={l.loader07}></div>}*/}
-        {/*</div>*/}
-        {/*<div style={{width: '1008px'}}>*/}
         <span className={cs.headerBlock}>
           <div className={cs.cardName}>
             <span className={cs.cardNameText}>{cardsSet.packName}</span>
-            {/*<div className={cs.circle} onClick={settingParameters}>*/}
             {userId === packUserId ? (
               <Popover
                 records={records}
@@ -303,10 +245,10 @@ const CardsPage = () => {
           <>
             <div className={cs.search}>
               <span className={cs.searchCardsHeader}>Search</span>
-              <SuperInputText
+              <Search
                 placeholder="Provide your text"
-                onChange={onSearchHandler}
-                value={searchValue}
+                searchPlace="cards"
+                id={packId}
               />
             </div>
             <div className={cs.tableBlock}>
@@ -317,8 +259,6 @@ const CardsPage = () => {
                   setSorting={setSorting}
                 />
               </div>
-
-              {/*<HeaderCards getCards={getCards} packId={packId}/>*/}
               <CardsTable
                 cards={cardsSet.cards}
                 packId={packId}
@@ -340,7 +280,6 @@ const CardsPage = () => {
             {userId === packUserId ? (
               <SuperButton
                 onClick={() => setShowAddCardModal(true)}
-                // onClick={() => setShow(true)}
                 style={buttonStyle}
               >
                 Add new card
