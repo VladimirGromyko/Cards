@@ -4,6 +4,7 @@
   display: flex;
   /*padding: 10px;*/
 }
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -16,19 +17,23 @@
   max-height: 600px;
   width: 380px;
 }
+
 .container {
   margin: 78px 13px 37px 13px;
   text-align: center;
 }
+
 .title,
 .helpText {
 }
+
 .containerForEmail {
   margin: 38px 30px 16px 30px;
   text-align: left;
   display: flex;
   flex-direction: column;
 }
+
 .containerForPassword {
   display: flex;
   flex-direction: column;
@@ -37,12 +42,14 @@
   height: 66px;
   text-align: start;
 }
+
 .textField {
   /*align-items:start;*/
   display: flex;
   justify-content: space-between;
 }
-.forgotPass {
+
+.forgotPass a {
   font-size: 14px;
   color: #737171;
   cursor: pointer;
@@ -50,7 +57,8 @@
   font-weight: 400;
   text-decoration: none;
 }
-.forgotPass:hover {
+
+.forgotPass a:hover {
   color: var(--input-border-focus);
   text-decoration: underline;
 }
@@ -62,19 +70,23 @@
   font-weight: 400;
   text-decoration: none;
 }
+
 .helpTextForgotPasswordContainer {
   margin: 28px 0 0 0;
   /*width :101px;*/
   /*height: 17px;*/
   text-align: end;
 }
+
 .helpTextForgotPassword {
   font-size: 14px;
   color: #737171;
   font-weight: 400;
   text-decoration: none;
 }
-.helpTextBold {
+
+.helpTextBold,
+.helpTextBold a {
   font-size: 1.5rem;
   color: #2c2cd2;
   margin: 2% 3% 2% 3%;
@@ -83,6 +95,7 @@
   text-align: center;
   cursor: pointer;
 }
+
 .label {
   display: block;
   /*margin-bottom: 0.25rem;*/
@@ -98,6 +111,7 @@
   justify-content: center;
   padding: 10px 0 0 0;
 }
+
 .wrapper_submit_button {
   /*padding: 35px 0 10px 0;*/
   /*width: 100%;*/
@@ -109,28 +123,33 @@
   border: none;
   height: 36px;
 }
+
 .passView {
   width: 17px;
   height: 17px;
   color: #4a5651;
   opacity: 0.5;
 }
+
 .message {
   font-size: 13px;
   color: red;
   text-align: center;
 }
+
 .messageSuccess {
   font-size: 14px;
   font-weight: bold;
   color: var(--input-border-focus);
   text-align: center;
 }
+
 .passwordField {
   display: flex;
   flex-direction: column;
   max-width: 100%;
 }
+
 .viewImage {
   position: relative;
   right: 25px;

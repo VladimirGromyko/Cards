@@ -6,20 +6,29 @@ import SuperInputText from "../../common/input/SuperInputText";
 import SuperCheckbox from "../../common/сheckbox/SuperCheckbox";
 import SuperButton from "../../common/button/SuperButton";
 import { useAppDispatch, useAppSelector } from "../../../bll/hooks";
-import { authActions, login } from "../../../bll/authReducer";
 import Waiting from "../error-page/Waiting";
 import checkEmail from "../utils/checkEmail";
 import { setErrorRegistration } from "../../../bll/registerReducer";
+import { useActions } from "m1-main/bll/utils/helpers";
+import {
+  loginActions,
+  loginThunk,
+  selectLogin,
+} from "m1-main/bll/loginReducer";
+import { Link, useNavigate } from "react-router-dom";
+import { PATH } from "m1-main/navigation/Paths";
 
 const LoginPage = () => {
   const errorRegMessage = useAppSelector(
     (state) => state.register.errorRegMessage
   );
+  const { login } = useActions(loginThunk);
+  const { email, password, rememberMe, error, errorEmail } =
+    useAppSelector(selectLogin);
+  const { setRememberMe, setPassword, setEmail } = useActions(loginActions);
   const dispatch = useAppDispatch();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
   const [type, setType] = useState<string>("password");
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   type MessageType = {
     emailMessage: string;
@@ -42,13 +51,23 @@ const LoginPage = () => {
       onRegClickMessages.emailMessage = "Email is not valid!";
       isRegDataCorrect = false;
     }
-    isRegDataCorrect
-      ? // ? dispatch(setAuthUserDataTC({email, password, rememberMe}))
-        dispatch(login({ email, password, rememberMe }))
-      : setMessage(onRegClickMessages);
+    if (isRegDataCorrect) {
+      login({ email, password, rememberMe })
+        .unwrap()
+        .then((res) => {
+          if (!res.data.error) {
+            navigate(`${PATH.MAIN}`);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setMessage(onRegClickMessages);
+    }
   };
   const changeEmail = (e: string) => {
-    setEmail(e);
+    setEmail({ email: e });
   };
   const togglePassInput = () => {
     if (type === "password") {
@@ -99,24 +118,21 @@ const LoginPage = () => {
                 type={type}
                 value={password}
                 placeholder={"Password"}
-                onChangeText={setPassword}
+                onChangeText={(e) => setPassword({ password: e })}
                 error={message.passMessage}
               />
             </div>
           </div>
 
           <div className={s.wrapper_submit_checkbox}>
-            <SuperCheckbox onChangeChecked={setRememberMe}>
+            <SuperCheckbox
+              onChangeChecked={(e) => setRememberMe({ rememberMe: e })}
+            >
               Remember me
             </SuperCheckbox>
           </div>
-          <div
-            className={s.forgotPass}
-            onClick={() =>
-              dispatch(authActions.changeMeStatusResponse("forgot"))
-            }
-          >
-            Forgot password ?
+          <div className={s.forgotPass}>
+            <Link to={PATH.PASSWORD_RECOVERY}>Forgot password ?</Link>
           </div>
           <SuperButton
             onClick={logInHandler}
@@ -125,13 +141,8 @@ const LoginPage = () => {
             Sign in
           </SuperButton>
           <div className={s.helpText}>Don't have an account?</div>
-          <div
-            className={s.helpTextBold}
-            onClick={() =>
-              dispatch(authActions.changeMeStatusResponse("progress"))
-            }
-          >
-            Sign Up
+          <div className={s.helpTextBold}>
+            <Link to={PATH.REGISTRATION}>Sign Up</Link>
           </div>
         </div>
       </div>

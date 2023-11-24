@@ -3,11 +3,7 @@ import s from "./Profile.module.css";
 import { ReactComponent as Svg } from "./../utils/direction-arrow-left.svg";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "m1-main/navigation/Paths";
-import {
-  authActions,
-  logoutUserTC,
-  updateUserProfileTC,
-} from "m1-main/bll/authReducer";
+import { logoutUserTC, updateUser } from "m1-main/bll/authReducer";
 import { useAppDispatch, useAppSelector } from "m1-main/bll/hooks";
 import SuperButton from "../../common/button/SuperButton";
 import { initialPacksState, setPacksDataTC } from "m1-main/bll/packsReducer";
@@ -61,8 +57,7 @@ export const ProfilePage = () => {
     }
   };
   const returnBack = () => {
-    dispatch(authActions.changeMeStatusResponse("done"));
-    navigate(PATH.PACKS);
+    navigate(PATH.MAIN);
   };
   const onOutClick = (e: React.SyntheticEvent<EventTarget>) => {
     const target = (e.target as HTMLElement).className;
@@ -86,9 +81,7 @@ export const ProfilePage = () => {
   const saveName = (newAva: string) => {
     const trimNameFromInput = nameFromInput?.trim();
     if (userName !== trimNameFromInput || userAvatar !== newAva) {
-      dispatch(
-        updateUserProfileTC({ name: trimNameFromInput, avatar: newAva })
-      );
+      dispatch(updateUser({ name: trimNameFromInput, avatar: newAva }));
     }
   };
   const onLogoutHandle = () => {
@@ -147,7 +140,6 @@ export const ProfilePage = () => {
     nameFromInput && nameFromInput.length < 31
       ? nameFromInput
       : nameFromInput?.slice(0, 30) + "...";
-
   return (
     <div className={s.superWrapper}>
       <div

@@ -20,20 +20,22 @@ const Search: FC<SearchType> = ({
   id,
 }) => {
   const dispatch = useAppDispatch();
-  const searchInMemory = useAppSelector((state) => state.packs.packName);
   const [search, setSearch] = useState<string>("");
   const debouncedValue: string = useDebounce(search, 1500);
   const onSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
   };
   useEffect(() => {
-    if (debouncedValue !== searchInMemory) {
-      searchPlace === "packs" &&
-        dispatch(setPacksDataTC({ params: { packName: search } }));
-      searchPlace === "cards" &&
-        dispatch(setCardsTC({ cardQuestion: search, cardsPack_id: id }));
+    searchPlace === "packs" &&
+      dispatch(setPacksDataTC({ params: { packName: debouncedValue } }));
+    if (searchPlace === "cards") {
+      let value;
+      if (debouncedValue) {
+        value = { cardQuestion: debouncedValue };
+      } else value = {};
+      dispatch(setCardsTC({ ...value, cardsPack_id: id }));
     }
-  }, [dispatch, debouncedValue, search, id, searchInMemory, searchPlace]);
+  }, [dispatch, debouncedValue, id, searchPlace]);
   useEffect(() => {
     if (clear && setClear) {
       setSearch("");

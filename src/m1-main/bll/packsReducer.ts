@@ -10,8 +10,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { loadingAC } from "./loadingReducer";
 import { createAppAsyncThunk } from "./utils/create-app-asynk-thunk";
 import { handleServerNetworkError } from "./utils/error-utils";
-import { getAuthUserTC, login } from "./authReducer";
-import { authAPI } from "m1-main/dal/auth-api";
 
 export type statePacksType = {
   packsData: PacksGetResponseDataType;
@@ -22,6 +20,7 @@ export type statePacksType = {
   max?: number;
   min?: number;
   packName?: string;
+  user_id?: string;
 };
 
 export const initialPacksState: statePacksType = {
@@ -36,6 +35,7 @@ export const initialPacksState: statePacksType = {
   min: 0,
   packName: "",
   sortPacks: "",
+  user_id: "",
 };
 
 const packsReducer = createSlice({

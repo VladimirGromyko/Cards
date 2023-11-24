@@ -76,8 +76,7 @@ const CardsPage = () => {
     { headings: "", sortField: "none", arrow: "none" },
   ];
   const returnBack = useCallback(() => {
-    dispatch(authActions.changeMeStatusResponse("done"));
-    navigate(PATH.PACKS);
+    navigate(PATH.MAIN);
   }, [dispatch, navigate]);
 
   useEffect(() => {
@@ -102,7 +101,7 @@ const CardsPage = () => {
         })
       );
     });
-  }, [packId, dispatch, cardsSet.packName, cardsSet.packPrivate]);
+  }, [packId, dispatch]);
   useEffect(() => {
     if (packs?.cardPacks?.length) {
       const currentPack = packs.cardPacks.filter((el) => el._id === packId);

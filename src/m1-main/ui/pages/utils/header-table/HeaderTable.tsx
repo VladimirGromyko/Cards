@@ -1,8 +1,5 @@
 import s from "./HeaderTable.module.css";
-import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../../bll/hooks";
-import { SortPackNameType } from "../../../../dal/packs-api";
-import { setPacksDataTC } from "../../../../bll/packsReducer";
+import React, { useState } from "react";
 import SuperSorting from "../../../common/sorting/SuperSorting";
 
 export type triangleViewType = "none" | "down" | "up";

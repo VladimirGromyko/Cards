@@ -12,6 +12,8 @@ import {
 } from "../../../bll/registerReducer";
 import openMail from "../utils/open-mail.png";
 import checkEmail from "../utils/checkEmail";
+import { PATH } from "m1-main/navigation/Paths";
+import { Link, useNavigate } from "react-router-dom";
 
 const PasswordRecoveryPage = () => {
   const passwordStatus = useAppSelector(
@@ -21,7 +23,7 @@ const PasswordRecoveryPage = () => {
     (state) => state.register.errorPassRecMessage
   );
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
 
   const onKeyPressHandler = useCallback(() => {
@@ -33,7 +35,7 @@ const PasswordRecoveryPage = () => {
     errorRes && dispatch(setErrorPassRecover(""));
   };
   const backToLogin = () => {
-    dispatch(authActions.changeMeStatusResponse("logout"));
+    navigate(PATH.LOGIN);
     dispatch(setPasswordStatus("failed"));
   };
 
@@ -70,13 +72,8 @@ const PasswordRecoveryPage = () => {
                 </SuperButton>
               </div>
               <div className={s.helpText}>Did you remember your password ?</div>
-              <div
-                className={s.helpTextBold}
-                onClick={() =>
-                  dispatch(authActions.changeMeStatusResponse("error"))
-                }
-              >
-                Try logging in
+              <div className={s.helpTextBold}>
+                <Link to={PATH.LOGIN}>Try logging in</Link>
               </div>
             </div>
           )}

@@ -1,8 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import authReducer, {
-  meStatusResponseType,
-  MeStatusType,
-} from "../bll/authReducer";
+import authReducer, { MeStatusType } from "../bll/authReducer";
 import {
   PacksGetRequestType,
   PacksGetResponseDataType,
@@ -16,9 +13,11 @@ import { CardsGetRequestType, CardsGetResponseType } from "../dal/cards-api";
 import packsModalReducer, {
   statePacksModalType,
 } from "m1-main/bll/packsModalReducer";
+import loginReducer from "m1-main/bll/loginReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  login: loginReducer,
   loading: loadingReducer,
   register: registerReducer,
   packs: packsReducer,
@@ -29,12 +28,6 @@ const rootReducer = combineReducers({
 
 const store = configureStore({
   reducer: rootReducer,
-  // reducer: {
-  //     auth: authReducer,
-  //     loading: loadingReducer,
-  //     register: registerReducer,
-  //     packs: packsReducer,
-  // },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: { extraArgument } })
 });
@@ -46,7 +39,6 @@ export type AppDispatch = typeof store.dispatch;
 export type AppActionType =
   | MeStatusType
   | LoadingStatusType
-  | meStatusResponseType
   | PasswordStatusType
   | boolean
   | string
@@ -56,16 +48,6 @@ export type AppActionType =
   | CardsGetRequestType
   | CardsGetResponseType
   | statePacksModalType;
-
-// CardsActionType
-// | RegisterActionType
-// | PacksReducerType
-// | LoginActionsType
-// | LoadingACType
-// | ResponseErrorACType
-// | authReducerType
-// | NewPassActionsType
-// | ResponseConfirmACType
 
 // @ts-ignore
 window.store = store; // for dev

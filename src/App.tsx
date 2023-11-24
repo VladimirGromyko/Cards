@@ -1,31 +1,16 @@
 import React from "react";
 import "./App.css";
-import {
-  HashRouter,
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import Main from "./Main";
 import store from "./m1-main/bll/store";
+import MainRoutes from "m1-main/navigation/mainRoutes";
 
-// const router = createBrowserRouter([
-//   {
-//     element: <Main />,
-//     path: "/",
-//   },
-// ]);
 function App() {
-  // return (
-  //   <Provider store={store}>
-  //     <RouterProvider router={router} />
-  //   </Provider>
-  // );
   return (
     <div className="App">
       <HashRouter>
         <Provider store={store}>
-          <Main />
+          <MainRoutes />
         </Provider>
       </HashRouter>
     </div>

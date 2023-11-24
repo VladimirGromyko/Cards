@@ -58,9 +58,8 @@ export const LearnPage = () => {
     setCurrentCard(getCard(cards.cards));
   };
   const returnBack = () => {
-    dispatch(authActions.changeMeStatusResponse("done"));
     dispatch(cardsActions.setCards(initCardsState));
-    navigate(PATH.PACKS);
+    navigate(PATH.MAIN);
   };
 
   return (

@@ -59,7 +59,6 @@ export default registerReducer.reducer;
 export const registrationTC = createAppAsyncThunk<void, RegistrationType>(
   "auth/register",
   async (payload: RegistrationType, thunkAPI) => {
-    // export const registrationTC = (payload: RegistrationType) => (dispatch: Dispatch<PayloadAction<AppActionType>>) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     dispatch(loadingAC("loading"));
     try {

@@ -11,15 +11,16 @@ import { useAppDispatch, useAppSelector } from "m1-main/bll/hooks";
 import Waiting from "../error-page/Waiting";
 import SuperInputText from "../../common/input/SuperInputText";
 import SuperButton from "../../common/button/SuperButton";
-import { authActions } from "m1-main/bll/authReducer";
 import checkEmail from "../utils/checkEmail";
+import { PATH } from "m1-main/navigation/Paths";
+import { Link } from "react-router-dom";
 
+type MessageType = {
+  emailMessage: string;
+  confirmPassMessage: string;
+};
 const Registration = () => {
-  type MessageType = {
-    emailMessage: string;
-    confirmPassMessage: string;
-  };
-
+  debugger;
   const isRegistered = useAppSelector((state) => state.register.isRegistered);
   const errorRegMessage = useAppSelector(
     (state) => state.register.errorRegMessage
@@ -74,7 +75,6 @@ const Registration = () => {
   useEffect(() => {
     if (isRegistered) {
       setTimeout(() => {
-        dispatch(authActions.changeMeStatusResponse("logout"));
         dispatch(setRegistration(false));
       }, 1500);
     }
@@ -129,7 +129,6 @@ const Registration = () => {
                 )}
               </div>
             </div>
-            {/*<div className={s.passwordField}>*/}
             <SuperInputText
               className={s.input}
               type={type}
@@ -137,16 +136,13 @@ const Registration = () => {
               onChange={onConfirmPassChange}
               error={message.confirmPassMessage}
             />
-            {/*</div>*/}
           </div>
-          {/*<div className={s.wrapper_submit_button}>*/}
           <SuperButton
             onClick={onRegisterClick}
             className={s.wrapper_submit_button}
           >
             Sign Up
           </SuperButton>
-          {/*</div>*/}
           {errorRegMessage && (
             <div className={s.message}>{errorRegMessage}</div>
           )}
@@ -154,14 +150,8 @@ const Registration = () => {
             <div className={s.messageSuccess}>Регистрация прошла успешно!</div>
           )}
           <div className={s.helpText}>Already have an account ?</div>
-          <div
-            className={s.helpTextBold}
-            // onClick={() => dispatch(changeMeStatusResponse('none'))}
-            onClick={() =>
-              dispatch(authActions.changeMeStatusResponse("error"))
-            }
-          >
-            Sign In
+          <div className={s.helpTextBold}>
+            <Link to={PATH.LOGIN}>Sign In</Link>
           </div>
         </div>
       </div>

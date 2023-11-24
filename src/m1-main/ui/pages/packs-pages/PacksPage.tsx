@@ -10,15 +10,16 @@ import Paginator from "../../common/pagination/Paginator";
 import { PackListSize } from "../../common/pack-list-size/PackListSize";
 import ModalContainer from "../../common/modal/ModalContainer";
 import { AddPackModal } from "./packs-modals/AddPackModal";
-import { PATH } from "m1-main/navigation/Paths";
+
 import { setCardsTC } from "m1-main/bll/cardsReducer";
 import {
   HeaderTable,
   triangleViewType,
 } from "../utils/header-table/HeaderTable";
 import { SortPackNameType } from "m1-main/dal/packs-api";
-import { authSelector } from "m1-main/bll/selectors/auth-selectors";
 import { packsSelector } from "m1-main/bll/selectors/paks-selectors";
+import { selectAuth } from "m1-main/bll/authReducer";
+import { PATH } from "m1-main/navigation/Paths";
 
 type HeadingsElementType = {
   headings: string;
@@ -33,7 +34,7 @@ export const PacksPage = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isLoggedIn = useAppSelector(authSelector.isLoggedIn);
+  const { meStatus } = useAppSelector(selectAuth);
 
   const initialColumnHeadings: ColumnHeadingsType = [
     { headings: "Name", sortField: "name", arrow: "none" },
@@ -47,16 +48,11 @@ export const PacksPage = () => {
 
   let step = true;
   useEffect(() => {
-    if (isLoggedIn === "done" && step) {
-      step = false;
-      const params = {};
-      dispatch(setPacksDataTC({ params }));
-    } else if (isLoggedIn === "error" || isLoggedIn === "logout") {
-      step = true;
+    if (!meStatus) {
       alert("Waiting for the job was too long! Reauthorization required.");
       navigate(PATH.LOGIN);
     }
-  }, [dispatch, isLoggedIn]);
+  }, [dispatch, meStatus]);
 
   // Block for sorting
   const setSorting = async (sortField: string) => {
@@ -87,7 +83,7 @@ export const PacksPage = () => {
           pageCount: 1000,
         })
       );
-      navigate(`${PATH.CARDS}/${packId}`);
+      navigate(`${PATH.PACK}/${packId}`);
     },
     [dispatch]
   );
